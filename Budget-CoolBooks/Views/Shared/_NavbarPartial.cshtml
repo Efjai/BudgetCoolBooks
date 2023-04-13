@@ -1,0 +1,27 @@
+﻿<!-- Navbar -->
+<nav class="navbar navbar-expand-md bg-light">
+    <div class="container">
+        <!-- Navbar Start -->
+        <ul class="nav nav-pills">
+            <!-- LOGO -->
+            <li class="nav-item">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/Book.png" alt="" width="40" height="40" class=" " />
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" asp-area="" asp-controller="Home" asp-action="Index">Books</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact us</a>
+            </li>
+        </ul>
+        <!-- Navbar End -->
+        <!-- Login,Register and User Menu -->
+        <partial name="_LoginPartial" />
+
+    </div>
+</nav>

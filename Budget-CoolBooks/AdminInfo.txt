@@ -1,0 +1,14 @@
+﻿Det finns nu skapade 5 admin.
+
+inlogg är:
+tobias@mail.com
+hafiz@mail.com
+fredrik@mail.com
+robin@mail.com
+david@mail.com
+
+Lösenord för samtliga är Admin1!
+
+Det är bara med dessa man kan komma åt admin-sidan från layout-view.
+
+Hoppas allt funkar nu!

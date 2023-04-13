@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Bookcard";
+}
+<link rel="stylesheet" href="~/css/bookcard.css" asp-append-version="true" />
+
+<!-- Gather all information by bookID -->
+<!-- Book -->
+@if (ViewBag.bookListSorted != null)
+{
+    @foreach (var book in (List<Book>)ViewBag.bookListSorted)
+    {
+       @* @if (ViewBag.bookID == book.Id)*@
+        {
+            break;
+        }
+    }
+}
+<!-- Author -->
+@if (ViewBag.bookListSorted != null)
+{
+    @foreach (var book in (List<Book>)ViewBag.bookListSorted)
+    {
+       @* @if (ViewBag.bookID == book.Id)*@
+        {
+            break;
+        }
+    }
+}
+<!-- Genre -->
+@if (ViewBag.bookListSorted != null)
+{
+    @foreach (var book in (List<Book>)ViewBag.bookListSorted)
+    {
+       @* @if (ViewBag.bookID == book.Id)*@
+        {
+            break;
+        }
+    }
+}
+
+<!-- HTML -->
+<div class="card">
+   @foreach (var book in (List<Book>)ViewBag.BookList)
+    {
+        <h1>@book.Title</h1>
+        ;
+    }
+    <div class="infobox">
+        <h2>Author:</h2>
+        @* <h4>@{ @Author.Firstname @Author.Lastname}</h4>*@
+        <h2>Description:</h2>
+        @* <h4>@{ @book.Description}</h4>*@
+    </div>
+    @*<img src="@book.Imagepath" alt="error" style="width: 15%; margin-right: auto; margin-left: auto;">*@
+
+    <div class="infobox">
+        <!-- Get rating -->
+        <h2><a class="ratingBAD">Rating: "1 / 5"</a></h2>
+        <!-- Form or link to a  "Submit / Update / Delete" review page-->
+        <h2><a class="review">(if)Submit / Update / Delete" Review</a></h2>
+    </div>
+</div>

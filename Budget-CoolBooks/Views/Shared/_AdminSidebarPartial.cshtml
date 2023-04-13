@@ -1,0 +1,72 @@
+﻿<!-- Sidebar Start -->
+<nav class="col-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky mt-2">
+        <ul class="nav nav-pills flex-column mb-5">
+            <li class="nav-item">
+                @if (ViewData["Title"] == "Admin")
+                {
+                    <a class="nav-link active" asp-area="" asp-controller="Admin" asp-action="Index">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        Dash board
+                    </a>
+                }
+                else
+                {
+                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        Dash board
+                    </a>
+                }
+
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i>
+                    Web Site
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <a class="nav-link " asp-area="" asp-controller="Admin" asp-action="AdminUsers">
+                    <i class="fa-solid fa-users"></i>
+                    Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fa-solid fa-pencil"></i>
+                    Authors
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " asp-area="" asp-controller="Admin" asp-action="AdminBooks">
+                    <i class="fa-solid fa-book"></i>
+                    Books
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " asp-area="" asp-controller="Genres" asp-action="Index">
+                    <i class="fa-solid fa-folder-tree"></i>
+                    Genres
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AdminReviews">
+                    <i class="fa-solid fa-comments"></i>
+                    Reviews
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item mb-5">
+                <a class="nav-link disabled" href="#">
+                    <i class="fa-solid fa-file"></i>
+                    files
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+<!-- Sidebar End -->

@@ -1,0 +1,1 @@
+﻿Här kan vi modifiera varje enskild models specifika properties och olika krav eller modifikationer på varje property.

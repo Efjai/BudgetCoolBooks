@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Reviews";
+}
+<h5>Search review by username</h5>
+<form method="post" asp-controller="Admin" asp-action="ReviewsByName">
+<div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="User mailadress" aria-label="Username" name="userName">
+</div>
+ <button type="submit" class="btn btn-primary">Sök</button>
+</form>
+
+@if (ViewBag.Reviews != null)
+{
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Book</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+            @foreach (var review in (List<Review>)ViewBag.Reviews)
+            {
+                <tr>
+                    <th scope="row">@review.Id</th>
+                    <td>@review.Title</td>
+                    <td>
+                        <form method="post" asp-controller="Admin" asp-action="DeleteReview">
+                            <button type="submit" class="btn btn-primary" name="reviewId" value="@review.Id">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+
+      </tbody>
+    </table>
+}

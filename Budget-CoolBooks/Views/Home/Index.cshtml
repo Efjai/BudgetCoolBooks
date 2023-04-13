@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Feature Books";
+}
+<link rel="stylesheet" href="~/css/bookcard.css" asp-append-version="true" />
+<div class="card">
+    <!--Make a randomiser for a book -->
+    <h1>"Title"</h1>
+    <!--The book should display the info of that book down below-->
+    <div class="infobox">
+        <h2>Author:</h2>
+        <h4>"Example.""</h4>
+        <h2>Description:</h2>
+        <h4>"Example.""</h4>
+    </div>
+    <img src="/images/Book.png" alt="error" style="width: 15%; margin-right: auto; margin-left: auto;">
+
+</div>
+@foreach (var book in (List<Book>)ViewBag.BookList)
+{
+    @book.Title
+    ;
+}

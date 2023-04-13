@@ -1,0 +1,46 @@
+﻿@model Budget_CoolBooks.Models.Genre
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Genres | New Genre";
+}
+
+<h1>Create new genre</h1>
+<!-- Breadcrumb -->
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="Genres" asp-action="Index">Genres</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create new genre</li>
+    </ol>
+</nav>
+<hr />
+<div class="row">
+    <div>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group d-none">
+                <label asp-for="Created" class="control-label"></label>
+                <input asp-for="Created" class="form-control" value="@DateTime.Now" />
+                <span asp-validation-for="Created" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3 d-flex">
+                <a asp-action="Index" class="btn btn-danger me-3">Cansel</a>
+                <input type="submit" value="Create" class="btn btn-primary " />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+</div>
+

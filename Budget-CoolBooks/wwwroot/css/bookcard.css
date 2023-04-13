@@ -1,0 +1,51 @@
+﻿html {
+    position: relative;
+    min-height: 100%;
+}
+body{
+    background-color: white;
+}
+.card {
+    text-align: center;
+    background-color: gray;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    border: 2px solid lightgray;
+    border-radius: 18px;
+}
+.infobox {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 5%;
+}
+.ratingGOOD {
+    color: green;
+    text-decoration: underline;
+    padding: 1%;
+    border: 2px solid green;
+    border-radius: 18px;
+}
+.ratingBAD {
+    color: red;
+    text-decoration: underline;
+    padding: 1%;
+    border: 2px solid red;
+    border-radius: 18px;
+}
+.review {
+    display: inline-block;
+    border: 2px solid black;
+    border-radius: 18px;
+    font-size: 25px;
+    padding: 1%;
+    color: white;
+}
+a:hover {
+    cursor: pointer;
+    color: lightgrey;
+    background-color: black;
+}

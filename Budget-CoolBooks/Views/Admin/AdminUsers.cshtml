@@ -1,0 +1,40 @@
+﻿﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Users";
+}
+
+<h5>User promotion/degradation</h5>
+<p><em>Change user priviledge</em></p>
+<form method="post" asp-controller="Admin" asp-action="PromoteUser">
+    <div class="mb-3">
+        <label for="Promote" class="form-label">Username</label>
+        <input type="text" class="form-control" name="userName">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Promote to Admin</button>
+</form>
+
+@if (ViewBag != null && ViewBag.AdminConfirm != null)
+{
+    @ViewBag.AdminConfirm
+}
+@if (ViewBag != null && ViewBag.AdminAlready != null)
+{
+    @ViewBag.AdminAlready
+}
+
+
+<br />
+<hr />
+<br />
+
+<h5>Delete User</h5>
+<p><em>Remove user. User and related information is still saved in the database but the user can no longer use the application.</em></p>
+<form method="post" asp-controller="Admin" asp-action="DeleteUser">
+    <div class="mb-3">
+        <label for="Delete" class="form-label">Username</label>
+        <input type="text" class="form-control" name="userName">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Delete user</button>
+</form>
