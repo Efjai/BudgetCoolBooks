@@ -16,12 +16,16 @@ namespace Budget_CoolBooks.Controllers
             _logger = logger;
             _bookServices = bookServices;
         }
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        //[HttpGet]
+        //public async Task<IActionResult> Index()
+        //{
+        //    var result = await _bookServices.GetAllBooksSorted();
+        //    ViewBag.BookList = result;
+        //    return View(ViewBag.BookList);
+        //}
+        public IActionResult Index()
         {
-            var result = await _bookServices.GetAllBooksSorted();
-            ViewBag.BookList = result;
-            return View(ViewBag.BookList);
+            return View();
         }
 
         public IActionResult ContactUs()
