@@ -16,17 +16,11 @@ namespace Budget_CoolBooks.Controllers
             _logger = logger;
             _bookServices = bookServices;
         }
-        //[HttpGet]
-        //public async Task<IActionResult> Index()
+
+        //public IActionResult Index()
         //{
-        //    var result = await _bookServices.GetAllBooksSorted();
-        //    ViewBag.BookList = result;
-        //    return View(ViewBag.BookList);
+        //    return View();
         //}
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public IActionResult ContactUs()
         {
@@ -39,24 +33,20 @@ namespace Budget_CoolBooks.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> Bookcard()
+        public async Task<IActionResult> Index()
         {
             var result = await _bookServices.GetAllBooksSorted();
             ViewBag.BookList = result;
             return View(ViewBag.BookList);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> ViewBooks()
-        //{
-        //    var result = await _bookServices.GetAllBooksSorted();
-        //    if (result == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewBag.bookListSorted = result;
-        //    return View(ViewBag.bookListSorted);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Bookcard()
+        {
+            var result = await _bookServices.GetAllBooksSorted();
+            ViewBag.BookList = result;
+            return View(ViewBag.BookList);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

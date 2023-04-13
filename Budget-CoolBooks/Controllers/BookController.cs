@@ -1,4 +1,5 @@
-﻿using Budget_CoolBooks.Services.Books;
+﻿using Budget_CoolBooks.Models;
+using Budget_CoolBooks.Services.Books;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Budget_CoolBooks.Controllers
@@ -27,16 +28,18 @@ namespace Budget_CoolBooks.Controllers
         [HttpPost]
         public async Task<IActionResult> BookDetails(int id)
         {
-            var result = await _bookServices.GetBookById(id);
+            var result = await _bookServices.GetBookListByID(id);
             if (result == null)
             {
                 return NotFound();
             }
 
-            // HÄRIFRÅN KAN DU FORTSÄTTA SOM DU VILL DAVID 
-            // Hitta det tack
-            ViewBag.bookID = result;
-            return View("~/Home/Bookcard", ViewBag.bookID);
+            ViewBag.book = result;
+            return View("/views/home/bookcard.cshtml", ViewBag.book);
+
+            //var result = await _bookServices.GetAllBooksSorted();
+            //ViewBag.BookList = result;
+            //return View("Views/Home/Bookcard.cshtml", ViewBag.BookList);
         }
         
     }

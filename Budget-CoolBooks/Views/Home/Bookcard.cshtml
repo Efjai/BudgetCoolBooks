@@ -9,7 +9,7 @@
 {
     @foreach (var book in (List<Book>)ViewBag.bookListSorted)
     {
-       @* @if (ViewBag.bookID == book.Id)*@
+       @if (ViewBag.bookID == book.Id)
         {
             break;
         }
@@ -39,24 +39,36 @@
 }
 
 <!-- HTML -->
-<div class="card">
-   @foreach (var book in (List<Book>)ViewBag.BookList)
-    {
+@foreach (var book in (List<Book>)ViewBag.book)
+{
+    <div class="card">
+        <!-- Title -->
         <h1>@book.Title</h1>
-        ;
-    }
-    <div class="infobox">
-        <h2>Author:</h2>
-        @* <h4>@{ @Author.Firstname @Author.Lastname}</h4>*@
-        <h2>Description:</h2>
-        @* <h4>@{ @book.Description}</h4>*@
+        <div class="infobox">
+            <!-- Author -->
+            <h2>Author:</h2>
+            <div>
+                <h4>@{
+                        //@Author.Firstname
+                } </h4>
+                <h4>@{
+                        //@Author.Lastname
+                }</h4>
+            </div>
+            <!-- Description -->
+            <h2>Description:</h2>
+            <h4>@{
+                    @book.Description
+                }</h4>
+        </div>
+        <!-- Imagepath -->
+        <img src="@book.Imagepath" alt="" style="width: 15%; margin-right: auto; margin-left: auto;">
+        <div class="infobox">
+            <!-- Rating -->
+            <h2><p class="ratingBAD">Rating: "1 / 5"</p></h2>
+            <!-- Form or link to a  "Submit / Update / Delete" review page-->
+            <h2><a class="review">(if)Submit / Update / Delete" Review</a></h2>
+        </div>
     </div>
-    @*<img src="@book.Imagepath" alt="error" style="width: 15%; margin-right: auto; margin-left: auto;">*@
-
-    <div class="infobox">
-        <!-- Get rating -->
-        <h2><a class="ratingBAD">Rating: "1 / 5"</a></h2>
-        <!-- Form or link to a  "Submit / Update / Delete" review page-->
-        <h2><a class="review">(if)Submit / Update / Delete" Review</a></h2>
-    </div>
-</div>
+    ;
+}
