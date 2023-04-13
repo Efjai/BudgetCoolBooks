@@ -20,12 +20,9 @@
     <!-- Header Start -->
     <header>
         <!-- Top Header  -->
-        @if (ViewData["Title"] == "Home")
-        {
             <div class="Header-top col-8 mx-auto">
                 <!-- Title  -->
                 <div class="my-4 w-100 text-center ">
-                    <!-- <img src="assets/images/logo.png" alt="" width="210" height="70" class=" " /> -->
                     <a class="btn fs-1 text-black-50" asp-area="" asp-controller="Home" asp-action="Index">
                         BudgetCoolBooks
                     </a>
@@ -38,7 +35,6 @@
                     </form>
                 </div>
             </div>
-        }
         <!-- Navbar -->
         <partial name="_NavbarPartial" />
     </header>

@@ -1,5 +1,6 @@
 ﻿using Budget_CoolBooks.Models;
 using Budget_CoolBooks.Services.Books;
+using Budget_CoolBooks.Services.Authors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Budget_CoolBooks.Controllers
@@ -7,10 +8,12 @@ namespace Budget_CoolBooks.Controllers
     public class BookController : Controller
     {
         private readonly BookServices _bookServices;
+        private readonly AuthorServices _authorServices;
 
-        public BookController(BookServices bookServices)
+        public BookController(BookServices bookServices, AuthorServices authorServices)
         {
             _bookServices = bookServices;
+            _authorServices = authorServices;
         }
 
         [HttpGet]
@@ -34,12 +37,9 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
 
-            ViewBag.book = result;
-            return View("/views/home/bookcard.cshtml", ViewBag.book);
-
-            //var result = await _bookServices.GetAllBooksSorted();
-            //ViewBag.BookList = result;
-            //return View("Views/Home/Bookcard.cshtml", ViewBag.BookList);
+            ViewBag.bookList = result;
+            
+            return View("/views/home/bookcard.cshtml", ViewBag.bookList);
         }
         
     }

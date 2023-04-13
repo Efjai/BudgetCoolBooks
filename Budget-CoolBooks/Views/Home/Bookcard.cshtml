@@ -3,43 +3,8 @@
 }
 <link rel="stylesheet" href="~/css/bookcard.css" asp-append-version="true" />
 
-<!-- Gather all information by bookID -->
-<!-- Book -->
-@if (ViewBag.bookListSorted != null)
-{
-    @foreach (var book in (List<Book>)ViewBag.bookListSorted)
-    {
-       @if (ViewBag.bookID == book.Id)
-        {
-            break;
-        }
-    }
-}
-<!-- Author -->
-@if (ViewBag.bookListSorted != null)
-{
-    @foreach (var book in (List<Book>)ViewBag.bookListSorted)
-    {
-       @* @if (ViewBag.bookID == book.Id)*@
-        {
-            break;
-        }
-    }
-}
-<!-- Genre -->
-@if (ViewBag.bookListSorted != null)
-{
-    @foreach (var book in (List<Book>)ViewBag.bookListSorted)
-    {
-       @* @if (ViewBag.bookID == book.Id)*@
-        {
-            break;
-        }
-    }
-}
-
 <!-- HTML -->
-@foreach (var book in (List<Book>)ViewBag.book)
+@foreach (var book in (List<Book>)ViewBag.bookList)
 {
     <div class="card">
         <!-- Title -->
@@ -49,7 +14,7 @@
             <h2>Author:</h2>
             <div>
                 <h4>@{
-                        //@Author.Firstname
+                        //@ViewBag.Author.Firstname;
                 } </h4>
                 <h4>@{
                         //@Author.Lastname

@@ -1,6 +1,7 @@
 ﻿using Budget_CoolBooks.Data;
 using Budget_CoolBooks.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace Budget_CoolBooks.Services.Authors
 {
@@ -22,7 +23,10 @@ namespace Budget_CoolBooks.Services.Authors
             var author = await _context.Authors.Where(a => a.Firstname == firstName && a.Lastname == lastName).FirstOrDefaultAsync();
             return author.Id;
         }
-
+        public async Task<ICollection<Author>> GetAuthorByID(int AuthorId)
+        {
+            return _context.Authors.Where(b => b.Id == AuthorId).ToList();
+        }
         public async Task<bool> CreateAuthor(Author author)
         {
             _context.Authors.Add(author);
