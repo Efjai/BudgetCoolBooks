@@ -27,10 +27,10 @@ namespace Budget_CoolBooks.Controllers
             return View();
         }
 
-        //public IActionResult Bookcard()
-        //{
-        //    return View();
-        //}
+        public IActionResult Bookcard()
+        {
+            return View();
+        }
 
         [HttpGet]
         public async Task<IActionResult> Index()
