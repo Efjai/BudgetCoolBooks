@@ -2,6 +2,7 @@
 using Budget_CoolBooks.Services.Books;
 using Budget_CoolBooks.Services.Authors;
 using Microsoft.AspNetCore.Mvc;
+using Budget_CoolBooks.ViewModels;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -28,19 +29,40 @@ namespace Budget_CoolBooks.Controllers
             return View(ViewBag.bookListSorted);
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> BookDetails(int id)
+        //{
+        //    var result = await _bookServices.GetBookListByID(id);
+        //    if (result == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    ViewBag.bookList = result;
+            
+        //    return View("/views/home/bookcard.cshtml", ViewBag.bookList);
+        //}
+
         [HttpPost]
         public async Task<IActionResult> BookDetails(int id)
         {
-            var result = await _bookServices.GetBookListByID(id);
-            if (result == null)
+            var bookResult = await _bookServices.GetFullBookById(id);
+            if (bookResult == null)
             {
                 return NotFound();
             }
 
-            ViewBag.bookList = result;
-            
-            return View("/views/home/bookcard.cshtml", ViewBag.bookList);
+            var bookcardViewModel = new BookcardViewModel()
+            {
+                BookTitle = bookResult.Title,
+                BookDescription = bookResult.Description,
+                AuthorFirstname = bookResult.Author.Firstname,
+                AuthorLastname = bookResult.Author.Lastname,
+                ImgPath = bookResult.Imagepath
+            };
+
+            return View("/views/home/bookcardTest.cshtml", bookcardViewModel);
         }
-        
+
     }
 }

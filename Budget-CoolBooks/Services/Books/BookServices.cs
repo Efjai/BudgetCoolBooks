@@ -2,6 +2,7 @@
 using Budget_CoolBooks.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using System.Net;
 using System.Security.Cryptography;
 
 namespace Budget_CoolBooks.Services.Books
@@ -18,10 +19,21 @@ namespace Budget_CoolBooks.Services.Books
         {
             return _context.Books.Where(b => b.Id == bookId && !b.IsDeleted).FirstOrDefault();
         }
+
+        public async Task<Book> GetFullBookById(int bookId)
+        {
+            return await _context.Books
+                        .Include(b => b.Author)
+                        .Include(b => b.Genre)
+                        .FirstOrDefaultAsync(b => b.Id == bookId);
+        }
+         
+
         public async Task<ICollection<Book>> GetBookListByID(int bookId)
         {
             return _context.Books.Where(b => b.Id == bookId && !b.IsDeleted).ToList();
         }
+
         public async Task<ICollection<Book>> GetAllBooksSorted()
         {
             return _context.Books.Where(b => !b.IsDeleted).OrderBy(b => b.Title).ToList();

@@ -76,4 +76,49 @@
         }
     </ul>
 }
+@if (ViewBag.bookListSorted != null)
+{
+<div class="">
+    <a asp-action="Create" class="btn btn-success float-end me-3">
+        <i class="fa-solid fa-plus me-2"></i>Create new book
+    </a>
+    <h1 class="fs-2 text-black">List of genres</h1>
+</div>
 
+<table class="table table-striped caption-top">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                ISBN
+            </th>
+            <th> Setting</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in (List<Book>)ViewBag.bookListSorted)
+        {
+            <tr>
+                <td>
+                    @book.Id
+                </td>
+                <td>
+                    @book.Title
+                </td>
+                <td>
+                    @book.ISBN
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
