@@ -12,8 +12,13 @@
     
     @foreach (var book in (List<Book>)ViewBag.bookListSorted)
     {
-       string shortenedDesc = book.Description.Substring(0, 100) + "...";
-       <div class="col">
+            string shortenedDesc = null;
+            @if (book.Description.Length > 100)
+            {
+                shortenedDesc = book.Description.Substring(0, 100) + "...";
+            }
+            
+            <div class="col">
                 <div class="card h-100" id="book-card">
                 <img src="@book.Imagepath" class="card-img-top">
                 <div class="card-body">

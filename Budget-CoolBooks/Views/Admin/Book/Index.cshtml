@@ -3,6 +3,7 @@
     ViewData["Title"] = "Admin - Books";
 }
 @model Budget_CoolBooks.ViewModels.AdminBooksViewModel
+<link rel="stylesheet" href="~/css/adminview.css" asp-append-version="true" />
 
     <div class="">
     <a asp-action="Create" class="btn btn-success float-end me-3">
@@ -48,15 +49,18 @@
                     
                 </td>
                     <td>
-                        <a asp-controller="AdminBook" asp-action="Edit" asp-route-id="@book.Id" 
-                        class="btn btn-sm btn-outline-primary me-2">
-                            Edit
-                        </a>
+                        <div class="admin-settings">
+                            <a asp-controller="AdminBook" asp-action="Edit" asp-route-id="@book.Id" 
+                                class="btn btn-sm btn-outline-primary me-2">
+                                Edit
+                            </a>
 
-                        <form method="post" asp-controller="AdminBook" asp-action="Delete">
-                            <input type="hidden" name="id" value="@book.Id">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
+                            <form method="post" asp-controller="AdminBook" asp-action="Delete">
+                                <input type="hidden" name="id" value="@book.Id">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </div>
+                       
                     </td>
                 </tr>
             }
