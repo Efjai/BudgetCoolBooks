@@ -5,7 +5,7 @@
 @model Budget_CoolBooks.ViewModels.AdminBooksViewModel
 
 <h5>Edit - @Model.Book.Title</h5>
-<form method="post" asp-controller="AdminBook" asp-action="AdminBooksEdit">
+<form method="post" asp-controller="AdminBook" asp-action="Edit">
     <div class="mb-3">
         <label for="Title" class="form-label">Title</label>
         <input type="text" class="form-control" name="title" placeholder="@Model.Book.Title">
@@ -33,10 +33,11 @@
                     <option selected>Choose genre</option>
                 @foreach (var genre in Model.Genres)
                 {
-                            <option value="@genre.Id">@genre.Name</option>
+                   <option value="@genre.Id">@genre.Name</option>
                 }
                 </select>
         }
     </div>
+    <input type="hidden" name="bookId" value="@Model.Book.Id">
     <button type="submit" class="btn btn-primary">Edit book</button>
 </form>

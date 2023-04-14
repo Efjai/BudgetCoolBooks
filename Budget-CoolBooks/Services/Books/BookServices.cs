@@ -24,7 +24,9 @@ namespace Budget_CoolBooks.Services.Books
         {
             return await _context.Books
                         .Include(b => b.Author)
+                        .Include(b => b.user)
                         .Include(b => b.Genre)
+                        .Where(b => !b.IsDeleted)
                         .FirstOrDefaultAsync(b => b.Id == bookId);
         }
          
@@ -70,6 +72,13 @@ namespace Budget_CoolBooks.Services.Books
             _context.Books.Add(book);
             return Save();
         }
+
+        public async Task<bool> UpdateBook(Book book)
+        {
+            _context.Books.Update(book);
+            return Save();
+        }
+
 
         public async Task<bool> DeleteBook(Book book)
         {

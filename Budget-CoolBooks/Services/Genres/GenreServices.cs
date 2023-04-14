@@ -14,6 +14,11 @@ namespace Budget_CoolBooks.Services.Genres
             _context = context;
         }
 
+        public async Task<Genre> GetGenreById(int genreId)
+        {
+            var genre = await _context.Genres.FindAsync(genreId);
+            return genre;
+        }
         public async Task<ICollection<Genre>> GetGenres()
         {
             return _context.Genres.OrderBy(p => p.Id).ToList();

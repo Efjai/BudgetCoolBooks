@@ -4,6 +4,7 @@ using Budget_CoolBooks.Services.Books;
 using Budget_CoolBooks.Services.Genres;
 using Budget_CoolBooks.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using System.Security.Claims;
 
 namespace Budget_CoolBooks.Controllers.Admin
@@ -49,6 +50,41 @@ namespace Budget_CoolBooks.Controllers.Admin
 
             return View("~/views/admin/book/edit.cshtml", adminBookViewModel);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int bookId, string title, string description,
+            string isbn, string imgpath, int genreSelect)
+        {
+            Book book = new Book();
+            book = await _bookServices.GetFullBookById(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            if (title != null){ book.Title = title;}
+            if (description != null) { book.Description = description; }
+            if (isbn != null) { book.ISBN = isbn; }
+            if (imgpath != null) { book.Imagepath = imgpath; }
+            if (genreSelect != null) 
+            {
+                Genre genre = new Genre();
+                genre = await _genreServices.GetGenreById(genreSelect);
+                if(genre == null)
+                {
+                    return NotFound();
+                }
+                book.Genre = genre;
+            }
+
+            if (!await _bookServices.UpdateBook(book))
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("Index");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
