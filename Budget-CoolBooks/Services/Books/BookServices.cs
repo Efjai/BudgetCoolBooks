@@ -36,7 +36,13 @@ namespace Budget_CoolBooks.Services.Books
 
         public async Task<ICollection<Book>> GetAllBooksSorted()
         {
-            return _context.Books.Where(b => !b.IsDeleted).OrderBy(b => b.Title).ToList();
+            return _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.user)
+                .Include(b => b.Genre)
+                .Where(b => !b.IsDeleted)
+                .OrderBy(b => b.Title)
+                .ToList();
         }
 
         public async Task<bool> CreateBook(Book book, string userId, int authorId, int genreId)

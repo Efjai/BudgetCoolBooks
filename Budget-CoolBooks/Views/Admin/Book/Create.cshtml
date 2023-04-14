@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Create new book";
+}
+@model Budget_CoolBooks.ViewModels.AdminBooksViewModel
+
+<h5>Add new book</h5>
+<form method="post" asp-controller="AdminBook" asp-action="Create">
+    <div class="mb-3">
+        <label for="Title" class="form-label">Title</label>
+        <input type="text" class="form-control" name="title">
+    </div>
+
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <input type="text" class="form-control" name="description">
+    </div>
+
+    <div class="mb-3">
+        <label for="ISBN" class="form-label">ISBN</label>
+        <input type="text" class="form-control" name="isbn">
+    </div>
+
+    <div class="mb-3">
+        <label for="ImagePath" class="form-label">Image Path</label>
+        <input type="text" class="form-control" name="imgpath">
+    </div>
+
+    <div class="mb-3">
+        <label for="AuthorFirstName" class="form-label">Author firstname</label>  
+        <input type="text" class="form-control" name="authorFirstName">
+    </div>
+
+    <div class="mb-3">
+        <label for="AuthorLastname" class="form-label">Author lastname</label> 
+        <input type="text" class="form-control" name="authorLastName">
+    </div>
+
+    <div class="mb-3">
+        @if (Model.Genres != null)
+        {
+            <select class="form-select" aria-label="Choose genre" name="genreSelect" id="genre-dropdown">
+                <option selected>Choose genre</option>
+                @foreach (var genre in Model.Genres)
+                {
+                    <option value="@genre.Id">@genre.Name</option>
+                }
+            </select>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Add book</button>
+</form>

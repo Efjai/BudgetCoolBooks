@@ -2,47 +2,61 @@
     Layout = "_AdminLayout";
     ViewData["Title"] = "Admin - Books";
 }
+@model Budget_CoolBooks.ViewModels.AdminBooksViewModel
 
-@if (ViewBag.bookListSorted != null)
-{
     <div class="">
-        <a asp-action="Create" class="btn btn-success float-end me-3">
+    <a asp-action="Create" class="btn btn-success float-end me-3">
             <i class="fa-solid fa-plus me-2"></i>Create new book
         </a>
-        <h1 class="fs-2 text-black">List of genres</h1>
+        <h1 class="fs-2 text-black">Books</h1>
     </div>
 
     <table class="table table-striped caption-top">
         <thead>
             <tr>
                 <th>
-                    ID
-                </th>
-                <th>
                     Title
                 </th>
                 <th>
-                    ISBN
+                    Author
+                </th>
+                <th>
+                    Added by
                 </th>
                 <th> Setting</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var book in (List<Book>)ViewBag.bookListSorted)
+            @foreach (var book in Model.Books)
             {
                 <tr>
-                    <td>
-                        @book.Id
-                    </td>
                     <td>
                         @book.Title
                     </td>
                     <td>
-                        @book.ISBN
-                    </td>
+                        @book.Author.Firstname @book.Author.Lastname
+                </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                    @if(@book.user != null)
+                    {
+                        @book.user.UserName
+                    }
+                    else
+                    {
+                        <p><em>Not available</em></p>
+                    }
+                    
+                </td>
+                    <td>
+                        <a asp-controller="AdminBook" asp-action="Edit" asp-route-id="@book.Id" 
+                        class="btn btn-sm btn-outline-primary me-2">
+                            Edit
+                        </a>
+
+                        <form method="post" asp-controller="AdminBook" asp-action="Delete">
+                            <input type="hidden" name="id" value="@book.Id">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
                     </td>
                 </tr>
             }
