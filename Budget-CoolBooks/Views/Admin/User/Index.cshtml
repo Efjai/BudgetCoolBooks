@@ -1,0 +1,75 @@
+﻿﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Users";
+}
+@model Budget_CoolBooks.ViewModels.AdminUserViewModel
+@inject UserManager<User> UserManager
+<link rel="stylesheet" href="~/css/adminview.css" asp-append-version="true" />
+
+<div class="">
+    <a asp-action="Create" class="btn btn-success float-end me-3">
+        <i class="fa-solid fa-plus me-2"></i>Create new book
+    </a>
+    <h1 class="fs-2 text-black">Books</h1>
+</div>
+
+<table class="table table-striped caption-top">
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                Role
+            </th>
+            <th> 
+                Setting
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>
+                    @user.UserName
+                </td>
+                <td>
+                    @{
+                        var roles = await UserManager.GetRolesAsync(user);
+                        <p><em>
+                            @string.Join(", ", roles)
+                        </em></p>
+                        if (roles.Count < 1)
+                        {
+                            <p><em>Member</em></p>
+                        }
+                    }
+                </td>
+                <td>
+                    <div class="admin-settings">
+                        <a asp-controller="AdminUser" asp-action="Delete" asp-route-id="@user.Id"
+                       class="btn btn-sm btn-outline-primary me-2">
+                            Delete
+                        </a>
+                        @if (roles.Count < 1)
+                        {
+                            <form method="post" asp-controller="AdminUser" asp-action="Promote">
+                                <input type="hidden" name="id" value="@user.Id">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Promote</button>
+                            </form>
+                        }
+
+                        @if (roles.Count >= 1)
+                        {
+                            <form method="post" asp-controller="AdminUser" asp-action="Demote">
+                                <input type="hidden" name="id" value="@user.Id">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Demote</button>
+                            </form>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
