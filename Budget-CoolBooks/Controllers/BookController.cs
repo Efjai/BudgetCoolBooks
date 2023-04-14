@@ -61,7 +61,7 @@ namespace Budget_CoolBooks.Controllers
                 ImgPath = bookResult.Imagepath
             };
 
-            return View("/views/home/bookcardTest.cshtml", bookcardViewModel);
+            return View("/views/home/bookcard.cshtml", bookcardViewModel);
         }
 
     }
