@@ -26,15 +26,11 @@ body{
     color: green;
     text-decoration: underline;
     padding: 1%;
-    border: 2px solid green;
-    border-radius: 18px;
 }
 .ratingBAD {
     color: red;
     text-decoration: underline;
     padding: 1%;
-    border: 2px solid red;
-    border-radius: 18px;
 }
 .review {
     display: inline-block;
