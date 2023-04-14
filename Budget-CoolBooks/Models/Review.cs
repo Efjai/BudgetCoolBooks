@@ -10,6 +10,7 @@
         public DateTime Created { get; set; }
 
         //Nested properties
+        public Book Book { get; set; }
         public User User { get; set; }
         public Author Author { get; set; }
     }

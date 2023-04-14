@@ -131,7 +131,7 @@ namespace Budget_CoolBooks.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BookId")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
@@ -415,15 +415,19 @@ namespace Budget_CoolBooks.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Budget_CoolBooks.Models.Book", null)
+                    b.HasOne("Budget_CoolBooks.Models.Book", "Book")
                         .WithMany("Reviews")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Budget_CoolBooks.Models.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Author");
+
+                    b.Navigation("Book");
 
                     b.Navigation("User");
                 });

@@ -13,7 +13,6 @@ namespace Budget_CoolBooks.Models
         public DateTime Created { get; set; }
 
         //Nested properties
-        public ICollection<Review> Reviews { get; set; }
         public Author Author { get; set; }
         public User user { get; set; }
         public Genre Genre { get; set; }

@@ -13,7 +13,10 @@ namespace Budget_CoolBooks.Services.Reviews
             _context = context;
         }
 
-
+        public async Task<List<Review>> GetAllReviews()
+        {
+            return _context.Reviews.Where(r => !r.IsDeleted).OrderByDescending(r => r.Created).ToList();
+        }
         public async Task<List<Review>> GetReviewByUsername(string userName)
         {
             // Include navigation-property. Sorts out all username that has IsDeleted=true. Sort by last created.

@@ -1,22 +1,55 @@
 ﻿@{
     ViewData["Title"] = "Feature Books";
 }
-<link rel="stylesheet" href="~/css/bookcard.css" asp-append-version="true" />
-<div class="card">
-    <!--Make a randomiser for a book -->
-    <h1>"Title"</h1>
-    <!--The book should display the info of that book down below-->
-    <div class="infobox">
-        <h2>Author:</h2>
-        <h4>"Example.""</h4>
-        <h2>Description:</h2>
-        <h4>"Example.""</h4>
-    </div>
-    <img src="/images/Book.png" alt="error" style="width: 15%; margin-right: auto; margin-left: auto;">
+<link rel="stylesheet" href="~/css/homeindex.css" asp-append-version="true" />
 
-</div>
-@foreach (var book in (List<Book>)ViewBag.BookList)
-{
-    @book.Title
-    ;
+@{
+    int i = 0;
 }
+
+
+    <h2 style="text-align: center;"></h2>
+    <div id="slider">
+        <input type="radio" name="slider" id="slide1" checked>
+        <input type="radio" name="slider" id="slide2">
+        <input type="radio" name="slider" id="slide3">
+       @* <input type="radio" name="slider" id="slide4"> *@   
+        <div id="slides">
+            <div id="overflow">
+                <div class="inner">
+                    @foreach (var book in (List<Book>)ViewBag.BookList)
+                    {
+                 
+                        <div class="slide slide_1">
+                            <div class="slide-content">
+                                <h2>@book.Title</h2>
+                                <p><img src=@book.Imagepath alt=@book.Title style="width: 35%; margin-right: auto; margin-left: auto;" /></p>
+                            <form method="post" asp-controller="Book" asp-action="BookDetails">
+                                <input type="hidden" name="id" value="@book.Id">
+                                <button input="submit" class="btn btn-primary btn sm">Details</button>
+                            </form>
+                            </div>                        
+                        </div>                    
+                    i++;
+                    if (i == 3)
+                    {
+                        break;
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+        <div id="controls">
+            <label for="slide1"></label>
+            <label for="slide2"></label>
+            <label for="slide3"></label>
+            
+        </div>
+        <div id="bullets">
+            <label for="slide1"></label>
+            <label for="slide2"></label>
+            <label for="slide3"></label>
+        </div>
+    </div>
+    
+

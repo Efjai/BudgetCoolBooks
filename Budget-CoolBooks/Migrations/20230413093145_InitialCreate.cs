@@ -201,7 +201,7 @@ namespace Budget_CoolBooks.Migrations
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AuthorId = table.Column<int>(type: "int", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    GenreId = table.Column<int>(type: "int", nullable: false)
+                    GenreId = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -238,7 +238,7 @@ namespace Budget_CoolBooks.Migrations
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AuthorId = table.Column<int>(type: "int", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: true)
+                    BookId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

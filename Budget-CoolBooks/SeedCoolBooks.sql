@@ -151,9 +151,11 @@ values ('Ulysses', 'Ulysses is a poem which gives us details about the unhappine
 
 
 --SEED REVIEWS
+--Funkar som SMÖR
 INSERT INTO Reviews (Title, Text, UserId, Rating, IsDeleted, Created, AuthorId)
-VALUES ('HEJ', 'Text Text bla bla', '32e59fb4-f5e3-43bc-8df4-202f9209d153', 4, 'false', GETDATE(), 1);
+VALUES ('HEJ', 'Text Text bla bla', '3e47ae98-0d90-4da8-b43b-474ef49b2116', 4, 'false', GETDATE(), 1, 1);
 
+--DET KOMMER SMÄLLLA PAW, BOOKID SAKNAS
 INSERT INTO Reviews (Title, Text, UserId, Rating, IsDeleted, Created, AuthorId)
 VALUES ('HEJ', 'Text Text bla bla', '32e59fb4-f5e3-43bc-8df4-202f9209d153', 2, 0, GETDATE(), 1);
 
