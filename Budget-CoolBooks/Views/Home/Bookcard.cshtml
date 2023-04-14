@@ -1,38 +1,36 @@
 ﻿@{
     ViewData["Title"] = "Bookcard";
 }
+<!-- CSS -->
 <link rel="stylesheet" href="~/css/bookcard.css" asp-append-version="true" />
+<!-- Model -->
 @model Budget_CoolBooks.ViewModels.BookcardViewModel
-<div class="card">
-    <h1>@Model.BookTitle;</h1>
-    <div class="infobox">
+<!-- View -->
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <!-- Title -->
+        <h2 class="card-title">@Model.BookTitle;</h2>
         <!-- Author -->
-        <h2>Author:</h2>
-        <h2 style="text-decoration:underline;">
-            @{
-                @Model.AuthorFirstname
-                ;
-            }
-             
-            @{
-                @Model.AuthorLastname
-                ;
-            }
-        </h2> 
-    </div>
-    <!-- Imagepath -->
-    <img src="@Model.ImgPath" alt="" style="width: 25%; margin-right: auto; margin-left: auto; padding: 5%;">
-    <!-- Description -->
-    <h4 style="padding-left: 5%; padding-right: 5%;">
-        @{
-            @Model.BookDescription
-            ;
-        }
-    </h4>
-    <div class="infobox">
-        <!-- Rating -->
-        <h2><p class="ratingBAD">Rating: "1 / 5"</p></h2>
-        <!-- Form or link to a  "Submit / Update / Delete" review page-->
-        <h2><a href="#" class="review">(if)Submit / Update / Delete" Review</a></h2>
+        <h4 class="card-text" style="padding-bottom: 3%;"> by @{@Model.AuthorFirstname;} @{@Model.AuthorLastname;}</h4>
+        <div class="col-md-4" style="margin-bottom: auto; margin-top: auto;">
+            <!-- Img -->
+            <img src="@Model.ImgPath" class="img-fluid rounded-start" alt="" style="margin-left: 2%;">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <!-- Description -->
+                <p class="card-text">@Model.BookDescription</p>
+            </div>
+        </div>
+        <div class="col-md-4" style="margin-bottom: auto; margin-top: auto;">
+            <!-- Rating -->
+            <p class="card-text"><small class="text-body-secondary">Rating: 1/5</small></p>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <!-- Review -->
+                <h6 class="card-text">Review</h6>
+            </div>
+        </div>
     </div>
 </div>
