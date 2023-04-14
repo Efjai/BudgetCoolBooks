@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Search result";
+}
+@model Budget_CoolBooks.ViewModels.SearchViewModel
+
+   <h2>Search Results</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var book in Model.Books)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author.Firstname @book.Author.Lastname</td>
+                <td>@book.ISBN</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <h5>Filter by:</h5>
