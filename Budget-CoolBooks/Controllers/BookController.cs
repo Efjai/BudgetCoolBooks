@@ -28,21 +28,6 @@ namespace Budget_CoolBooks.Controllers
             ViewBag.bookListSorted = result;
             return View(ViewBag.bookListSorted);
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> BookDetails(int id)
-        //{
-        //    var result = await _bookServices.GetBookListByID(id);
-        //    if (result == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    ViewBag.bookList = result;
-            
-        //    return View("/views/home/bookcard.cshtml", ViewBag.bookList);
-        //}
-
         [HttpPost]
         public async Task<IActionResult> BookDetails(int id)
         {
@@ -61,7 +46,7 @@ namespace Budget_CoolBooks.Controllers
                 ImgPath = bookResult.Imagepath
             };
 
-            return View("/views/home/bookcard.cshtml", bookcardViewModel);
+            return View("/views/book/bookcard.cshtml", bookcardViewModel);
         }
 
     }
