@@ -1,22 +1,58 @@
 ﻿@{
     ViewData["Title"] = "Feature Books";
 }
-<link rel="stylesheet" href="~/css/bookcard.css" asp-append-version="true" />
-<div class="card">
-    <!--Make a randomiser for a book -->
-    <h1>"Title"</h1>
-    <!--The book should display the info of that book down below-->
-    <div class="infobox">
-        <h2>Author:</h2>
-        <h4>"Example.""</h4>
-        <h2>Description:</h2>
-        <h4>"Example.""</h4>
-    </div>
-    <img src="/images/Book.png" alt="error" style="width: 15%; margin-right: auto; margin-left: auto;">
+<link rel="stylesheet" href="~/css/homeindex.css" asp-append-version="true" />
 
-</div>
 @foreach (var book in (List<Book>)ViewBag.BookList)
 {
-    @book.Title
-    ;
+    <h2 style="text-align: center;">FEATURE BOOKS</h2>
+    <div id="slider">
+        <input type="radio" name="slider" id="slide1" checked>
+        <input type="radio" name="slider" id="slide2">
+        <input type="radio" name="slider" id="slide3">
+        <input type="radio" name="slider" id="slide4">
+        <div id="slides">
+            <div id="overflow">
+                <div class="inner">
+                    <div class="slide slide_1">
+                        <div class="slide-content">
+                            <h2>@book.Title</h2>
+                            <p><img src=@book.Imagepath alt=@book.Title style="width: 45%; margin-right: auto; margin-left: auto;" /></p>
+                        </div>
+                    </div>
+                    <div class="slide slide_2">
+                        <div class="slide-content">
+                            <h2>@book.Title</h2>
+                            <p><img src=@book.Imagepath alt=@book.Title style="width: 45%; margin-right: auto; margin-left: auto;" /></p>
+                        </div>
+                    </div>
+                    <div class="slide slide_3">
+                        <div class="slide-content">
+                            <h2>@book.Title</h2>
+                            <p><img src=@book.Imagepath alt=@book.Title style="width: 45%; margin-right: auto; margin-left: auto;" /></p>
+                        </div>
+                    </div>
+                    <div class="slide slide_4">
+                        <div class="slide-content">
+                            <h2>@book.Title</h2>
+                            <p><img src=@book.Imagepath alt=@book.Title style="width: 45%; margin-right: auto; margin-left: auto;" /></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="controls">
+            <label for="slide1"></label>
+            <label for="slide2"></label>
+            <label for="slide3"></label>
+            <label for="slide4"></label>
+        </div>
+        <div id="bullets">
+            <label for="slide1"></label>
+            <label for="slide2"></label>
+            <label for="slide3"></label>
+            <label for="slide4"></label>
+        </div>
+    </div>
+    break;
 }
