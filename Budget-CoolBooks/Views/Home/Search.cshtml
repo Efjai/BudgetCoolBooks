@@ -2,9 +2,29 @@
     ViewData["Title"] = "Search result";
 }
 @model Budget_CoolBooks.ViewModels.SearchViewModel
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-   <h2>Search Results</h2>
-    <table class="table">
+
+@if (Model.SearchActive || Model.SortedBooks != null)
+{
+    <div class="sorting-holder">
+        <h2 class="title-search">Search Results</h2>
+            <form method="post" asp-controller="Home" asp-action="SortSearch">
+                <select class="form-select" onchange="this.form.submit()" aria-label="Filter" 
+                    name="SortInput" id="filter-dropdown">
+                    <option selected>Filter by</option>
+                    <option value="1">Book title</option>
+                    <option value="2">Author</option>
+                    <option value="3">ISBN</option>
+                </select>
+            <input type="hidden" name="searchString" value="@Model.OriginalSearchString">
+        </form>
+    </div>
+}
+
+@if (Model.SearchActive)
+{
+  <table class="table">
         <thead>
             <tr>
                 <th>Title</th>
@@ -16,6 +36,35 @@
         @foreach (var book in Model.Books)
         {
             <tr>
+                <td>
+                    <form method="post" asp-controller="Book" asp-action="BookDetails">
+                        <input type="hidden" name="id" value="@book.Id">
+                                <button input="submit" class="filter-button">@book.Title</button>
+                    </form>
+                </td>
+                <td>@book.Author.Firstname @book.Author.Lastname</td>
+                <td>@book.ISBN</td>
+            </tr>
+        }
+        </tbody>
+    </table>  
+}
+
+
+@if(Model.SortedBooks != null)
+{
+      <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var book in Model.SortedBooks)
+        {
+            <tr>
                 <td>@book.Title</td>
                 <td>@book.Author.Firstname @book.Author.Lastname</td>
                 <td>@book.ISBN</td>
@@ -23,5 +72,4 @@
         }
         </tbody>
     </table>
-
-    <h5>Filter by:</h5>
+}

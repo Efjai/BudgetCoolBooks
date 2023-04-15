@@ -27,7 +27,5 @@ namespace Budget_CoolBooks.Services.Search
                         .ToList();
             return result;
         }
-
-
     }
 }
