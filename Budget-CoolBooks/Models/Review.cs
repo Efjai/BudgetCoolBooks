@@ -8,10 +8,13 @@
         public double Rating { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime Created { get; set; }
+        public int Like { get; set; }
+        public int Dislike { get; set; }
+        public int Flag { get; set; }
 
         //Nested properties
         public Book Book { get; set; }
         public User User { get; set; }
-        public Author Author { get; set; }
+        
     }
 }
