@@ -151,7 +151,7 @@ values ('Ulysses', 'Ulysses is a poem which gives us details about the unhappine
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+--Seed Date To Books Tbl
 Insert into Books(Title, Description, ISBN, Imagepath, IsDeleted, Created,userId)
 values ('Absalom, Absalom!', 'Absalom, Absalom! is a novel by the American author William Faulkner, first published in 1936. Taking place before, during, and after the American Civil War, it is a story about three families of the American South, with a focus on the life of Thomas Sutpen.', '9789173370073', '/images/Absalom-Absalom.jpg', 'FALSE', GetDate(), null);
 
@@ -213,14 +213,50 @@ Insert into Books(Title, Description, ISBN, Imagepath, IsDeleted, Created,userId
 values ('Ulysses', 'Ulysses is a poem which gives us details about the unhappiness and monotony Ulysses is going through in his old age. He is living at his home on the island of Ithaca. The summary of Ulysses will take us through the monologue which he speaks in the poem. We learn that Ulysses is not content with the way of his life.', '9789100146238', '/images/Ulysses.jpg', 'FALSE', GetDate(), null);
 
 
+--Seed Date To BooksGenres Tbl
+Insert into BooksGenres(BookID,GenreId) values (1,1);
+Insert into BooksGenres(BookID,GenreId) values (2,1);
+Insert into BooksGenres(BookID,GenreId) values (3,7);
+Insert into BooksGenres(BookID,GenreId) values (4,1);
+Insert into BooksGenres(BookID,GenreId) values (5,1);
+Insert into BooksGenres(BookID,GenreId) values (6,3);
+Insert into BooksGenres(BookID,GenreId) values (7,1);
+Insert into BooksGenres(BookID,GenreId) values (8,1);
+Insert into BooksGenres(BookID,GenreId) values (9,1);
+Insert into BooksGenres(BookID,GenreId) values (10,4);
+Insert into BooksGenres(BookID,GenreId) values (11,1);
+Insert into BooksGenres(BookID,GenreId) values (12,1);
+Insert into BooksGenres(BookID,GenreId) values (13,1);
+Insert into BooksGenres(BookID,GenreId) values (14,1);
+Insert into BooksGenres(BookID,GenreId) values (15,2);
+Insert into BooksGenres(BookID,GenreId) values (16,1);
+Insert into BooksGenres(BookID,GenreId) values (17,1);
+Insert into BooksGenres(BookID,GenreId) values (18,4);
+Insert into BooksGenres(BookID,GenreId) values (19,1);
+Insert into BooksGenres(BookID,GenreId) values (20,1);
 
 
-
-
-
-
-
-
+--Seed Date To BooksAuthors Tbl
+Insert into BooksAuthors(BookID,AuthorId) values (1,1);
+Insert into BooksAuthors(BookID,AuthorId) values (2,2);
+Insert into BooksAuthors(BookID,AuthorId) values (3,3);
+Insert into BooksAuthors(BookID,AuthorId) values (4,4);
+Insert into BooksAuthors(BookID,AuthorId) values (5,5);
+Insert into BooksAuthors(BookID,AuthorId) values (6,6);
+Insert into BooksAuthors(BookID,AuthorId) values (7,5);
+Insert into BooksAuthors(BookID,AuthorId) values (8,7);
+Insert into BooksAuthors(BookID,AuthorId) values (9,8);
+Insert into BooksAuthors(BookID,AuthorId) values (10,9);
+Insert into BooksAuthors(BookID,AuthorId) values (11,10);
+Insert into BooksAuthors(BookID,AuthorId) values (12,11);
+Insert into BooksAuthors(BookID,AuthorId) values (13,12);
+Insert into BooksAuthors(BookID,AuthorId) values (14,13);
+Insert into BooksAuthors(BookID,AuthorId) values (15,14);
+Insert into BooksAuthors(BookID,AuthorId) values (16,1);
+Insert into BooksAuthors(BookID,AuthorId) values (17,15);
+Insert into BooksAuthors(BookID,AuthorId) values (18,16);
+Insert into BooksAuthors(BookID,AuthorId) values (19,1);
+Insert into BooksAuthors(BookID,AuthorId) values (20,17);
 
 
 
