@@ -1,12 +1,12 @@
 ﻿namespace Budget_CoolBooks.Models
 {
-    public class Book_Author
+    public class BookGenre
     {
         public int BookId { get; set; }
-        public int AuthorId { get; set; }
+        public int GenreId { get; set; }
 
         //Nested properties
         public Book Book { get; set; } = null!;
-        public Author Author { get; set; } = null!;
+        public Genre Genre { get; set; } = null!;
     }
 }

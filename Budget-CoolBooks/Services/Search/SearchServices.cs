@@ -13,19 +13,19 @@ namespace Budget_CoolBooks.Services.Search
             _context = context;
         }
 
-        public async Task<ICollection<Book>> SearchAll(string search)
-        {
-            var result = _context
-                        .Books
-                        .Include(b => b.Author)
-                        .Where(b => b.Title.Contains(search) ||
-                        b.Author.Firstname.Contains(search) ||
-                        b.Author.Lastname.Contains(search) ||
-                        b.ISBN.Contains(search) ||
-                        b.Author.Books.Any(ab => ab.Author.Firstname.Contains(search) ||
-                                                 ab.Author.Lastname.Contains(search)))
-                        .ToList();
-            return result;
-        }
+        //public async Task<ICollection<Book>> SearchAll(string search)
+        //{
+        //    var result = _context
+        //                .Books
+        //                .Include(b => b.Author)
+        //                .Where(b => b.Title.Contains(search) ||
+        //                b.Author.Firstname.Contains(search) ||
+        //                b.Author.Lastname.Contains(search) ||
+        //                b.ISBN.Contains(search) ||
+        //                b.Author.Books.Any(ab => ab.Author.Firstname.Contains(search) ||
+        //                                         ab.Author.Lastname.Contains(search)))
+        //                .ToList();
+        //    return result;
+        //}
     }
 }

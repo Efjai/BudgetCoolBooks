@@ -8,7 +8,7 @@
         public DateTime Created { get; set; }
 
         //Nested properties
-        public List<Book_Author> AuthorList { get; } = new();        
+        public List<BookAuthor> BookAuthor { get; } = new();        
 
         public Author(string firstname, string lastname, DateTime created)
         {

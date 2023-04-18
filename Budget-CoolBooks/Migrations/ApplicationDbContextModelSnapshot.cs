@@ -54,18 +54,12 @@ namespace Budget_CoolBooks.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
 
                     b.Property<string>("ISBN")
                         .IsRequired()
@@ -87,59 +81,39 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("GenreId");
-
                     b.HasIndex("userId");
 
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("Budget_CoolBooks.Models.Book_Author", b =>
+            modelBuilder.Entity("Budget_CoolBooks.Models.BookAuthor", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
+                    b.HasKey("AuthorId", "BookId");
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Books_Authors");
+                    b.ToTable("BooksAuthors");
                 });
 
-            modelBuilder.Entity("Budget_CoolBooks.Models.Book_Genre", b =>
+            modelBuilder.Entity("Budget_CoolBooks.Models.BookGenre", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("GenreId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("GenreId", "BookId");
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("Books_Genres");
+                    b.ToTable("BooksGenres");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Comment", b =>
@@ -197,6 +171,39 @@ namespace Budget_CoolBooks.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.Reply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Flag")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Replys");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Review", b =>
@@ -467,37 +474,87 @@ namespace Budget_CoolBooks.Migrations
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Book", b =>
                 {
-                    b.HasOne("Budget_CoolBooks.Models.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Budget_CoolBooks.Models.Genre", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Budget_CoolBooks.Models.User", "user")
                         .WithMany("Books")
                         .HasForeignKey("userId");
 
-                    b.Navigation("Author");
-
-                    b.Navigation("Genre");
-
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("Budget_CoolBooks.Models.Book_Author", b =>
+            modelBuilder.Entity("Budget_CoolBooks.Models.BookAuthor", b =>
                 {
                     b.HasOne("Budget_CoolBooks.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("BookAuthor")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Budget_CoolBooks.Models.Book", "Book")
+                        .WithMany("BookAuthor")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.BookGenre", b =>
+                {
+                    b.HasOne("Budget_CoolBooks.Models.Book", "Book")
+                        .WithMany("BookGenre")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Budget_CoolBooks.Models.Genre", "Genre")
+                        .WithMany("BookGenre")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.Comment", b =>
+                {
+                    b.HasOne("Budget_CoolBooks.Models.Review", "Review")
+                        .WithMany()
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Budget_CoolBooks.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Review");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.Reply", b =>
+                {
+                    b.HasOne("Budget_CoolBooks.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Budget_CoolBooks.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.Review", b =>
+                {
                     b.HasOne("Budget_CoolBooks.Models.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
@@ -566,7 +623,19 @@ namespace Budget_CoolBooks.Migrations
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Author", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("BookAuthor");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.Book", b =>
+                {
+                    b.Navigation("BookAuthor");
+
+                    b.Navigation("BookGenre");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.Genre", b =>
+                {
+                    b.Navigation("BookGenre");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.User", b =>

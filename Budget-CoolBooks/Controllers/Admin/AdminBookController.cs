@@ -36,54 +36,54 @@ namespace Budget_CoolBooks.Controllers.Admin
             return View("~/views/admin/book/index.cshtml", adminBookViewModel);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var book = await _bookServices.GetFullBookById(id);
-            var genres = await _genreServices.GetGenres();
+        //[HttpGet]
+        //public async Task<IActionResult> Edit(int id)
+        //{
+        //    var book = await _bookServices.GetFullBookById(id);
+        //    var genres = await _genreServices.GetGenres();
 
-            var adminBookViewModel = new AdminBooksViewModel()
-            {
-                Book = book,
-                Genres = genres.ToList(),
-            };
+        //    var adminBookViewModel = new AdminBooksViewModel()
+        //    {
+        //        Book = book,
+        //        Genres = genres.ToList(),
+        //    };
 
-            return View("~/views/admin/book/edit.cshtml", adminBookViewModel);
-        }
+        //    return View("~/views/admin/book/edit.cshtml", adminBookViewModel);
+        //}
 
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(int bookId, string title, string description,
-            string isbn, string imgpath, int genreSelect)
-        {
-            Book book = new Book();
-            book = await _bookServices.GetFullBookById(bookId);
-            if (book == null)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(int bookId, string title, string description,
+        //    string isbn, string imgpath, int genreSelect)
+        //{
+        //    Book book = new Book();
+        //    book = await _bookServices.GetFullBookById(bookId);
+        //    if (book == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (title != null){ book.Title = title;}
-            if (description != null) { book.Description = description; }
-            if (isbn != null) { book.ISBN = isbn; }
-            if (imgpath != null) { book.Imagepath = imgpath; }
-            if (genreSelect != null) 
-            {
-                Genre genre = new Genre();
-                genre = await _genreServices.GetGenreById(genreSelect);
-                if(genre == null)
-                {
-                    return NotFound();
-                }
-                book.Genre = genre;
-            }
+        //    if (title != null){ book.Title = title;}
+        //    if (description != null) { book.Description = description; }
+        //    if (isbn != null) { book.ISBN = isbn; }
+        //    if (imgpath != null) { book.Imagepath = imgpath; }
+        //    if (genreSelect != null) 
+        //    {
+        //        Genre genre = new Genre();
+        //        genre = await _genreServices.GetGenreById(genreSelect);
+        //        if(genre == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        book.Genre = genre;
+        //    }
 
-            if (!await _bookServices.UpdateBook(book))
-            {
-                return BadRequest();
-            }
-            return RedirectToAction("Index");
-        }
+        //    if (!await _bookServices.UpdateBook(book))
+        //    {
+        //        return BadRequest();
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
 
         [HttpPost]

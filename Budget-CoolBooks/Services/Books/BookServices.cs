@@ -20,15 +20,15 @@ namespace Budget_CoolBooks.Services.Books
             return _context.Books.Where(b => b.Id == bookId && !b.IsDeleted).FirstOrDefault();
         }
 
-        public async Task<Book> GetFullBookById(int bookId)
-        {
-            return await _context.Books
-                        .Include(b => b.Author)
-                        .Include(b => b.user)
-                        .Include(b => b.Genre)
-                        .Where(b => !b.IsDeleted)
-                        .FirstOrDefaultAsync(b => b.Id == bookId);
-        }
+        //public async Task<Book> GetFullBookById(int bookId)
+        //{
+        //    return await _context.Books
+        //                .Include(b => b.Author)
+        //                .Include(b => b.user)
+        //                .Include(b => b.Genre)
+        //                .Where(b => !b.IsDeleted)
+        //                .FirstOrDefaultAsync(b => b.Id == bookId);
+        //}
          
 
         public async Task<ICollection<Book>> GetBookListByID(int bookId)
@@ -39,9 +39,9 @@ namespace Budget_CoolBooks.Services.Books
         public async Task<ICollection<Book>> GetAllBooksSorted()
         {
             return _context.Books
-                .Include(b => b.Author)
+                //.Include(b => b.Author)
                 .Include(b => b.user)
-                .Include(b => b.Genre)
+                //.Include(b => b.Genre)
                 .Where(b => !b.IsDeleted)
                 .OrderBy(b => b.Title)
                 .ToList();
@@ -66,8 +66,8 @@ namespace Budget_CoolBooks.Services.Books
             }
 
             book.user = user;
-            book.Author = author;
-            book.Genre = genre;
+            //book.Author = author;
+            //book.Genre = genre;
 
             _context.Books.Add(book);
             return Save();

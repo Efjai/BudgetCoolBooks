@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Budget_CoolBooks.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Start : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -199,9 +199,7 @@ namespace Budget_CoolBooks.Migrations
                     Imagepath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    userId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,14 +209,50 @@ namespace Budget_CoolBooks.Migrations
                         column: x => x.userId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BooksAuthors",
+                columns: table => new
+                {
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BooksAuthors", x => new { x.AuthorId, x.BookId });
                     table.ForeignKey(
-                        name: "FK_Books_Authors_AuthorId",
+                        name: "FK_BooksAuthors_Authors_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Books_Genres_GenreId",
+                        name: "FK_BooksAuthors_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BooksGenres",
+                columns: table => new
+                {
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    GenreId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BooksGenres", x => new { x.GenreId, x.BookId });
+                    table.ForeignKey(
+                        name: "FK_BooksGenres_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BooksGenres_Genres_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id",
@@ -236,9 +270,11 @@ namespace Budget_CoolBooks.Migrations
                     Rating = table.Column<double>(type: "float", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: false)
+                    Like = table.Column<int>(type: "int", nullable: false),
+                    Dislike = table.Column<int>(type: "int", nullable: false),
+                    Flag = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -249,16 +285,11 @@ namespace Budget_CoolBooks.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Reviews_Authors_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Authors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Reviews_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -301,24 +332,19 @@ namespace Budget_CoolBooks.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_AuthorId",
-                table: "Books",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_GenreId",
-                table: "Books",
-                column: "GenreId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Books_userId",
                 table: "Books",
                 column: "userId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_AuthorId",
-                table: "Reviews",
-                column: "AuthorId");
+                name: "IX_BooksAuthors_BookId",
+                table: "BooksAuthors",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BooksGenres_BookId",
+                table: "BooksGenres",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_BookId",
@@ -350,22 +376,28 @@ namespace Budget_CoolBooks.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BooksAuthors");
+
+            migrationBuilder.DropTable(
+                name: "BooksGenres");
+
+            migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Books");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

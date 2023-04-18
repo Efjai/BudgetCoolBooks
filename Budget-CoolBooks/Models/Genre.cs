@@ -9,6 +9,6 @@ namespace Budget_CoolBooks.Models
         public string Description { get; set; }
         public DateTime Created { get; set; }
 
-        public List<Book_Genre> GenreList { get; } = new();
+        public List<BookGenre> BookGenre { get; } = new();
     }
 }

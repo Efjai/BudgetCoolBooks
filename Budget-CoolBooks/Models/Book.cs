@@ -13,8 +13,9 @@ namespace Budget_CoolBooks.Models
         public DateTime Created { get; set; }
 
         //Nested properties
-        public List<Book_Genre> GenreList { get; } = new();
-        public List<Book_Author> AuthorList { get; } = new();
+        //public List<BookGenre> GenreList { get; } = new();
+        public List<BookAuthor> BookAuthor { get; } = new();
+        public List<BookGenre> BookGenre { get; } = new();
         public User user { get; set; }
 
         public Book(string title, string description, string iSBN, string imagepath, bool isDeleted, DateTime created)
