@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Add genre of book";
+}
+@model Budget_CoolBooks.ViewModels.AdminBooksViewModel
+
+<h5>Add another genre of book - @Model.Book.Title</h5>
+<form method="post" asp-controller="AdminBook" asp-action="AddBookGenre">
+
+    <div class="mb-3">
+        @if (Model.Genres != null)
+        {
+            <select class="form-select" aria-label="Choose Genre" name="genreId" id="genre-dropdown">
+                <option selected>Choose genre</option>
+                @foreach (var genre in Model.Genres)
+                {
+                    <option value="@genre.Id">@genre.Name </option>
+                }
+            </select>
+        }
+    </div>
+
+    <input type="hidden" name="bookId" value="@Model.Book.Id">
+    <button type="submit" class="btn btn-primary">Add genre</button>
+</form>

@@ -2,7 +2,9 @@
 using Budget_CoolBooks.Services.Authors;
 using Budget_CoolBooks.Services.Books;
 using Budget_CoolBooks.Services.Genres;
+using Budget_CoolBooks.Services.UserServices;
 using Budget_CoolBooks.ViewModels;
+using Humanizer.Localisation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using System.Security.Claims;
@@ -14,13 +16,15 @@ namespace Budget_CoolBooks.Controllers.Admin
         private readonly BookServices _bookServices;
         private readonly GenreServices _genreServices;
         private readonly AuthorServices _authorServices;
+        private readonly UserServices _userServices;
 
         public AdminBookController(BookServices bookServices, GenreServices genreServices,
-            AuthorServices authorServices)
+            AuthorServices authorServices, UserServices userServices)
         {
             _bookServices = bookServices;
             _genreServices = genreServices;
             _authorServices = authorServices;
+            _userServices = userServices;
         }
 
         [HttpGet]
@@ -36,54 +40,166 @@ namespace Budget_CoolBooks.Controllers.Admin
             return View("~/views/admin/book/index.cshtml", adminBookViewModel);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //    var book = await _bookServices.GetFullBookById(id);
-        //    var genres = await _genreServices.GetGenres();
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var book = await _bookServices.GetBookById(id);
 
-        //    var adminBookViewModel = new AdminBooksViewModel()
-        //    {
-        //        Book = book,
-        //        Genres = genres.ToList(),
-        //    };
+            var adminBookViewModel = new AdminBooksViewModel()
+            {
+                Book = book,   
+            };
+          return View("~/views/admin/book/edit.cshtml", adminBookViewModel);
+        }
 
-        //    return View("~/views/admin/book/edit.cshtml", adminBookViewModel);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Edit(int bookId, string title, string description,
+            string isbn, string imgpath)
+        {
+            Book book = new Book();
+            book = await _bookServices.GetBookById(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            if (title != null) { book.Title = title; }
+            if (description != null) { book.Description = description; }
+            if (isbn != null) { book.ISBN = isbn; }
+            if (imgpath != null) { book.Imagepath = imgpath; }
+
+            if (!await _bookServices.UpdateBook(book))
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("Index");
+        }
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(int bookId, string title, string description,
-        //    string isbn, string imgpath, int genreSelect)
-        //{
-        //    Book book = new Book();
-        //    book = await _bookServices.GetFullBookById(bookId);
-        //    if (book == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpGet]
+        public async Task<IActionResult> AddBookGenre(int id)
+        {
+            var book = await _bookServices.GetBookById(id);
+            var genres = await _genreServices.GetGenres();
 
-        //    if (title != null){ book.Title = title;}
-        //    if (description != null) { book.Description = description; }
-        //    if (isbn != null) { book.ISBN = isbn; }
-        //    if (imgpath != null) { book.Imagepath = imgpath; }
-        //    if (genreSelect != null) 
-        //    {
-        //        Genre genre = new Genre();
-        //        genre = await _genreServices.GetGenreById(genreSelect);
-        //        if(genre == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        book.Genre = genre;
-        //    }
+            var adminBookViewModel = new AdminBooksViewModel()
+            {
+                Book = book,
+                Genres = genres.ToList(),
+            };
+          return View("~/views/admin/book/AddBookGenre.cshtml", adminBookViewModel);
+        }
 
-        //    if (!await _bookServices.UpdateBook(book))
-        //    {
-        //        return BadRequest();
-        //    }
-        //    return RedirectToAction("Index");
-        //}
+        [HttpPost]
+        public async Task<IActionResult> AddBookGenre(int bookId, int genreId)
+        {
+            var book = await _bookServices.GetBookById(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            var genre = await _genreServices.GetGenreById(genreId);
+            if(genre == null)
+            {
+                return NotFound();
+            }
+
+            BookGenre bookGenre = new BookGenre();
+            bookGenre.Genre = genre; bookGenre.Book = book;
+
+            if (! await _bookServices.AddBookGenre(bookGenre))
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("index"); 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddBookAuthor(int id)
+        {
+            var book = await _bookServices.GetBookById(id);
+            var authors = await _authorServices.GetAuthors();
+
+            var adminBookViewModel = new AdminBooksViewModel()
+            {
+                Book = book,
+                Authors = authors.ToList(),
+            };
+          return View("~/views/admin/book/AddBookAuthor.cshtml", adminBookViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddBookAuthor(int bookId, int authorId)
+        {
+            var book = await _bookServices.GetBookById(bookId);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            var author = await _authorServices.GetAuthorById(authorId);
+            if (author == null)
+            {
+                return NotFound();
+            }
+
+            BookAuthor bookAuthor = new BookAuthor();
+            bookAuthor.Author = author; bookAuthor.Book = book;
+
+            if (!await _bookServices.AddBookAuthor(bookAuthor))
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("index");
+        }
+
+
+        // ADD BOOK - GET
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var authors = await _authorServices.GetAuthors();
+            var genres = await _genreServices.GetGenres();
+
+            var adminBookViewModel = new AdminBooksViewModel()
+            {
+                Authors = authors.ToList(),
+                Genres = genres.ToList(),
+            };
+            return View("~/views/admin/book/create.cshtml", adminBookViewModel);
+        }
+
+        // ADD BOOK - POST
+        [HttpPost]
+        public async Task<IActionResult> Create(string title, string description, string isbn, string imgpath,
+            int authorId, int genreId)
+        {
+            // Create book-object
+            Book book = new Book(title, description, isbn, imgpath, false, DateTime.Now);
+            
+            // Validate and/or procure the id's for author, genre and user.
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (currentUser == null)
+            {
+                ModelState.AddModelError("", "Could not find user");
+                return StatusCode(500, ModelState);
+            }
+
+            if (!await _bookServices.CreateBook(book, currentUserID))
+            {
+                return BadRequest();
+            }
+
+            //Add BookGenre-join
+            AddBookGenre(book.Id, genreId);
+
+            //Add BookAuthor-join
+            AddBookAuthor(book.Id, authorId);
+
+            return RedirectToAction("Index");
+        }
 
 
         [HttpPost]
@@ -101,66 +217,5 @@ namespace Budget_CoolBooks.Controllers.Admin
             }
             return RedirectToAction("Index");
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            var genres = await _genreServices.GetGenres();
-
-            var adminBookViewModel = new AdminBooksViewModel()
-            {
-                Genres = genres.ToList()
-            };
-            return View("~/views/admin/book/create.cshtml", adminBookViewModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(string title, string description, string isbn, string imgpath,
-            string authorFirstname, string authorLastname, int genreSelect)
-        {
-            int authorId;
-
-            // Create book-object
-            Book book = new Book(title, description, isbn, imgpath, false, DateTime.Now);
-
-            // See if author exists
-            if (!await _authorServices.AuthorExists(authorFirstname, authorLastname))
-            {
-                //Creates new author if author does not exists
-                Author author = new Author(authorFirstname, authorLastname, DateTime.Now);
-                if (!await _authorServices.CreateAuthor(author))
-                {
-                    return BadRequest();
-                }
-                authorId = author.Id;
-            }
-            else
-            {
-                authorId = await _authorServices.GetAuthorId(authorFirstname, authorLastname);
-            }
-
-            // Validate and/or procure the id's for author, genre and user.
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (currentUser == null)
-            {
-                ModelState.AddModelError("", "Could not find user");
-                return StatusCode(500, ModelState);
-            }
-
-            if (!await _genreServices.GenreExists(genreSelect))
-            {
-                return NotFound();
-            }
-
-            if (!await _bookServices.CreateBook(book, currentUserID, authorId, genreSelect))
-            {
-                return BadRequest();
-            }
-
-            return RedirectToAction("Index");
-        }
-
-
     }
 }

@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Add author of book";
+}
+@model Budget_CoolBooks.ViewModels.AdminBooksViewModel
+
+<h5>Add another author of book - @Model.Book.Title</h5>
+<form method="post" asp-controller="AdminBook" asp-action="AddBookAuthor">
+    
+     <div class="mb-3">
+        @if (Model.Authors != null)
+        {
+                <select class="form-select" aria-label="Choose Author" name="authorId" id="genre-dropdown">
+                    <option selected>Choose author</option>
+                @foreach (var author in Model.Authors)
+                {
+                    <option value="@author.Id">@author.Firstname @author.Lastname </option>
+                }
+                </select>
+        }
+    </div>
+
+    <input type="hidden" name="bookId" value="@Model.Book.Id">
+    <button type="submit" class="btn btn-primary">Add author</button>
+</form>

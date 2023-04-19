@@ -27,19 +27,22 @@
     </div>
 
     <div class="mb-3">
-        <label for="AuthorFirstName" class="form-label">Author firstname</label>  
-        <input type="text" class="form-control" name="authorFirstName">
-    </div>
-
-    <div class="mb-3">
-        <label for="AuthorLastname" class="form-label">Author lastname</label> 
-        <input type="text" class="form-control" name="authorLastName">
+        @if (Model.Authors != null)
+        {
+                <select class="form-select" aria-label="Choose Author" name="authorId" id="genre-dropdown">
+                    <option selected>Choose author</option>
+                @foreach (var author in Model.Authors)
+                {
+                    <option value="@author.Id">@author.Firstname @author.Lastname </option>
+                }
+                </select>
+        }
     </div>
 
     <div class="mb-3">
         @if (Model.Genres != null)
         {
-            <select class="form-select" aria-label="Choose genre" name="genreSelect" id="genre-dropdown">
+            <select class="form-select" aria-label="Choose genre" name="genreId" id="genre-dropdown">
                 <option selected>Choose genre</option>
                 @foreach (var genre in Model.Genres)
                 {

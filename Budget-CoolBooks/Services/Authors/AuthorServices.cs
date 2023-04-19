@@ -23,10 +23,21 @@ namespace Budget_CoolBooks.Services.Authors
             var author = await _context.Authors.Where(a => a.Firstname == firstName && a.Lastname == lastName).FirstOrDefaultAsync();
             return author.Id;
         }
-        public async Task<ICollection<Author>> GetAuthorByID(int AuthorId)
+        public async Task<ICollection<Author>> GetAuthorByID(int AuthorId) // TA BORT?
         {
             return _context.Authors.Where(b => b.Id == AuthorId).ToList();
         }
+
+        public async Task<Author> GetAuthorById(int authorId)
+        {
+            return _context.Authors.Where(b => b.Id == authorId).FirstOrDefault();
+        }
+
+        public async Task<ICollection<Author>> GetAuthors()
+        {
+            return _context.Authors.ToList();
+        }
+
         public async Task<bool> CreateAuthor(Author author)
         {
             _context.Authors.Add(author);
