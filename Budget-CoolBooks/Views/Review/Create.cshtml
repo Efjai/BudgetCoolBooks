@@ -1,0 +1,78 @@
+﻿@{    
+    Layout = "_Layout";
+    ViewData["Title"] = "Create A Review";
+
+    <link rel="stylesheet" href="~/css/reviewform.css" asp-append-version="true" />
+
+    <script src="https://use.fontawesome.com/a6f0361695.js"></script>
+
+    <h2 id="fh2">WE APPRECIATE YOUR REVIEW!</h2>
+    <h6 id="fh6">Your review will help us to improve our recomendation of books tailored to you.</h6>
+
+
+    <form method="post" asp-controller="Review" asp-action="Create">
+
+        
+        <h1>BOOKINFO</h1>
+
+        @*<div class="pinfo">ACCOUNTINFO</div>
+
+        <div class="form-group">
+            <div class="col-md-4 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input name="name" placeholder="John Doe" class="form-control" type="text">
+                </div>
+            </div>
+        </div>*@
+
+
+        <div class="pinfo">Rate our overall services.</div>
+
+
+        <div class="form-group">
+            <div class="col-md-4 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                    <select class="form-control" name="rating">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="pinfo">Enter Title.</div>
+
+
+        <div class="form-group">
+            <div class="col-md-4 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                    <textarea class="form-control" name="title" rows="1"></textarea>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="pinfo">Write your feedback.</div>
+
+
+        <div class="form-group">
+            <div class="col-md-4 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                    <textarea class="form-control" name="text" rows="3"></textarea>
+
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+    </form>
+}
