@@ -48,7 +48,7 @@ namespace Budget_CoolBooks.Services.Books
 
     public async Task<bool> CreateBook(Book book, string userId)
         {
-            var user = await _context.Users.FindAsync(userId); // This must be the admin who is responsible for creating book.
+            var user = await _context.Users.FindAsync(userId);
             if (user == null)
             {
                 return false;

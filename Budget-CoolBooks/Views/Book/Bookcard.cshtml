@@ -11,7 +11,13 @@
         <!-- Title -->
         <h2 class="card-title">@Model.BookTitle;</h2>
         <!-- Author -->
-        <h4 class="card-text" style="padding-bottom: 3%;"> by @{@Model.AuthorFirstname;} @{@Model.AuthorLastname;}</h4>
+        @foreach (var author in Model.Authors)
+        {
+            <h4 class="card-text" style="padding-bottom: 3%;">
+                by @author.Firstname @author.Lastname
+            </h4>
+        }
+       
         <div class="col-md-4" style="margin-bottom: auto; margin-top: auto;">
             <!-- Img -->
             <img src="@Model.ImgPath" class="img-fluid rounded-start" alt="" style="margin-left: 2%;">

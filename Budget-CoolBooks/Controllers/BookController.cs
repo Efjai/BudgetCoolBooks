@@ -28,26 +28,27 @@ namespace Budget_CoolBooks.Controllers
             ViewBag.bookListSorted = result;
             return View(ViewBag.bookListSorted);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> BookDetails(int id)
-        //{
-        //    var bookResult = await _bookServices.GetFullBookById(id);
-        //    if (bookResult == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> BookDetails(int id)
+        {
+            var bookResult = await _bookServices.GetBookById(id);
+            if (bookResult == null)
+            {
+                return NotFound();
+            }
 
-        //    var bookcardViewModel = new BookcardViewModel()
-        //    {
-        //        BookTitle = bookResult.Title,
-        //        BookDescription = bookResult.Description,
-        //        AuthorFirstname = bookResult.Author.Firstname,
-        //        AuthorLastname = bookResult.Author.Lastname,
-        //        ImgPath = bookResult.Imagepath
-        //    };
+            var authors = await _authorServices.GetAuthorOfBook(id);
 
-        //    return View("/views/book/bookcard.cshtml", bookcardViewModel);
-        //}
+            var bookcardViewModel = new BookcardViewModel()
+            {
+                BookTitle = bookResult.Title,
+                BookDescription = bookResult.Description,
+                ImgPath = bookResult.Imagepath,
+                Authors = authors.ToList(),
+            };
+
+            return View("/views/book/bookcard.cshtml", bookcardViewModel);
+        }
 
     }
 }
