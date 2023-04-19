@@ -49,6 +49,23 @@ namespace Budget_CoolBooks.Controllers
 
             return View("/views/book/bookcard.cshtml", bookcardViewModel);
         }
-
+        //[HttpGet]
+        //public async Task<IActionResult> bookdetails(int id)
+        //{
+        //    var bookresult = await _bookServices.GetFullBookById(id);
+        //    if (bookresult == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var bookcardviewmodel = new BookcardViewModel()
+        //    {
+        //        BookTitle = bookresult.Title,
+        //        BookDescription = bookresult.Description,
+        //        ImgPath = bookresult.Imagepath,
+        //        AuthorFirstname = bookresult.Author.Firstname,
+        //        AuthorLastname = bookresult.Lastname,
+        //    };
+        //    return View("/views/book/bookcard.cshtml", bookcardviewmodel);
+        //}
     }
 }

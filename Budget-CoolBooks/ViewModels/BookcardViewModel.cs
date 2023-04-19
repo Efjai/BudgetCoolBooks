@@ -13,6 +13,5 @@ namespace Budget_CoolBooks.ViewModels
         public string BookDescription { get; set; }
         public List<Author> Authors { get; set; }
         public string ImgPath { get; set; }
-
     }
 }

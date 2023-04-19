@@ -24,7 +24,17 @@ namespace Budget_CoolBooks.Services.Books
         {
             return _context.Books.Where(b => b.Id == bookId && !b.IsDeleted).ToList();
         }
-
+        public async Task<Book> GetFullBookById(int bookId)
+        {
+            return await _context.Books
+                        .Include(b => b.BookAuthor)
+                            .ThenInclude(a => a.Author)
+                        .Include(b => b.BookGenre)
+                            .ThenInclude(c => c.Genre)
+                        .Include(b => b.user)
+                        .Where(b => !b.IsDeleted)
+                        .FirstOrDefaultAsync(b => b.Id == bookId);
+        }
         public async Task<ICollection<Book>> GetAllBooksSorted()
         {
             return _context.Books

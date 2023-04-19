@@ -9,7 +9,7 @@
 <div class="card mb-3" style="max-width: 540px;">
     <div class="row g-0">
         <!-- Title -->
-        <h2 class="card-title">@Model.BookTitle;</h2>
+        <h2 class="card-title">@Model.BookTitle</h2>
         <!-- Author -->
         @foreach (var author in Model.Authors)
         {
@@ -31,7 +31,7 @@
         <div class="col-md-4" style="margin-bottom: auto; margin-top: auto;">
             <!-- Rating -->
             <!-- 1-3 = ratingBAD class, 3-5 = ratingGOOD class! -->
-            <p class="card-text"><small class="text-body-secondary">Rating: 1/5</small></p>
+            <div class="card-text"><div class="text-body-secondary"><p class="ratingBAD">Rating: 1/5</p></div></div>
         </div>
         <div class="col-md-8">
             <div class="card-body">

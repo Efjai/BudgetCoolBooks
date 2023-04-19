@@ -26,11 +26,15 @@ body{
     color: green;
     text-decoration: underline;
     padding: 1%;
+    font-size: 18px;
+    margin-top: 10%;
 }
 .ratingBAD {
     color: red;
     text-decoration: underline;
     padding: 1%;
+    font-size: 18px;
+    margin-top: 10%;
 }
 .review {
     display: inline-block;
