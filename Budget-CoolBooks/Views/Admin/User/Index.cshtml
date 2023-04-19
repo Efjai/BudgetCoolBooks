@@ -49,21 +49,25 @@
                             <input type="hidden" name="id" value="@user.Id">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
+                        @if(!await UserManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            <form method = "post" asp-controller="AdminUser" asp-action="PromoteToAdmin">
+                                <input type = "hidden" name="id" value="@user.Id">
+                                <button type = "submit" class="btn btn-sm btn-outline-primary">Promote to Admin</button>
+                            </form>
+                        }
                         @if (roles.Count < 1)
                         {
-                            <form method="post" asp-controller="AdminUser" asp-action="Promote">
+                            <form method="post" asp-controller="AdminUser" asp-action="PromoteToModerator">
                                 <input type="hidden" name="id" value="@user.Id">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Promote</button>
+                                <button type="submit" class= "btn btn-sm btn-outline-primary">Promote to Moderator</button >
                             </form>
                         }
 
-                        @if (roles.Count >= 1)
-                        {
-                            <form method="post" asp-controller="AdminUser" asp-action="Demote">
-                                <input type="hidden" name="id" value="@user.Id">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Demote</button>
-                            </form>
-                        }
+                        <form method="post" asp-controller="AdminUser" asp-action="Demote" >
+                            <input type="hidden" name ="id" value="@user.Id">
+                            <button type ="submit" class="btn btn-sm btn-outline-danger">Demote to member</button>
+                        </form>
                     </div>
                 </td>
             </tr>

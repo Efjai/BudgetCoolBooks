@@ -37,7 +37,7 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
 
-            var authors = await _authorServices.GetAuthorOfBook(id);
+            var authors = await _authorServices.GetAuthorsOfBook(id);
 
             var bookcardViewModel = new BookcardViewModel()
             {

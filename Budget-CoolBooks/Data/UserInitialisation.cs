@@ -51,11 +51,15 @@ namespace Budget_CoolBooks.Data
         {
             // Adminrole defined
             var adminRole = new IdentityRole("Admin");
+            var moderatorRole = new IdentityRole("Moderator");
 
-            // If user wit
             if (_roleManager.Roles.All(r => r.Name != adminRole.Name))
             {
                 await _roleManager.CreateAsync(adminRole);
+            }
+            if (_roleManager.Roles.All(r => r.Name != moderatorRole.Name))
+            {
+                await _roleManager.CreateAsync(moderatorRole);
             }
 
 

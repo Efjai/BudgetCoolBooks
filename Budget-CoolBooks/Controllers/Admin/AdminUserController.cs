@@ -37,7 +37,7 @@ namespace Budget_CoolBooks.Controllers.Admin
 
 
         [HttpPost]
-        public async Task<IActionResult> Promote(string Id)
+        public async Task<IActionResult> PromoteToAdmin(string Id)
         {
             var user = await _userServices.GetUserById(Id);
             if (user == null)
@@ -55,6 +55,27 @@ namespace Budget_CoolBooks.Controllers.Admin
             {
                 adminUserViewModel.UpgradeResult = true;
             }
+
+            return RedirectToAction("Index", adminUserViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PromoteToModerator(string Id)
+        {
+            var user = await _userServices.GetUserById(Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var adminUserViewModel = new AdminUserViewModel();
+
+            if (!await _userServices.PromoteToModerator(user))
+            {
+                adminUserViewModel.UpgradeResult = false;
+            }
+
+            else { adminUserViewModel.UpgradeResult = true; }
 
             return RedirectToAction("Index", adminUserViewModel);
         }
@@ -81,6 +102,7 @@ namespace Budget_CoolBooks.Controllers.Admin
 
             return RedirectToAction("Index", adminUserViewModel);
         }
+
         [HttpPost]
         public async Task<IActionResult>Delete(string id)
         {

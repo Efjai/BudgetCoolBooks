@@ -38,11 +38,9 @@ namespace Budget_CoolBooks.Services.Authors
             return _context.Authors.ToList();
         }
 
-        public async Task<ICollection<Author>> GetAuthorOfBook(int bookId)
+        public async Task<ICollection<Author>> GetAuthorsOfBook(int bookId)
         {
-            return _context.Authors
-                        .Where(a => a.BookAuthor.Any(ba => ba.BookId == bookId))
-                        .ToList();
+            return _context.Authors.Where(a => a.BookAuthor.Any(ba => ba.BookId == bookId)).ToList();
         }
 
         public async Task<ICollection<BookAuthor>> GetBookAuthors()
