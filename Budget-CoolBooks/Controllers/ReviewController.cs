@@ -28,6 +28,7 @@ namespace Budget_CoolBooks.Controllers
             return View();
         }
 
+        // ADD BOOK - GET
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -38,12 +39,13 @@ namespace Budget_CoolBooks.Controllers
             [HttpPost]
         public async Task<IActionResult> Create(string title, string text, double rating, int bookId)
         {
+            // Get Book object to review !!FIX BOOKID FROM DETAILS PAGE!!
             var book = await _bookServices.GetBookById(4);
             if (book == null)
             {
                 NotFound();
             }
-
+            
             // Create a Review object and pass in user input.
             Review review = new Review()
             {
@@ -57,6 +59,7 @@ namespace Budget_CoolBooks.Controllers
                 Flag = 0,
             };
 
+            // Adds correct book to review.
             review.Book = book;
         
 

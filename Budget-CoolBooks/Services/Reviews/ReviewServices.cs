@@ -52,9 +52,19 @@ namespace Budget_CoolBooks.Services.Reviews
             var result =_context.Reviews.Update(review);
             return Save();
         }
+        public async Task<double> GetAverageRating(int bookId)
+        {
+            // Gives average rating, math.round is not working tho.
+            return _context.Reviews.Where(r => r.Book.Id == bookId)
+                           .Select(r => r.Rating)
+                           .DefaultIfEmpty()
+                           .Average(r => Math.Round(r, 1));
+        }
 
         public async Task<Review> GetReviewDetails(int id)
         {
+            // Används ej skit.
+
             return await _context.Reviews
                         .Include(r => r.User)
                         .Include(b => b.Book)
