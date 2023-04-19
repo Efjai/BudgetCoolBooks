@@ -64,12 +64,18 @@ namespace Budget_CoolBooks.Services.Books
             {
                 return false;
             }
-
+   
             book.user = user;
-            //book.Author = author;
-            //book.Genre = genre;
-
             _context.Books.Add(book);
+
+            BookAuthor bookAuthor = new BookAuthor();
+            bookAuthor.Author = author; bookAuthor.Book = book;
+            _context.BooksAuthors.Add(bookAuthor);
+
+            BookGenre bookGenre = new BookGenre();
+            bookGenre.Genre = genre; bookGenre.Book = book;
+            _context.BooksGenres.Add(bookGenre);
+
             return Save();
         }
 

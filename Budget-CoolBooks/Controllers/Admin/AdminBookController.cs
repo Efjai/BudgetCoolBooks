@@ -157,6 +157,7 @@ namespace Budget_CoolBooks.Controllers.Admin
             {
                 return BadRequest();
             }
+
             return RedirectToAction("Index");
         }
 
