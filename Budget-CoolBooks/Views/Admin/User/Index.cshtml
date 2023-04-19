@@ -45,10 +45,10 @@
                 </td>
                 <td>
                     <div class="admin-settings">
-                        <a asp-controller="AdminUser" asp-action="Delete" asp-route-id="@user.Id"
-                       class="btn btn-sm btn-outline-primary me-2">
-                            Delete
-                        </a>
+                        <form method="post" asp-controller="AdminUser" asp-action="Delete">
+                            <input type="hidden" name="id" value="@user.Id">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
                         @if (roles.Count < 1)
                         {
                             <form method="post" asp-controller="AdminUser" asp-action="Promote">

@@ -1,6 +1,13 @@
-﻿using Budget_CoolBooks.Services.UserServices;
+﻿using Budget_CoolBooks.Models;
+using Budget_CoolBooks.Services.Authors;
+using Budget_CoolBooks.Services.Books;
+using Budget_CoolBooks.Services.Genres;
+using Budget_CoolBooks.Services.UserServices;
 using Budget_CoolBooks.ViewModels;
+using Humanizer.Localisation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
+using System.Security.Claims;
 
 namespace Budget_CoolBooks.Controllers.Admin
 {
@@ -72,6 +79,26 @@ namespace Budget_CoolBooks.Controllers.Admin
                 adminUserViewModel.UpgradeResult = true;
             }
 
+            return RedirectToAction("Index", adminUserViewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult>Delete(string id)
+        {
+            var result = await _userServices.GetUserById(id);
+            if (result == null)
+            {
+                return BadRequest(ModelState);
+            }
+            var adminUserViewModel = new AdminUserViewModel();
+
+            if (!await _userServices.Delete(result))
+            {
+                adminUserViewModel.UpgradeResult = false;
+            }
+            else
+            {
+                adminUserViewModel.UpgradeResult = true;
+            }
             return RedirectToAction("Index", adminUserViewModel);
         }
     }
