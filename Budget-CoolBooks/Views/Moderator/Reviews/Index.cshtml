@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Reviews";
+}
+<partial name="~/views/Shared/Moderator/_ModeratorNavbar.cshtml" />
+@model Budget_CoolBooks.ViewModels.ModeratorViewModel
+<link rel="stylesheet" href="~/css/adminview.css" asp-append-version="true" />
+
+<div class="">
+    <h1 class="fs-2 text-black">Reviews to moderate</h1>
+</div>
+
+<table class="table table-striped caption-top">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                User
+            </th>
+            <th>
+                Nr of Flags
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model.Reviews)
+        {
+                <tr>
+                    <td>
+                    @review.Title
+                    </td>
+                    <td>
+                    @review.User.UserName
+                    </td>
+                    <td>
+                    @review.Flag
+                    </td>
+                    <td>
+                        <div class="admin-settings">
+                            <a asp-controller="Moderator" asp-action="AuditReviews" asp-route-id="@review.Id"
+                                class="btn btn-sm btn-outline-primary me-2">
+                                Audit
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

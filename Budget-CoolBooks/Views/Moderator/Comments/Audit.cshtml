@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Audit comment";
+}
+<partial name="~/views/Shared/Moderator/_ModeratorNavbar.cshtml" />
+<link rel="stylesheet" href="~/css/moderatorview.css" asp-append-version="true" />
+
+@model Budget_CoolBooks.ViewModels.ModeratorViewModel
+
+
+<div class="audit-display">
+    <div class="card">
+      <div class="card-header">
+            <div class="audit-buttons">
+                <a asp-controller="Moderator" asp-action="UnflagComment" asp-route-id="@Model.Comment.Id" 
+                    class="btn btn-sm btn-outline-success me-2">
+                    Unflag
+                </a>
+                <a asp-controller="Moderator" asp-action="DeleteComment" asp-route-id="@Model.Comment.Id"
+                   class="btn btn-sm btn-outline-danger me-2">
+                    Delete
+                </a>
+            </div>
+      </div>
+      <div class="card-body">
+            <p class="card-text">@Model.Comment.Text</p>
+            <p class="header-audit"><strong>Audit</strong> - <em>Created: @Model.Comment.Created</em></p>
+      </div>
+    </div>
+</div>

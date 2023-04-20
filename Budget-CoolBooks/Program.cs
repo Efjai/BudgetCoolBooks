@@ -2,7 +2,9 @@ using Budget_CoolBooks.Data;
 using Budget_CoolBooks.Models;
 using Budget_CoolBooks.Services.Authors;
 using Budget_CoolBooks.Services.Books;
+using Budget_CoolBooks.Services.Comments;
 using Budget_CoolBooks.Services.Genres;
+using Budget_CoolBooks.Services.Moderators;
 using Budget_CoolBooks.Services.Reviews;
 using Budget_CoolBooks.Services.Search;
 using Budget_CoolBooks.Services.UserServices;
@@ -28,6 +30,8 @@ builder.Services.AddScoped<ReviewServices>();
 builder.Services.AddScoped<GenreServices>();
 builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<SearchServices>();
+builder.Services.AddScoped<ModeratorServices>();
+builder.Services.AddScoped<CommentServices>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
