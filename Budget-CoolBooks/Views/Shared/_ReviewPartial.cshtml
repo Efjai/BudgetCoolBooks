@@ -3,18 +3,22 @@
     <div class="cardinfo">
         <div>
             <!-- Username -->
-            <!-- INTERACTIVE -->
-            <h2>Mukesh Kumar</h2>
+            <h2>@Model.ReviewUser</h2>
             <!-- Rating -->
-            <!-- INTERACTIVE -->
-            <!-- if (var rating < 3) = ratingBAD else = ratingGOOD -->
-            <p class="ratingGOOD">4.5 / 5</p>
+            @if (Model.ReviewRating < 3)
+            {
+                <p class="ratingBAD">@Model.ReviewRating</p>
+            }
+            else
+            {
+                <p class="ratingGOOD">@Model.ReviewRating</p>
+            }
         </div>
     </div>
     <!-- Review text -->
-    <!-- INTERACTIVE -->
+    <h3>@Model.ReviewTitle</h3>
     <div>
-        <p class="cardtext">If you really enjoy spending your vacation 'on water' or would like to try something new and exciting for the first time.</p>
+        <p class="cardtext">@Model.ReviewText</p>
     </div>
     <!-- Like Dislike -->
     <div class="LikeDislike">
@@ -30,8 +34,7 @@
         </div>  
     </div>
     <!-- Date created -->
-    <!-- INTERACTIVE -->
     <div>
-        <small style="color: white; text-decoration: underline;">10 Sept</small>
+        <small style="color: white; text-decoration: underline;">@Model.ReviewCreated</small>
     </div>
 </div>
