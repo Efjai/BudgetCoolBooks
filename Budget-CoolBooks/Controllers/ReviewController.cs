@@ -83,5 +83,41 @@ namespace Budget_CoolBooks.Controllers
 
             return Redirect("~/views/book/index.cshtml");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CalculateRatingForBook(int id)
+        {
+            var ratings = await _ReviewServices.GetAllRatingsOfBook(id);
+            if (ratings == null)
+            {
+                NotFound();
+            }
+            double totalRating = 0;
+            int ones = 0; int twos = 0; int threes = 0; int fours = 0; int fives = 0;
+            foreach (var rating in ratings)
+            {
+                totalRating = totalRating + rating;
+                if (rating == 1) { ones++; }
+                else if (rating == 2) { twos++; }
+                else if (rating == 3) { threes++; }
+                else if (rating == 4) { fours++; }
+                else if (rating == 5) { fives++; }
+            }
+
+            double averageRating = totalRating / ratings.Count;
+            List<int> nrOfRatingsByRatingInteger = new List<int>();
+            nrOfRatingsByRatingInteger.Add(ones);
+            nrOfRatingsByRatingInteger.Add(twos);
+            nrOfRatingsByRatingInteger.Add(threes);
+            nrOfRatingsByRatingInteger.Add(fours);
+            nrOfRatingsByRatingInteger.Add(fives);
+
+            ReviewcardViewModel reviewcardViewModel = new ReviewcardViewModel()
+            {
+                AverageRating = averageRating,
+                RatingsByValue = nrOfRatingsByRatingInteger,
+            };
+            return View("~/views/review/TestRating.cshtml", reviewcardViewModel);
+        }
     }
 }
