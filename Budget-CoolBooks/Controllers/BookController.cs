@@ -5,6 +5,7 @@ using Budget_CoolBooks.Services.Reviews;
 using Microsoft.AspNetCore.Mvc;
 using Budget_CoolBooks.ViewModels;
 using static System.Net.Mime.MediaTypeNames;
+using System.Net;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -46,17 +47,24 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
             var reviewResults = await _reviewServices.GetReviewByID(3);
+
             if (reviewResults == null)
             {
-                return NotFound();
-            }
-            BookcardViewModel ratingsViewModel = new BookcardViewModel();
+                var bookcardViewModel2 = new BookcardViewModel()
+                {
+                    BookId = bookResult.Id,
+                    BookTitle = bookResult.Title,
+                    BookDescription = bookResult.Description,
+                    ImgPath = bookResult.Imagepath,
 
-            var ratings = await _reviewServices.GetAllRatingsOfBook(3);
-            if (ratings == null)
-            {
-                return NotFound();
+                    Authors = authorsResult.ToList(),
+
+                    ReviewTitle = null
+                };
+                return View("/views/book/bookcard.cshtml", bookcardViewModel2);
             }
+            var ratings = await _reviewServices.GetAllRatingsOfBook(3);
+            BookcardViewModel ratingsViewModel = new BookcardViewModel();
 
             var bookcardViewModel = new BookcardViewModel()
             {

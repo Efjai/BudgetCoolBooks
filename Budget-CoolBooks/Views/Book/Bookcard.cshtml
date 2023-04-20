@@ -29,9 +29,12 @@
             <!-- Review -->
         </div>
         <!-- Average -->
-        <div style="width: 150%;">
-            <partial name="_AveragePartial" />
-        </div>
+        @if (Model.ReviewTitle != null)
+        {
+            <div style="width: 150%;">
+                <partial name="_AveragePartial" />
+            </div>
+        }
         <!-- Review button -->
         <div class="Review">
             <a asp-controller="Review" asp-action="Create" asp-route-id="@Model.BookId">
