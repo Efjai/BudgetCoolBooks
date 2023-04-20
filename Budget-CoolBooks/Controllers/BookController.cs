@@ -45,10 +45,17 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-            var reviewResults = await _reviewServices.GetReviewByID(3);
+            var reviewResults = await _reviewServices.GetReviewByID(id);
             if (reviewResults == null)
             {
                 return NotFound();
+            }
+            BookcardViewModel ratingsViewModel = new BookcardViewModel();
+
+            var ratings = await _reviewServices.GetAllRatingsOfBook(id);
+            if (ratings == null)
+            {
+                NotFound();
             }
 
             var bookcardViewModel = new BookcardViewModel()
@@ -69,7 +76,44 @@ namespace Budget_CoolBooks.Controllers
                 Dislike = reviewResults.Dislike,
                 Flag = reviewResults.Flag,
             };
+            bookcardViewModel.RatingsByValue = RatingPerGrade(ratings);
+            bookcardViewModel.AverageRating = CalculateAverageRating(ratings);
+
             return View("/views/book/bookcard.cshtml", bookcardViewModel);
+        }
+
+
+        private double CalculateAverageRating(ICollection<double> ratings)
+        {  
+            double totalRating = 0;
+            foreach (var rating in ratings)
+            {
+                totalRating = totalRating + rating;
+            }
+            double averageRating = totalRating / ratings.Count;
+            return averageRating;
+        }
+
+        private List<int> RatingPerGrade(ICollection<double> ratings)
+        {
+            int ones = 0; int twos = 0; int threes = 0; int fours = 0; int fives = 0;
+            foreach (var rating in ratings)
+            {
+                if (rating == 1) { ones++; }
+                else if (rating == 2) { twos++; }
+                else if (rating == 3) { threes++; }
+                else if (rating == 4) { fours++; }
+                else if (rating == 5) { fives++; }
+            }
+
+            List<int> nrOfRatingsByRatingInteger = new List<int>();
+            nrOfRatingsByRatingInteger.Add(ones);
+            nrOfRatingsByRatingInteger.Add(twos);
+            nrOfRatingsByRatingInteger.Add(threes);
+            nrOfRatingsByRatingInteger.Add(fours);
+            nrOfRatingsByRatingInteger.Add(fives);
+
+            return nrOfRatingsByRatingInteger;
         }
     }
 }

@@ -22,5 +22,8 @@ namespace Budget_CoolBooks.ViewModels
         public int Like { get; set; }
         public int Dislike { get; set; }
         public int Flag { get; set; }
+
+        public List<int> RatingsByValue { get; set; }
+        public double AverageRating { get; set; }
     }
 }
