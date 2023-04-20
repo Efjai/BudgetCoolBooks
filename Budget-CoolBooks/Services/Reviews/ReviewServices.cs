@@ -79,6 +79,11 @@ namespace Budget_CoolBooks.Services.Reviews
             //            .FirstOrDefaultAsync(b => b.BookId == id);
         }
 
+        public async Task<ICollection<double>> GetAllRatingsOfBook(int id)
+        {
+            return _context.Reviews.Where(r => r.Book.Id == id).Select(r => r.Rating).ToList();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
