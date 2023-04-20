@@ -41,6 +41,7 @@ namespace Budget_CoolBooks.Controllers
 
             var bookcardViewModel = new BookcardViewModel()
             {
+                BookId = bookResult.Id,
                 BookTitle = bookResult.Title,
                 BookDescription = bookResult.Description,
                 ImgPath = bookResult.Imagepath,

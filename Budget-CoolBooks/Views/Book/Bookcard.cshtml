@@ -33,8 +33,11 @@
             <partial name="_AveragePartial" />
         </div>
         <!-- Review button -->
-        <div>
-            <a class="review">Review</a>
+        <div class="Review">
+            <form method="post" asp-controller="" asp-action="">
+                <input type="hidden" name="id" value="@Model.BookId">
+                <button input="submit" class="btn btn-primary btn sm">Review</button>
+            </form>
         </div>
     </div>
 </div>
