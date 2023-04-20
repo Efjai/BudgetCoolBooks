@@ -16,13 +16,13 @@
         </div>
     </div>
     <!-- Review text -->
-    <h3>@Model.ReviewTitle</h3>
+    <h3 style="text-decoration: underline;">@Model.ReviewTitle</h3>
     <div>
         <p class="cardtext">@Model.ReviewText</p>
     </div>
     <!-- Like Dislike -->
     <div class="LikeDislike">
-        <div class="LikeDislike" style="float: right;">
+        <div class="LikeDislike" style="justify-items: right;">
             <!-- Like -->
             <a style="text-align: right;"><img src="https://i.imgur.com/mHSQOaX.png"></a>
             @if (@Model.ReviewText != null)
@@ -34,7 +34,7 @@
                 <p style="text-align: left;">0</p>
             }
         </div>
-        <div class="LikeDislike" style="float: left;">
+        <div class="LikeDislike">
             <!-- Dislike -->
             <a style="text-align: right;"><img src="https://i.imgur.com/bFBO3J7.png"></a>
             @if (@Model.ReviewText != null)
@@ -46,7 +46,10 @@
                 <p style="text-align: left;">0</p>
             }
         </div>  
-        <a style="color: red;">Flag</a>
+    </div>
+    <!-- Flag -->
+    <div style="margin: 2%;">
+        <a class="flag">Flag</a>
     </div>
     <!-- Date created -->
     <div>

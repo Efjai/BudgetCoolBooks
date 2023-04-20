@@ -45,17 +45,17 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-            var reviewResults = await _reviewServices.GetReviewByID(id);
+            var reviewResults = await _reviewServices.GetReviewByID(3);
             if (reviewResults == null)
             {
                 return NotFound();
             }
             BookcardViewModel ratingsViewModel = new BookcardViewModel();
 
-            var ratings = await _reviewServices.GetAllRatingsOfBook(id);
+            var ratings = await _reviewServices.GetAllRatingsOfBook(3);
             if (ratings == null)
             {
-                NotFound();
+                return NotFound();
             }
 
             var bookcardViewModel = new BookcardViewModel()
