@@ -1,6 +1,8 @@
 ﻿@{    
     Layout = "_Layout";
     ViewData["Title"] = "Create A Review";
+}
+@model Budget_CoolBooks.ViewModels.ReviewcardViewModel
 
     <link rel="stylesheet" href="~/css/reviewform.css" asp-append-version="true" />
 
@@ -68,6 +70,7 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" name="id" value="@Model.BookId">
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 }

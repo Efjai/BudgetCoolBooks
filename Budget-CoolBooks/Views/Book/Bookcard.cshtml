@@ -34,10 +34,9 @@
         </div>
         <!-- Review button -->
         <div class="Review">
-            <form method="post" asp-controller="" asp-action="">
-                <input type="hidden" name="id" value="@Model.BookId">
-                <button input="submit" class="btn btn-primary btn sm">Review</button>
-            </form>
+            <a asp-controller="Review" asp-action="Create" asp-route-id="@Model.BookId">
+                <button class="btn btn-primary btn sm">Review</button>
+            </a>
         </div>
     </div>
 </div>

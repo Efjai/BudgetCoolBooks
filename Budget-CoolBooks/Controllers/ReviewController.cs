@@ -30,17 +30,19 @@ namespace Budget_CoolBooks.Controllers
 
         // ADD BOOK - GET
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int id)
         {
-            return View("~/views/review/Create.cshtml");
+            ReviewcardViewModel viewModel = new ReviewcardViewModel();
+            viewModel.BookId = id;
+            return View("~/views/review/Create.cshtml", viewModel);
         }
 
             // ADD BOOK - POST
             [HttpPost]
-        public async Task<IActionResult> Create(string title, string text, double rating, int bookId)
+        public async Task<IActionResult> Create(string title, string text, double rating, int id)
         {
             // Get Book object to review !!FIX BOOKID FROM DETAILS PAGE!!
-            var book = await _bookServices.GetBookById(4);
+            var book = await _bookServices.GetBookById(id);
             if (book == null)
             {
                 NotFound();
@@ -57,6 +59,7 @@ namespace Budget_CoolBooks.Controllers
                 Like = 0,
                 Dislike = 0,
                 Flag = 0,
+                
             };
 
             // Adds correct book to review.
@@ -78,7 +81,7 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
-            return View();
+            return Redirect("~/views/book/index.cshtml");
         }
     }
 }
