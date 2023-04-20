@@ -42,5 +42,16 @@
 </div>
 <!-- Top review -->
 <div>
-    @*<partial name="_ReviewPartial" />*@
+    @if (Model.ReviewTitle != null)
+    {
+        <partial name="_ReviewPartial" />
+    }
+    else
+    {
+        <div class="card">
+            <div class="cardinfo">
+                <h4 class="cardinfo">Be the first to review this book!</h4>
+            </div>
+        </div>
+    }
 </div>

@@ -9,7 +9,7 @@ namespace Budget_CoolBooks.ViewModels
         public int BookId { get; set; }
         public string ReviewBook { get; set; }
         //public string ReviewAuthor { get; set; }
-        public string ReviewUser { get; set; }
+        public User ReviewUser { get; set; }
         public DateTime ReviewCreated { get; set; }
         public double ReviewRating { get; set; }
         public string ReviewTitle { get; set; }

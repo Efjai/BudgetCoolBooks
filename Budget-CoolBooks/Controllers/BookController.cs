@@ -1,8 +1,10 @@
 ﻿using Budget_CoolBooks.Models;
 using Budget_CoolBooks.Services.Books;
 using Budget_CoolBooks.Services.Authors;
+using Budget_CoolBooks.Services.Reviews;
 using Microsoft.AspNetCore.Mvc;
 using Budget_CoolBooks.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -10,11 +12,13 @@ namespace Budget_CoolBooks.Controllers
     {
         private readonly BookServices _bookServices;
         private readonly AuthorServices _authorServices;
+        private readonly ReviewServices _reviewServices;
 
-        public BookController(BookServices bookServices, AuthorServices authorServices)
+        public BookController(BookServices bookServices, AuthorServices authorServices, ReviewServices reviewServices)
         {
             _bookServices = bookServices;
             _authorServices = authorServices;
+            _reviewServices = reviewServices;
         }
 
         [HttpGet]
@@ -36,8 +40,16 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-
-            var authors = await _authorServices.GetAuthorsOfBook(id);
+            var authorsResult = await _authorServices.GetAuthorsOfBook(id);
+            if (authorsResult == null)
+            {
+                return NotFound();
+            }
+            var reviewResults = await _reviewServices.GetReviewByID(3);
+            if (reviewResults == null)
+            {
+                return NotFound();
+            }
 
             var bookcardViewModel = new BookcardViewModel()
             {
@@ -45,28 +57,19 @@ namespace Budget_CoolBooks.Controllers
                 BookTitle = bookResult.Title,
                 BookDescription = bookResult.Description,
                 ImgPath = bookResult.Imagepath,
-                Authors = authors.ToList(),
-            };
 
+                Authors = authorsResult.ToList(),
+
+                ReviewUser = reviewResults.User,
+                ReviewCreated = reviewResults.Created,
+                ReviewRating = reviewResults.Rating,
+                ReviewTitle = reviewResults.Title,
+                ReviewText = reviewResults.Text,
+                Like = reviewResults.Like,
+                Dislike = reviewResults.Dislike,
+                Flag = reviewResults.Flag,
+            };
             return View("/views/book/bookcard.cshtml", bookcardViewModel);
         }
-        //[HttpGet]
-        //public async Task<IActionResult> bookdetails(int id)
-        //{
-        //    var bookresult = await _bookServices.GetFullBookById(id);
-        //    if (bookresult == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var bookcardviewmodel = new BookcardViewModel()
-        //    {
-        //        BookTitle = bookresult.Title,
-        //        BookDescription = bookresult.Description,
-        //        ImgPath = bookresult.Imagepath,
-        //        AuthorFirstname = bookresult.Author.Firstname,
-        //        AuthorLastname = bookresult.Lastname,
-        //    };
-        //    return View("/views/book/bookcard.cshtml", bookcardviewmodel);
-        //}
     }
 }

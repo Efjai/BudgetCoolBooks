@@ -27,7 +27,7 @@
             <a style="text-align: right;"><img src="https://i.imgur.com/mHSQOaX.png"></a>
             @if (@Model.ReviewText != null)
             {
-                <p style="text-align: left;">@Model.ReviewText</p>
+                <p style="text-align: left;">@Model.Like</p>
             }
             else
             {
@@ -39,7 +39,7 @@
             <a style="text-align: right;"><img src="https://i.imgur.com/bFBO3J7.png"></a>
             @if (@Model.ReviewText != null)
             {
-                <p style="text-align: left;">@Model.ReviewText</p>
+                <p style="text-align: left;">@Model.Dislike</p>
             }
             else
             {
@@ -50,6 +50,6 @@
     </div>
     <!-- Date created -->
     <div>
-        <small style="color: white; text-decoration: underline;">@Model.ReviewCreated</small>
+        <small style="color: white; text-decoration: underline; margin-right: auto; margin-left: auto;">@Model.ReviewCreated</small>
     </div>
 </div>
