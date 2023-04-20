@@ -12,6 +12,8 @@ namespace Budget_CoolBooks.Services.Moderators
         {
             _context = context;
         }
+
+        // REVIEWS
         public async Task<ICollection<Review>> GetFlaggedReviews()
         {
             return _context.Reviews
@@ -26,7 +28,7 @@ namespace Budget_CoolBooks.Services.Moderators
             return Save();
         }
     
-
+        // COMMENTS
         public async Task<ICollection<Comment>> GetFlaggedComments()
         {
             return _context.Comments
@@ -36,13 +38,31 @@ namespace Budget_CoolBooks.Services.Moderators
                     .OrderBy(c => c.Created)
                     .ToList();
         }
-
         public async Task<bool> UnflagComment(Comment comment)
         {
             _context.Comments.Update(comment);
             return Save();
         }
 
+
+        // REPLIES
+        public async Task<ICollection<Reply>> GetFlaggedReplies()
+        {
+            return _context.Replys
+                    .Include(c => c.Comment)
+                    .Include(c => c.User)
+                    .Where(c => c.Flag > 0)
+                    .OrderBy(c => c.Created)
+                    .ToList();
+        }
+        public async Task<bool> UnflagReply(Reply reply)
+        {
+            _context.Replys.Update(reply);
+            return Save();
+        }
+
+
+       
         public bool Save()
         {
             var saved = _context.SaveChanges();

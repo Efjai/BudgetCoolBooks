@@ -32,7 +32,7 @@ namespace Budget_CoolBooks.Controllers
         }
 
 
-        // View and moderate REVIEWS
+        //REVIEWS
         [HttpGet]
         public async Task<IActionResult> IndexReviews()
         {
@@ -96,7 +96,8 @@ namespace Budget_CoolBooks.Controllers
         }
 
 
-        // View and moderate COMMENTS
+
+        //COMMENTS
         [HttpGet]
         public async Task<IActionResult> IndexComments()
         {
@@ -122,7 +123,6 @@ namespace Budget_CoolBooks.Controllers
             //Viewmodel for all data
             return View("~/views/Moderator/comments/audit.cshtml", moderatorViewModel);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> UnflagComment(int Id)
@@ -160,5 +160,66 @@ namespace Budget_CoolBooks.Controllers
             return RedirectToAction("IndexAudits");
         }
 
+        //COMMENTS
+        [HttpGet]
+        public async Task<IActionResult> IndexReplies()
+        {
+            // Gets all flagged reviews
+            var replies = await _moderatorServices.GetFlaggedReplies();
+
+            var moderatorViewModel = new ModeratorViewModel();
+            moderatorViewModel.Replies = replies.ToList();
+
+            //Viewmodel for all data
+            return View("~/views/Moderator/Replies/index.cshtml", moderatorViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AuditReplies(int Id)
+        {
+            // Gets all flagged reviews
+            var reply = await _commentServices.GetReplyById(Id);
+
+            var moderatorViewModel = new ModeratorViewModel();
+            moderatorViewModel.Reply = reply;
+
+            //Viewmodel for all data
+            return View("~/views/Moderator/Replies/audit.cshtml", moderatorViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UnflagReply(int Id)
+        {
+            //Unflag review
+            var reply = await _commentServices.GetReplyById(Id);
+            if (reply == null)
+            {
+                return NotFound();
+            }
+            reply.Flag = 0;
+            if (!await _moderatorServices.UnflagReply(reply))
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("IndexReplies");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteReply(int Id)
+        {
+            var reply = await _commentServices.GetReplyById(Id);
+            if (reply == null)
+            {
+                return NotFound();
+            }
+
+            if (!await _commentServices.DeleteReply(reply))
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("IndexReplies");
+        }
     }
 }
