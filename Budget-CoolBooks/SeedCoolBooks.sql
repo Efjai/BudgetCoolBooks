@@ -261,4 +261,59 @@ Insert into BooksAuthors(BookID,AuthorId) values (20,17);
 
 
 --SEED REVIEWS
-INSERT INTO [dbo].[Reviews]([Title],[Text],[Rating],[IsDeleted],[Created],[Like],[Dislike],[Flag],[BookId],[UserId]) VALUES ('Discontent', 'Very very very bad', 1, 0, GETDATE(), 0, 1, 1, 2, '2b92bd5f-cda5-4f6c-86f6-3f8e33da913e');
+INSERT INTO Reviews(Title, Text, Rating, IsDeleted, Created, [Like], Dislike, Flag, BookId, UserId)
+VALUES ('Discontent', 'Very very very bad', 1, 0, GETDATE(), 0, 1, 1, 2, '18c1a1ca-b6d1-44a5-8948-7685cea16305');
+
+INSERT INTO Reviews(Title, Text, Rating, IsDeleted, Created, [Like], Dislike, Flag, BookId, UserId)
+VALUES ('Mal mal mal', 'dfghshtfdjytfjtyj', 3, 0, GETDATE(), 1, 2, 3, 2, '18c1a1ca-b6d1-44a5-8948-7685cea16305');
+
+INSERT INTO Reviews(Title, Text, Rating, IsDeleted, Created, [Like], Dislike, Flag, BookId, UserId)
+VALUES ('Not so good', 'I say things I shouldnt say', 2, 0, GETDATE(), 0, 3, 2, 2, 'd4772cbe-f85c-4efd-b8dc-563286a7005a');
+
+INSERT INTO Reviews(Title, Text, Rating, IsDeleted, Created, [Like], Dislike, Flag, BookId, UserId)
+VALUES ('This was not nicely said', 'Oh my my oh my', 4, 0, GETDATE(), 1, 5, 5, 2, 'e9bf7b46-3776-492d-8518-86a4b868ac1e');
+
+INSERT INTO Reviews(Title, Text, Rating, IsDeleted, Created, [Like], Dislike, Flag, BookId, UserId)
+VALUES ('Hm HM hm', 'jtyfj tyj tyfjty fjtyf tjyjty tjyjty ', 5, 0, GETDATE(), 0, 1, 1, 2, 'd4772cbe-f85c-4efd-b8dc-563286a7005a');
+
+INSERT INTO Reviews(Title, Text, Rating, IsDeleted, Created, [Like], Dislike, Flag, BookId, UserId)
+VALUES ('Lorem ipsum', 'tdyjjh ytjjyt j tyty jdfjtyf djty', 5, 0, GETDATE(), 1, 2, 3, 2, 'e9bf7b46-3776-492d-8518-86a4b868ac1e');
+
+INSERT INTO Reviews(Title, Text, Rating, IsDeleted, Created, [Like], Dislike, Flag, BookId, UserId)
+VALUES ('Dore Mio', 'ghdfhjtyjytfjytfjytf', 5, 0, GETDATE(), 0, 3, 2, 2, 'ee2bf004-8ee6-41bb-b5a1-245e82480c26');
+
+INSERT INTO Reviews(Title, Text, Rating, IsDeleted, Created, [Like], Dislike, Flag, BookId, UserId)
+VALUES ('Obladi oblada', 'htfsrtrduhtrdjhtr', 4, 0, GETDATE(), 1, 5, 5, 2, 'ee2bf004-8ee6-41bb-b5a1-245e82480c26');
+
+
+
+--SEED COMMENTS
+INSERT INTO Comments (Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'bla bla bla bla', 2, 'e9bf7b46-3776-492d-8518-86a4b868ac1e', 1);
+
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'HA HA HA HA', 3, 'ee2bf004-8ee6-41bb-b5a1-245e82480c26', 2);
+		   
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'H IHI hihiih hi', 2, '18c1a1ca-b6d1-44a5-8948-7685cea16305', 3);
+
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'hgrhtr rt hh tr htrh sdr', 4, 'd4772cbe-f85c-4efd-b8dc-563286a7005a', 1);
+
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'jmyhtgfkuyk  dtr er str hfdgh jtyf', 5, 'e4ed23d8-8b50-4d07-98bf-42e47db5ac0a', 2);
+
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'kewstre ytr st rtr trd dtr f trt  tr', 1, 'e4ed23d8-8b50-4d07-98bf-42e47db5ac0a', 3);
+
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'tjh rfdytd djf j fy djyt f', 3, 'e9bf7b46-3776-492d-8518-86a4b868ac1e', 1);
+
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'ytjd tyr dyj jtyd dtjyjtyd djyt j yt', 14, 'e9bf7b46-3776-492d-8518-86a4b868ac1e', 2);
+
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'awr a< waqr ew tr jhgf jkhgj t', 1, 'ee2bf004-8ee6-41bb-b5a1-245e82480c26', 1);
+
+INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
+VALUES (GetDate(), 'gfdhgfjy ufkyu k uykyul y gulk yulk', 5, 'ee2bf004-8ee6-41bb-b5a1-245e82480c26', 1);

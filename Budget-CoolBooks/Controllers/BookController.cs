@@ -73,6 +73,7 @@ namespace Budget_CoolBooks.Controllers
                         ReviewRating = reviewResults.Rating,
                         ReviewTitle = reviewResults.Title,
                         ReviewText = reviewResults.Text,
+                        ReviewID = reviewResults.Id,
                         Like = reviewResults.Like,
                         Dislike = reviewResults.Dislike,
                         Flag = reviewResults.Flag,

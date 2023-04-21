@@ -50,7 +50,11 @@
     </div>
     <!-- Flag -->
     <div style="margin: 2%;">
-        <a class="flag">Flag</a>
+        <form method="post" asp-controller="User" asp-action="FlagReview">
+            <input type="hidden" name="reviewId" value="@Model.ReviewID">
+            <input type="hidden" name="bookId" value="@Model.BookId">
+            <button input="submit" class="btn btn-danger btn sm">Flag</button>
+        </form>     
     </div>
     <!-- Date created -->
     <div>

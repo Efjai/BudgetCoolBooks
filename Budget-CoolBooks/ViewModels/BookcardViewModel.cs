@@ -19,6 +19,7 @@ namespace Budget_CoolBooks.ViewModels
         public double ReviewRating { get; set; }
         public string ReviewTitle { get; set; }
         public string ReviewText { get; set; }
+        public int ReviewID { get; set; }
         public int Like { get; set; }
         public int Dislike { get; set; }
         public int Flag { get; set; }
