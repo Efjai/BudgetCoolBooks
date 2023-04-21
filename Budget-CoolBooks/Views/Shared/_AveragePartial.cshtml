@@ -1,14 +1,15 @@
 ﻿<link rel="stylesheet" href="~/css/rating.css" asp-append-version="true" />
+<!-- Varibles -->
 @{
-        var TotalReviews = 0;
-        int loop = 0;
-    }
+    var TotalReviews = 0;
+    int loop = 0;
+}
+<!-- Total reviews -->
     @foreach (int rating in Model.RatingsByValue)
     {
         TotalReviews += rating;
     }
- 
-
+<!-- Card -->
 <div class="container-fluid px-1 py-5 mx-auto">
     <div class="row justify-content-center">
         <div style="padding-left: 5%; padding-right: 5%;">
@@ -21,28 +22,24 @@
                             <p class="">out of 5</p>
                         </div>
                         <div>
-                        @for (int i = 0; i < 5; i++)
-                        {
-                                if (Math.Round(Model.AverageRating, 0) < i + 1)
-                            {
-                                    <span class="fa fa-star star-inactive mx-1"></span>
-                            }
-                            else
-                            {
-                                    <span class="fa fa-star star-active mx-1"></span>
-                            }
-                        }
-                        </div>
+                            <!-- Stars loop -->
+                            @for (int i = 0; i < 5; i++){
+                                    if (Math.Round(Model.AverageRating, 0) < i + 1)
+                                {
+                                        <span class="fa fa-star star-inactive mx-1"></span>
+                                }
+                                else
+                                {
+                                        <span class="fa fa-star star-active mx-1"></span>
+                                }
+                        }</div>
                     </div>
                     <div class="col-md-8">
                         <div class="rating-bar0 justify-content-center">
                             <!-- Bars and individual grades -->
                             <table class="text-left mx-auto">
-
-                                @foreach (var rating in Model.RatingsByValue)
-                                {
-                                    <tr>
-                                        @{
+                                @foreach (var rating in Model.RatingsByValue){
+                                    <tr>@{
                                             <!-- Loop out grades -->
                                             if (loop == 0)
                                             {
@@ -68,8 +65,7 @@
                                             int Sum = @Model.RatingsByValue[loop];
                                             double Procent = (double)Sum / (double)TotalReviews * 10;
                                             Procent = Math.Round(Procent, 0);
-                                        }
-                                        <!-- Fill bars based on procent on grade -->
+                                        }<!-- Fill bars based on procent on grade -->
                                         <td class="rating-bar">
                                             <div class="bar-container">
                                                 @{

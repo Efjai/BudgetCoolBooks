@@ -10,7 +10,7 @@
     <div class="row g-0">
         <!-- Title -->
         <h2 class="card-title">@Model.BookTitle</h2>
-        <!-- Author -->
+        <!-- Author/s-->
         @foreach (var author in Model.Authors)
         {
             <h4 class="card-text" style="padding-bottom: 3%;">
@@ -28,7 +28,7 @@
             </div>
             <!-- Review -->
         </div>
-        <!-- Average -->
+        <!-- Average & statiscics -->
         @if (Model.IsNotReviewed != "yes")
         {
             <div style="width: 150%;">
@@ -49,6 +49,7 @@
     {
         <partial name="_ReviewPartial" />
     }
+    <!-- Be the first to review text -->
     else
     {
         <div class="card">

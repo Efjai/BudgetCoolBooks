@@ -38,19 +38,23 @@ namespace Budget_CoolBooks.Controllers
         [AcceptVerbs("GET", "POST")]
         public async Task<IActionResult> BookDetails(int id)
         {
+            //Get book by bookid
             var bookResult = await _bookServices.GetBookById(id);
             if (bookResult == null)
             {
                 return NotFound();
             }
+            //Get author/s by bookid
             var authorsResult = await _authorServices.GetAuthorsOfBook(id);
             if (authorsResult == null)
             {
                 return NotFound();
             }
+            //Get a review by bookid
             var reviewResults = await _reviewServices.GetReviewByBookID(id);
             try
             {
+                //Try to get full review statistics and make full viewcardmodel
                 if (reviewResults.Title != null || reviewResults.Title == "")
                 {
                     var ratings = await _reviewServices.GetAllRatingsOfBook(id);
@@ -87,8 +91,10 @@ namespace Budget_CoolBooks.Controllers
                     return View("/views/book/bookcard.cshtml", bookcardViewModel);
                 }
             }
+            //If no reviews on book
             catch (NullReferenceException)
             {
+                //Just get book info (no reviews) & a nis not reviewed varible
                 var bookcardViewModel2 = new BookcardViewModel()
                 {
                     BookId = bookResult.Id,
