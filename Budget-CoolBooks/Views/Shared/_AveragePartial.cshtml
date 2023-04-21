@@ -67,49 +67,8 @@
                                             Procent = Math.Round(Procent, 0);
                                         }<!-- Fill bars based on procent on grade -->
                                         <td class="rating-bar">
-                                            <div class="bar-container">
-                                                @{
-                                                    if (@Procent == 1)
-                                                    {
-                                                        <div class="bar-1"></div>
-                                                    }
-                                                    else if (@Procent == 2)
-                                                    {
-                                                        <div class="bar-2"></div>
-                                                    }
-                                                    else if (@Procent == 3)
-                                                    {
-                                                        <div class="bar-3"></div>
-                                                    }
-                                                    else if (@Procent == 4)
-                                                    {
-                                                        <div class="bar-4"></div>
-                                                    }
-                                                    else if (@Procent == 5)
-                                                    {
-                                                        <div class="bar-5"></div>
-                                                    }
-                                                    else if (@Procent == 6)
-                                                    {
-                                                        <div class="bar-6"></div>
-                                                    }
-                                                    else if (@Procent == 7)
-                                                    {
-                                                        <div class="bar-7"></div>
-                                                    }
-                                                    else if (@Procent == 8)
-                                                    {
-                                                        <div class="bar-8"></div>
-                                                    }
-                                                    else if (@Procent == 9)
-                                                    {
-                                                        <div class="bar-9"></div>
-                                                    }
-                                                    else if (@Procent == 10)
-                                                    {
-                                                        <div class="bar-10"></div>
-                                                    }
-                                                }
+                                            <div class="bar-container">                
+                                                <div class="bar-@Procent"></div>
                                             </div>
                                         </td>
                                     <!-- Write out number of reviews on grade -->

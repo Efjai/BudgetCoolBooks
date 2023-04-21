@@ -1,12 +1,9 @@
 ﻿<link rel="stylesheet" href="~/css/rating.css" asp-append-version="true" />
-@*@foreach (var UserName in Model.ReviewUser)
-{
-    Console.WriteLine(UserName);
-}*@
+
 <div class="card" style="max-width: 650px; padding-bottom: 0; padding-top: 1%;">
     <div class="cardinfo">
         <!-- Username -->
-        <h2>Insert Username :)</h2>
+        <h2>@Model.ReviewUser.UserName</h2>
             <!-- Rating in stars -->
          <div>
             @for (int i = 0; i < 5; i++)

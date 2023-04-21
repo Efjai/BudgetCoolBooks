@@ -94,7 +94,7 @@ namespace Budget_CoolBooks.Services.Reviews
         }
         public async Task<Review> GetReviewByBookID(int bookId)
         {
-            return _context.Reviews.Where(r => r.Book.Id == bookId && !r.IsDeleted).OrderByDescending(r => r.Rating).FirstOrDefault();            
+            return _context.Reviews.Include(r => r.User).Where(r => r.Book.Id == bookId && !r.IsDeleted).OrderByDescending(r => r.Rating).FirstOrDefault();            
         }
     }
 }
