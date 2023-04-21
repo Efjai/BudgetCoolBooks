@@ -7,7 +7,7 @@ body {
     background-repeat: no-repeat;
     color: #000;
     overflow-x: hidden;
-    cursor: pointer;
+    cursor: default;
 }
 .card {
     text-align: center;

@@ -3,7 +3,10 @@
 <div class="card" style="max-width: 650px; padding-bottom: 0; padding-top: 1%;">
     <div class="cardinfo">
         <!-- Username -->
-        <h2>@Model.ReviewUser.UserName</h2>
+        <div style="display: inline-flex; margin-right: auto; margin-left: auto;">
+            <h2>@Model.ReviewUser.UserName</h2>
+            <img src="~/images/member.png" style="width: 50px; height: 50px; margin-left: 1%;">
+        </div>
             <!-- Rating in stars -->
          <div>
             @for (int i = 0; i < 5; i++)
@@ -50,14 +53,15 @@
                 <p style="text-align: left;">0</p>
             }
         </div>  
+        <form method="post" asp-controller="User" asp-action="FlagReview" style="margin-top: auto; margin-bottom: auto; margin-left: 1%;">
+            <input type="hidden" name="reviewId" value="@Model.ReviewID">
+            <input type="hidden" name="id" value="@Model.BookId">
+            <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
+        </form>
     </div>
     <!-- Flag -->
     <div style="margin: 2%;">
-        <form method="post" asp-controller="User" asp-action="FlagReview">
-            <input type="hidden" name="reviewId" value="@Model.ReviewID">
-            <input type="hidden" name="id" value="@Model.BookId">
-            <button input="submit" class="btn btn-danger btn sm">Flag</button>
-        </form>     
+            
     </div>
     <!-- Date created -->
     <div>

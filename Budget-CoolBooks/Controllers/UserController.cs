@@ -38,36 +38,36 @@ namespace Budget_CoolBooks.Controllers
             return RedirectToAction("BookDetails", "Book", new { id = id });
         }
 
-        public async Task<IActionResult> FlagComment(int commentId, int id)
-        {
-            var comment = await _commentServices.GetCommentById(commentId);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-            comment.Flag = comment.Flag + 1;
+        //public async Task<IActionResult> FlagComment(int commentId, int id)
+        //{
+        //    var comment = await _commentServices.GetCommentById(commentId);
+        //    if (comment == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    comment.Flag = comment.Flag + 1;
 
-            if (!await _userServices.FlagCommentById(comment))
-            {
-                return BadRequest();
-            }
-            return RedirectToAction("BookDetails", "Book", new { id = id });
-        }
+        //    if (!await _userServices.FlagCommentById(comment))
+        //    {
+        //        return BadRequest();
+        //    }
+        //    return RedirectToAction("BookDetails", "Book", new { id = id });
+        //}
 
-        public async Task<IActionResult> FlagReply(int replyId, int id)
-        {
-            var reply = await _commentServices.GetReplyById(replyId);
-            if (reply == null)
-            {
-                return NotFound();
-            }
-            reply.Flag = reply.Flag + 1;
+        //public async Task<IActionResult> FlagReply(int replyId, int id)
+        //{
+        //    var reply = await _commentServices.GetReplyById(replyId);
+        //    if (reply == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    reply.Flag = reply.Flag + 1;
 
-            if (!await _userServices.FlagReplyById(reply))
-            {
-                return BadRequest();
-            }
-            return RedirectToAction("BookDetails", "Book", new { id = id });
-        }
+        //    if (!await _userServices.FlagReplyById(reply))
+        //    {
+        //        return BadRequest();
+        //    }
+        //    return RedirectToAction("BookDetails", "Book", new { id = id });
+        //}
     }
 }
