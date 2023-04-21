@@ -52,7 +52,7 @@
     <div style="margin: 2%;">
         <form method="post" asp-controller="User" asp-action="FlagReview">
             <input type="hidden" name="reviewId" value="@Model.ReviewID">
-            <input type="hidden" name="bookId" value="@Model.BookId">
+            <input type="hidden" name="id" value="@Model.BookId">
             <button input="submit" class="btn btn-danger btn sm">Flag</button>
         </form>     
     </div>

@@ -35,6 +35,7 @@ namespace Budget_CoolBooks.Controllers
             return View(ViewBag.bookListSorted);
         }
         [HttpPost]
+        [AcceptVerbs("GET", "POST")]
         public async Task<IActionResult> BookDetails(int id)
         {
             var bookResult = await _bookServices.GetBookById(id);

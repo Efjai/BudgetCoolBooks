@@ -35,17 +35,9 @@ namespace Budget_CoolBooks.Services.UserServices
         {
             return _context.Users.Where(u => u.Id == id).FirstOrDefault();
         }
-        public async Task<User> GetUserByName(string name)
-        {
-            return _context.Users.Where(u => u.UserName == name).FirstOrDefault();
-        }
 
-        public async Task<List<string>> GetUserRole(User user)
-        {
-            var result = await _userManager.GetRolesAsync(user);
-            return result.ToList();
-        }
 
+        // ROLE - FUNCTIONS
         public async Task<bool> PromoteToAdmin(User user)
         {
             if (await _userManager.IsInRoleAsync(user, "Moderator"))
@@ -61,10 +53,8 @@ namespace Budget_CoolBooks.Services.UserServices
             var result = await _userManager.AddToRoleAsync(user, "Moderator");
             return result.Succeeded ? Save() : false;
         }
-
         public async Task<bool> DemoteToMember(User user)
         {
-
             if (await _userManager.IsInRoleAsync(user, "Moderator"))
             {
                 var result = await _userManager.RemoveFromRoleAsync(user, "Moderator");
@@ -85,6 +75,16 @@ namespace Budget_CoolBooks.Services.UserServices
             var result = await _userManager.DeleteAsync(user);
             return result.Succeeded ? Save() : false;
         }
+
+
+        // FLAGGING - FUNCTIONS
+        public async Task<bool> FlagReviewById(Review review)
+        {
+            _context.Reviews.Update(review);
+            return Save();
+        }
+
+        
 
         public bool Save()
         {
