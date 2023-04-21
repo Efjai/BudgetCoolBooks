@@ -1,9 +1,8 @@
 ﻿using Budget_CoolBooks.Data;
 using Budget_CoolBooks.Models;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
-using System.Collections.Generic;
+using System.Net;
 
 namespace Budget_CoolBooks.Services.Reviews
 {
@@ -39,17 +38,21 @@ namespace Budget_CoolBooks.Services.Reviews
         public async Task<List<Review>> GetReviewByUsername(string userName)
         {
             // Include navigation-property. Sorts out all username that has IsDeleted=true. Sort by last created.
-                    return _context.Reviews.Include(r => r.User).Where(r => r.User.UserName == userName && !r.IsDeleted)
-                        .OrderByDescending(r => r.Created).ToList();
+            return _context.Reviews.Include(r => r.User).Where(r => r.User.UserName == userName && !r.IsDeleted)
+                .OrderByDescending(r => r.Created).ToList();
         }
         public async Task<Review> GetReviewByID(int id)
         {
             return _context.Reviews.Where(r => r.Id == id && !r.IsDeleted).FirstOrDefault();
         }
+        public async Task<string> CheckForReview(int BookId)
+        {
+            return _context.Reviews.Where(r => r.Book.Id == BookId).Select(r => r.Title).FirstOrDefault();
+        }
         public async Task<bool> DeleteReview(Review review)
         {
             review.IsDeleted = true;
-            var result =_context.Reviews.Update(review);
+            var result = _context.Reviews.Update(review);
             return Save();
         }
         public async Task<double> GetAverageRating(int bookId)
@@ -81,7 +84,7 @@ namespace Budget_CoolBooks.Services.Reviews
 
         public async Task<ICollection<double>> GetAllRatingsOfBook(int id)
         {
-            return _context.Reviews.Where(r => r.Book.Id == id).Select(r => r.Rating).ToList();
+            return _context.Reviews.Where(r => r.Book.Id == id && !r.IsDeleted).Select(r => r.Rating).ToList();
         }
 
         public bool Save()
@@ -89,6 +92,9 @@ namespace Budget_CoolBooks.Services.Reviews
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
-
+        public async Task<Review> GetReviewByBookID(int bookId)
+        {
+            return _context.Reviews.Where(r => r.Book.Id == bookId && !r.IsDeleted).OrderByDescending(r => r.Rating).FirstOrDefault();            
+        }
     }
 }

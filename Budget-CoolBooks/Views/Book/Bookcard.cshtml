@@ -19,7 +19,7 @@
         }
         <div class="col-md-4" style="margin-bottom: auto; margin-top: auto;">
             <!-- Img -->
-            <img src="@Model.ImgPath" class="img-fluid rounded-start" alt="" style="margin-left: 2%;">
+            <img src="@Model.ImgPath" class="img-fluid rounded-start" alt="" style="margin-left: 5%;">
         </div>
         <div class="col-md-8">
             <div class="card-body">
@@ -29,7 +29,7 @@
             <!-- Review -->
         </div>
         <!-- Average -->
-        @if (Model.ReviewTitle != null)
+        @if (Model.IsNotReviewed != "yes")
         {
             <div style="width: 150%;">
                 <partial name="_AveragePartial" />
@@ -45,7 +45,7 @@
 </div>
 <!-- Top review -->
 <div>
-    @if (Model.ReviewTitle != null)
+    @if (Model.IsNotReviewed != "yes")
     {
         <partial name="_ReviewPartial" />
     }

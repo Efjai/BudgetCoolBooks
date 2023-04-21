@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Budget_CoolBooks.ViewModels;
 using static System.Net.Mime.MediaTypeNames;
 using System.Net;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -46,9 +47,45 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-            var reviewResults = await _reviewServices.GetReviewByID(3);
+            var reviewResults = await _reviewServices.GetReviewByBookID(id);
+            try
+            {
+                if (reviewResults.Title != null || reviewResults.Title == "")
+                {
+                    var ratings = await _reviewServices.GetAllRatingsOfBook(id);
 
-            if (reviewResults == null)
+                    var RatingPerGrades = RatingPerGrade(ratings);
+                    var AverageRatings = CalculateAverageRating(ratings);
+
+                    BookcardViewModel ratingsViewModel = new BookcardViewModel();
+
+                    var bookcardViewModel = new BookcardViewModel()
+                    {
+                        BookId = bookResult.Id,
+                        BookTitle = bookResult.Title,
+                        BookDescription = bookResult.Description,
+                        ImgPath = bookResult.Imagepath,
+
+                        Authors = authorsResult.ToList(),
+
+                        ReviewUser = reviewResults.User,
+                        ReviewCreated = reviewResults.Created,
+                        ReviewRating = reviewResults.Rating,
+                        ReviewTitle = reviewResults.Title,
+                        ReviewText = reviewResults.Text,
+                        Like = reviewResults.Like,
+                        Dislike = reviewResults.Dislike,
+                        Flag = reviewResults.Flag,
+
+                        IsNotReviewed = reviewResults.Title,
+
+                        RatingsByValue = RatingPerGrades,
+                        AverageRating = AverageRatings
+                    };
+                    return View("/views/book/bookcard.cshtml", bookcardViewModel);
+                }
+            }
+            catch (NullReferenceException)
             {
                 var bookcardViewModel2 = new BookcardViewModel()
                 {
@@ -59,38 +96,12 @@ namespace Budget_CoolBooks.Controllers
 
                     Authors = authorsResult.ToList(),
 
-                    ReviewTitle = null
+                    IsNotReviewed = "yes",
                 };
                 return View("/views/book/bookcard.cshtml", bookcardViewModel2);
             }
-            var ratings = await _reviewServices.GetAllRatingsOfBook(3);
-            BookcardViewModel ratingsViewModel = new BookcardViewModel();
-
-            var bookcardViewModel = new BookcardViewModel()
-            {
-                BookId = bookResult.Id,
-                BookTitle = bookResult.Title,
-                BookDescription = bookResult.Description,
-                ImgPath = bookResult.Imagepath,
-
-                Authors = authorsResult.ToList(),
-
-                ReviewUser = reviewResults.User,
-                ReviewCreated = reviewResults.Created,
-                ReviewRating = reviewResults.Rating,
-                ReviewTitle = reviewResults.Title,
-                ReviewText = reviewResults.Text,
-                Like = reviewResults.Like,
-                Dislike = reviewResults.Dislike,
-                Flag = reviewResults.Flag,
-            };
-            bookcardViewModel.RatingsByValue = RatingPerGrade(ratings);
-            bookcardViewModel.AverageRating = CalculateAverageRating(ratings);
-
-            return View("/views/book/bookcard.cshtml", bookcardViewModel);
+            return NotFound();
         }
-
-
         private double CalculateAverageRating(ICollection<double> ratings)
         {  
             double totalRating = 0;
@@ -99,6 +110,7 @@ namespace Budget_CoolBooks.Controllers
                 totalRating = totalRating + rating;
             }
             double averageRating = totalRating / ratings.Count;
+            averageRating = Math.Round(averageRating, 1);
             return averageRating;
         }
 
@@ -114,14 +126,12 @@ namespace Budget_CoolBooks.Controllers
                 else if (rating == 5) { fives++; }
             }
 
-            List<int> nrOfRatingsByRatingInteger = new List<int>();
-            nrOfRatingsByRatingInteger.Add(ones);
-            nrOfRatingsByRatingInteger.Add(twos);
-            nrOfRatingsByRatingInteger.Add(threes);
-            nrOfRatingsByRatingInteger.Add(fours);
-            nrOfRatingsByRatingInteger.Add(fives);
+            List<int> RatingPerGrades = new List<int>
+            {
+                fives, fours, threes, twos, ones
+            };
 
-            return nrOfRatingsByRatingInteger;
+            return RatingPerGrades;
         }
     }
 }

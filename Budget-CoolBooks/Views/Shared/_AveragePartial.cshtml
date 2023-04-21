@@ -1,5 +1,13 @@
 ﻿<link rel="stylesheet" href="~/css/rating.css" asp-append-version="true" />
-@model Budget_CoolBooks.ViewModels.BookcardViewModel
+@{
+        var TotalReviews = 0;
+        int loop = 0;
+    }
+    @foreach (int rating in Model.RatingsByValue)
+    {
+        TotalReviews += rating;
+    }
+ 
 
 <div class="container-fluid px-1 py-5 mx-auto">
     <div class="row justify-content-center">
@@ -12,62 +20,110 @@
                             <h1 class="pt-4">@Model.AverageRating</h1>
                             <p class="">out of 5</p>
                         </div>
-                        <div> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> </div>
+                        <div>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                                if (Math.Round(Model.AverageRating, 0) < i + 1)
+                            {
+                                    <span class="fa fa-star star-inactive mx-1"></span>
+                            }
+                            else
+                            {
+                                    <span class="fa fa-star star-active mx-1"></span>
+                            }
+                        }
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="rating-bar0 justify-content-center">
                             <!-- Bars and individual grades -->
                             <table class="text-left mx-auto">
-                                <!-- Exellent (5) -->
-                                <tr>
-                                    <td class="rating-label">Excellent</td>
-                                    <td class="rating-bar">
-                                        <div class="bar-container">
-                                            <div class="bar-5"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-right"></td>
-                                </tr>
-                                <!-- Good (4) -->
-                                <tr>
-                                    <td class="rating-label">Good</td>
-                                    <td class="rating-bar">
-                                        <div class="bar-container">
-                                            <div class="bar-4"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-right">23</td>
-                                </tr>
-                                <!-- Average (3) -->
-                                <tr>
-                                    <td class="rating-label">Average</td>
-                                    <td class="rating-bar">
-                                        <div class="bar-container">
-                                            <div class="bar-3"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-right">10</td>
-                                </tr>
-                                <!-- Poor (2) -->
-                                <tr>
-                                    <td class="rating-label">Poor</td>
-                                    <td class="rating-bar">
-                                        <div class="bar-container">
-                                            <div class="bar-2"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-right">3</td>
-                                </tr>
-                                <!-- Terrible (1) -->
-                                <tr>
-                                    <td class="rating-label">Terrible</td>
-                                    <td class="rating-bar">
-                                        <div class="bar-container">
-                                            <div class="bar-1"></div>
-                                        </div>
-                                    </td>
-                                    <td class="text-right">0</td>
-                                </tr>
+
+                                @foreach (var rating in Model.RatingsByValue)
+                                {
+                                    <tr>
+                                        @{
+                                            <!-- Loop out grades -->
+                                            if (loop == 0)
+                                            {
+                                                <td class="rating-label" style="color: gold">Waw..</td>
+                                            }
+                                            else if (loop == 1)
+                                            {
+                                                <td class="rating-label" style="color: green">Good</td>
+                                            }
+                                            else if (loop == 2)
+                                            {
+                                                <td class="rating-label" style="color: white">Okay</td>
+                                            }
+                                            else if (loop == 3)
+                                            {
+                                                <td class="rating-label" style="color: red">Bad</td>
+                                            }
+                                            else if (loop == 4)
+                                            {
+                                                <td class="rating-label" style="color: black">Poopie</td>
+                                            }
+                                            <!-- Calc Procent and round -->
+                                            int Sum = @Model.RatingsByValue[loop];
+                                            double Procent = (double)Sum / (double)TotalReviews * 10;
+                                            Procent = Math.Round(Procent, 0);
+                                        }
+                                        <!-- Fill bars based on procent on grade -->
+                                        <td class="rating-bar">
+                                            <div class="bar-container">
+                                                @{
+                                                    if (@Procent == 1)
+                                                    {
+                                                        <div class="bar-1"></div>
+                                                    }
+                                                    else if (@Procent == 2)
+                                                    {
+                                                        <div class="bar-2"></div>
+                                                    }
+                                                    else if (@Procent == 3)
+                                                    {
+                                                        <div class="bar-3"></div>
+                                                    }
+                                                    else if (@Procent == 4)
+                                                    {
+                                                        <div class="bar-4"></div>
+                                                    }
+                                                    else if (@Procent == 5)
+                                                    {
+                                                        <div class="bar-5"></div>
+                                                    }
+                                                    else if (@Procent == 6)
+                                                    {
+                                                        <div class="bar-6"></div>
+                                                    }
+                                                    else if (@Procent == 7)
+                                                    {
+                                                        <div class="bar-7"></div>
+                                                    }
+                                                    else if (@Procent == 8)
+                                                    {
+                                                        <div class="bar-8"></div>
+                                                    }
+                                                    else if (@Procent == 9)
+                                                    {
+                                                        <div class="bar-9"></div>
+                                                    }
+                                                    else if (@Procent == 10)
+                                                    {
+                                                        <div class="bar-10"></div>
+                                                    }
+                                                }
+                                            </div>
+                                        </td>
+                                    <!-- Write out number of reviews on grade -->
+                                    <td class="text-right">@Sum</td>
+                                    </tr>
+                                    <!-- Calc loop -->
+                                    {
+                                        loop++;
+                                    }
+                                }
                             </table>
                         </div>
                     </div>
