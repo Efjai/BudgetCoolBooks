@@ -14,18 +14,19 @@ namespace Budget_CoolBooks.ViewModels
         public string BookDescription { get; set; }
         public List<Author> Authors { get; set; }
         public string ImgPath { get; set; }
-        public User ReviewUser { get; set; }
-        public DateTime ReviewCreated { get; set; }
-        public double ReviewRating { get; set; }
-        public string ReviewTitle { get; set; }
-        public string ReviewText { get; set; }
-        public int ReviewID { get; set; }
-        public int Like { get; set; }
-        public int Dislike { get; set; }
-        public int Flag { get; set; }
-        public List<int> RatingsByValue { get; set; }
-        public double AverageRating { get; set; }
+        public User? ReviewUser { get; set; }
+        public DateTime? ReviewCreated { get; set; }
+        public double? ReviewRating { get; set; }
+        public string? ReviewTitle { get; set; }
+        public string? ReviewText { get; set; }
+        public int? ReviewID { get; set; }
+        public int?  Like { get; set; }
+        public int? Dislike { get; set; }
+        public int? Flag { get; set; }
+        public List<int>? RatingsByValue { get; set; }
+        public double? AverageRating { get; set; }
         public string? IsNotReviewed { get; set; }
-        
+        public List<Review>? AllFullReviews { get; set; }
+        public List<Comment>? CommentsToRatings { get; set; }
     }
 }

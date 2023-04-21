@@ -1,72 +1,108 @@
 ﻿<link rel="stylesheet" href="~/css/rating.css" asp-append-version="true" />
-
-<div class="card" style="max-width: 650px; padding-bottom: 0; padding-top: 1%;">
-    <div class="cardinfo">
-        <!-- Username -->
-        <div style="display: inline-flex; margin-right: auto; margin-left: auto;">
-            <h2>@Model.ReviewUser.UserName</h2>
-            <img src="~/images/member.png" style="width: 50px; height: 50px; margin-left: 1%;">
-        </div>
+@{
+    int j = 0;
+}
+@foreach (var rating in Model.AllFullReviews)
+{
+    <div class="cardreviews" style="max-width: 650px; padding-bottom: 0; padding-top: 1%;">
+        <div class="cardinfo">
+            <!-- Username -->
+            <div style="display: inline-flex; margin-right: auto; margin-left: auto;">
+                <h2>@Model.AllFullReviews[j].User.UserName</h2>
+                <img src="~/images/member.png" style="width: 50px; height: 50px; margin-left: 1%;">
+            </div>
             <!-- Rating in stars -->
-         <div>
-            @for (int i = 0; i < 5; i++)
-            {
-                if (Math.Round(Model.ReviewRating, 0) < i + 1)
+            <div>
+                @for (int i = 0; i < 5; i++)
                 {
-                    <span class="fa fa-star star-inactive mx-1"></span>
+                    if (Math.Round(Model.AllFullReviews[j].Rating, 0) < i + 1)
+                    {
+                        <span class="fa fa-star star-inactive mx-1"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-star star-active mx-1"></span>
+                    }
+                }
+            </div>
+        </div>
+        <!-- Review text -->
+        <h3 style="text-decoration: underline; margin-top: 2%;">@Model.AllFullReviews[j].Title</h3>
+        <div>
+            <p class="cardtext">@Model.AllFullReviews[j].Text</p>
+        </div>
+        <!-- Like Dislike -->
+        <div class="LikeDislike">
+            <div class="LikeDislike" style="justify-items: right;">
+                <!-- Like -->
+                @if (@Model.AllFullReviews[j].Text != null)
+                {
+                    <p style="text-align: left;">@Model.AllFullReviews[j].Like</p>
                 }
                 else
                 {
-                    <span class="fa fa-star star-active mx-1"></span>
+                    <p style="text-align: left;">0</p>
+                }
+                <a style="text-align: right;"><img src="https://i.imgur.com/mHSQOaX.png"></a>
+            </div>
+            <div class="LikeDislike">
+                <!-- Dislike -->
+                <a style="text-align: right;"><img src="https://i.imgur.com/bFBO3J7.png"></a>
+                @if (@Model.AllFullReviews[j].Text != null)
+                {
+                    <p style="text-align: left;">@Model.AllFullReviews[j].Dislike</p>
+                }
+                else
+                {
+                    <p style="text-align: left;">0</p>
+                }
+            </div>
+            <form method="post" asp-controller="User" asp-action="FlagReview" style="margin-top: auto; margin-bottom: auto; margin-left: 1%;">
+                <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
+                <input type="hidden" name="id" value="@Model.AllFullReviews[j].Book.Id">
+                <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
+            </form>
+        </div>
+        <!-- Flag -->
+        <div style="margin: 2%;">
+        </div>
+        <!-- Date created -->
+        <div>
+            <small style="color: white; text-decoration: underline; margin-right: auto; margin-left: auto;">@Model.AllFullReviews[j].Created</small>
+        </div>
+        <div>
+            <!-- Comments -->
+            @{
+                int c = 0;
+                foreach (var comment in @Model.CommentsToRatings)
+                {
+                    <!-- Sort to reviews -->
+                    if (Model.CommentsToRatings[c].Review.Id == Model.AllFullReviews[j].Id)
+                    {
+                        <div class="commentbox">
+                            <div style="display: inline-flex; margin: auto;">
+                                <!-- Username && generic pic -->
+                                <h4>@Model.CommentsToRatings[c].User.UserName</h4>
+                                <img src="~/images/member.png" style="width: 30px; height: 30px;">
+                            </div>
+                            <!-- Comment text -->
+                            <p>@Model.CommentsToRatings[c].Text</p>
+                            <div style="display: inline-flex; width: 80%;">
+                                <!-- Date created -->
+                                <small style="margin: auto;">@Model.CommentsToRatings[c].Created</small>
+                                <!-- Flag comment -->
+                                <form method="post" asp-controller="User" asp-action="FlagReview">
+                                    <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
+                                    <input type="hidden" name="id" value="@Model.AllFullReviews[j].Book.Id">
+                                    <button input="submit"><img src="~/images/flag.png" style="width: 15px; height: 15px;"></button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    c++;
                 }
             }
-         </div>
-    </div>
-    <!-- Review text -->
-    <h3 style="text-decoration: underline; margin-top: 2%;">@Model.ReviewTitle</h3>
-    <div>
-        <p class="cardtext">@Model.ReviewText</p>
-    </div>
-    <!-- Like Dislike -->
-    <div class="LikeDislike">
-        <div class="LikeDislike" style="justify-items: right;">
-            <!-- Like -->
-            @if (@Model.ReviewText != null)
-            {
-                <p style="text-align: left;">@Model.Like</p>
-            }
-            else
-            {
-                <p style="text-align: left;">0</p>
-            }
-            <a style="text-align: right;"><img src="https://i.imgur.com/mHSQOaX.png"></a>
         </div>
-        <div class="LikeDislike">
-            <!-- Dislike -->
-            <a style="text-align: right;"><img src="https://i.imgur.com/bFBO3J7.png"></a>
-            @if (@Model.ReviewText != null)
-            {
-                <p style="text-align: left;">@Model.Dislike</p>
-            }
-            else
-            {
-                <p style="text-align: left;">0</p>
-            }
-        </div>  
-        <form method="post" asp-controller="User" asp-action="FlagReview" style="margin-top: auto; margin-bottom: auto; margin-left: 1%;">
-            <input type="hidden" name="reviewId" value="@Model.ReviewID">
-            <input type="hidden" name="id" value="@Model.BookId">
-            <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
-        </form>
     </div>
-    <!-- Flag -->
-    <div style="margin: 2%;">
-            
-    </div>
-    <!-- Date created -->
-    <div>
-        <small style="color: white; text-decoration: underline; margin-right: auto; margin-left: auto;">@Model.ReviewCreated</small>
-    </div>
-</div>
-
-
+    j++;
+}

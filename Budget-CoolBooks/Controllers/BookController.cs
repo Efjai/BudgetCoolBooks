@@ -2,11 +2,13 @@
 using Budget_CoolBooks.Services.Books;
 using Budget_CoolBooks.Services.Authors;
 using Budget_CoolBooks.Services.Reviews;
+using Budget_CoolBooks.Services.Comments;
 using Microsoft.AspNetCore.Mvc;
 using Budget_CoolBooks.ViewModels;
 using static System.Net.Mime.MediaTypeNames;
 using System.Net;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Generic;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -15,12 +17,14 @@ namespace Budget_CoolBooks.Controllers
         private readonly BookServices _bookServices;
         private readonly AuthorServices _authorServices;
         private readonly ReviewServices _reviewServices;
+        private readonly CommentServices _commentServices;
 
-        public BookController(BookServices bookServices, AuthorServices authorServices, ReviewServices reviewServices)
+        public BookController(BookServices bookServices, AuthorServices authorServices, ReviewServices reviewServices, CommentServices commentServices)
         {
             _bookServices = bookServices;
             _authorServices = authorServices;
             _reviewServices = reviewServices;
+            _commentServices = commentServices;
         }
 
         [HttpGet]
@@ -58,9 +62,21 @@ namespace Budget_CoolBooks.Controllers
                 if (reviewResults.Title != null || reviewResults.Title == "")
                 {
                     var ratings = await _reviewServices.GetAllRatingsOfBook(id);
+                    var reviewIds = await _reviewServices.GetAllIdOfReviews(id);
+
+                    var AllFullReviews = await _reviewServices.GetFULLAllRatingsOfBook(id);
 
                     var RatingPerGrades = RatingPerGrade(ratings);
                     var AverageRatings = CalculateAverageRating(ratings);
+
+                    int c = 0;
+                    List<Comment> CommentsToRatings = new List<Comment> { };
+                    foreach (var Id in reviewIds)
+                    {
+                        var GetAllCommentsOfRatings = await _commentServices.GetAllCommentsOfReview(reviewIds[c]);
+                        CommentsToRatings.AddRange(GetAllCommentsOfRatings);
+                        c++;
+                    }
 
                     BookcardViewModel ratingsViewModel = new BookcardViewModel();
 
@@ -86,7 +102,10 @@ namespace Budget_CoolBooks.Controllers
                         IsNotReviewed = reviewResults.Title,
 
                         RatingsByValue = RatingPerGrades,
-                        AverageRating = AverageRatings
+                        AverageRating = AverageRatings,
+
+                        AllFullReviews = AllFullReviews.ToList(),
+                        CommentsToRatings = CommentsToRatings.ToList(),
                     };
                     return View("/views/book/bookcard.cshtml", bookcardViewModel);
                 }
@@ -111,7 +130,7 @@ namespace Budget_CoolBooks.Controllers
             return NotFound();
         }
         private double CalculateAverageRating(ICollection<double> ratings)
-        {  
+        {
             double totalRating = 0;
             foreach (var rating in ratings)
             {
@@ -138,8 +157,7 @@ namespace Budget_CoolBooks.Controllers
             {
                 fives, fours, threes, twos, ones
             };
-
             return RatingPerGrades;
         }
-    }
+    } 
 }

@@ -81,12 +81,14 @@ namespace Budget_CoolBooks.Services.Reviews
             //            .Where(b => !b.Book.IsDeleted)
             //            .FirstOrDefaultAsync(b => b.BookId == id);
         }
-
         public async Task<ICollection<double>> GetAllRatingsOfBook(int id)
         {
             return _context.Reviews.Where(r => r.Book.Id == id && !r.IsDeleted).Select(r => r.Rating).ToList();
         }
-
+        public async Task<ICollection<Review>> GetFULLAllRatingsOfBook(int id)
+        {
+            return _context.Reviews.Include(r => r.User).Where(r => r.Book.Id == id && !r.IsDeleted).ToList();
+        }
         public bool Save()
         {
             var saved = _context.SaveChanges();
@@ -95,6 +97,10 @@ namespace Budget_CoolBooks.Services.Reviews
         public async Task<Review> GetReviewByBookID(int bookId)
         {
             return _context.Reviews.Include(r => r.User).Where(r => r.Book.Id == bookId && !r.IsDeleted).OrderByDescending(r => r.Rating).FirstOrDefault();            
+        }
+        public async Task<IList<int>> GetAllIdOfReviews(int id)
+        {
+            return _context.Reviews.Where(r => r.Book.Id == id && !r.IsDeleted).Select(r => r.Id).ToList();
         }
     }
 }

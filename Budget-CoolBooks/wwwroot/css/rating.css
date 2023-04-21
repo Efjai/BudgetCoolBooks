@@ -21,6 +21,19 @@ body {
     border: 2px solid lightgray;
     border-radius: 18px;
 }
+.cardreviews {
+    text-align: center;
+    background-color: darkgray;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    border: 5px solid gray;
+    border-radius: 26px;
+    color: white;
+}
 .ratingGOOD {
     color: green;
     text-decoration: underline;
@@ -86,6 +99,17 @@ td {
     background-color: green;
     color: #fff
 }
+.commentbox {
+    background-color: lightblue;
+    color: black;
+    border: 2px solid black;
+    border-radius: 18px;
+    padding: 1%;
+    margin: auto;
+    margin-top: 1%;
+    width: 90%;
+}
+
 
 
 

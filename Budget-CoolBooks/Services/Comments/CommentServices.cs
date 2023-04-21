@@ -1,5 +1,6 @@
 ﻿using Budget_CoolBooks.Data;
 using Budget_CoolBooks.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Budget_CoolBooks.Services.Comments
@@ -41,7 +42,9 @@ namespace Budget_CoolBooks.Services.Comments
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
-
-
+        public async Task<List<Comment>> GetAllCommentsOfReview(int id)
+        {
+            return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).ToList();
+        }
     }
 }
