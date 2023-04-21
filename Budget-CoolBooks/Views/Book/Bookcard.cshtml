@@ -50,7 +50,7 @@
         <partial name="_ReviewPartial" />
     }
     <!-- Be the first to review text -->
-    else
+    @if (Model.IsNotReviewed == "yes")
     {
         <div class="card">
             <div class="cardinfo">

@@ -1,23 +1,29 @@
 ﻿<link rel="stylesheet" href="~/css/rating.css" asp-append-version="true" />
-
-<div class="card" style="max-width: 650px;">
+@*@foreach (var UserName in Model.ReviewUser)
+{
+    Console.WriteLine(UserName);
+}*@
+<div class="card" style="max-width: 650px; padding-bottom: 0; padding-top: 1%;">
     <div class="cardinfo">
-        <div>
-            <!-- Username -->
-            <h2>@Model.ReviewUser</h2>
-            <!-- Rating -->
-            @if (Model.ReviewRating < 3)
+        <!-- Username -->
+        <h2>Insert Username :)</h2>
+            <!-- Rating in stars -->
+         <div>
+            @for (int i = 0; i < 5; i++)
             {
-                <p class="ratingBAD">@Model.ReviewRating</p>
+                if (Math.Round(Model.ReviewRating, 0) < i + 1)
+                {
+                    <span class="fa fa-star star-inactive mx-1"></span>
+                }
+                else
+                {
+                    <span class="fa fa-star star-active mx-1"></span>
+                }
             }
-            else
-            {
-                <p class="ratingGOOD">@Model.ReviewRating</p>
-            }
-        </div>
+         </div>
     </div>
     <!-- Review text -->
-    <h3 style="text-decoration: underline;">@Model.ReviewTitle</h3>
+    <h3 style="text-decoration: underline; margin-top: 2%;">@Model.ReviewTitle</h3>
     <div>
         <p class="cardtext">@Model.ReviewText</p>
     </div>
@@ -25,7 +31,6 @@
     <div class="LikeDislike">
         <div class="LikeDislike" style="justify-items: right;">
             <!-- Like -->
-            <a style="text-align: right;"><img src="https://i.imgur.com/mHSQOaX.png"></a>
             @if (@Model.ReviewText != null)
             {
                 <p style="text-align: left;">@Model.Like</p>
@@ -34,6 +39,7 @@
             {
                 <p style="text-align: left;">0</p>
             }
+            <a style="text-align: right;"><img src="https://i.imgur.com/mHSQOaX.png"></a>
         </div>
         <div class="LikeDislike">
             <!-- Dislike -->
