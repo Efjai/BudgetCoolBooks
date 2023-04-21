@@ -18,7 +18,7 @@ body {
     margin-left: auto;
     padding-top: 5%;
     padding-bottom: 5%;
-    border: 2px solid lightgray;
+    border: 5px solid lightgray;
     border-radius: 18px;
 }
 .cardreviews {
@@ -74,12 +74,12 @@ td {
     padding-bottom: 10px
 }
 .star-active {
-    color: #FBC02D;
+    color: gold;
     margin-top: 10px;
     margin-bottom: 10px
 }
 .star-inactive {
-    color: #CFD8DC;
+    color: white;
     margin-top: 10px;
     margin-bottom: 10px
 }
@@ -97,7 +97,7 @@ td {
     margin-right: auto;
     margin-left: auto;
     background-color: green;
-    color: #fff
+    color: white
 }
 .commentbox {
     background-color: lightblue;
@@ -124,66 +124,66 @@ td {
 .bar-0 {
     width: 0%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-1 {
     width: 10%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-2 {
     width: 20%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-3 {
     width: 30%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-4 {
     width: 40%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-5 {
     width: 50%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-6 {
     width: 60%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-7 {
     width: 70%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-8 {
     width: 80%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-9 {
     width: 90%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
 .bar-10 {
     width: 100%;
     height: 13px;
-    background-color: #FBC02D;
+    background-color: gold;
     border-radius: 20px
 }
