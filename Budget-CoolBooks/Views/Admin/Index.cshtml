@@ -1,14 +1,52 @@
-﻿@{
+﻿@model Budget_CoolBooks.ViewModels.TotalinfoViewModel
+@{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Admin";
 }
 
-<!-- Chart -->
-<div class="col-12 mx-auto" style="height: 480px;">
-    <canvas id="myChart"></canvas>
-</div>
-
-
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="~/js/chart.js"></script>
+
+<section class="col-12 d-flex flex-wrap">
+
+    <div class="col-4">
+        <div class="m-1 card d-flex justify-content-center align-items-center alert alert-info text-black" style="height: 230px;">
+            <h2>@Model.TotalComments</h2>
+            <h2>Comments</h2>
+            <a class="btn btn-info mt-2 text-white" asp-area="" asp-controller="Chart" asp-action="Comment">
+                Show Chart
+            </a>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="m-1 card d-flex justify-content-center align-items-center alert alert-primary text-black" style="height: 230px;">
+            <h2>@Model.TotalBooks</h2>
+            <h2>Books</h2>
+            <a class="btn btn-info mt-2 text-white" asp-area="" asp-controller="Admin" asp-action="Index">
+                Show Chart
+            </a>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="m-1 card d-flex justify-content-center align-items-center alert alert-success text-black" style="height: 230px;">
+            <h2>@Model.TotalUsers</h2>
+            <h2>Users</h2>
+            <a class="btn btn-info mt-2 text-white" asp-area="" asp-controller="Admin" asp-action="Index">
+                Show Chart
+            </a>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="m-1 card d-flex justify-content-center align-items-center alert alert-secondary text-black" style="height: 230px;">
+            <h2>@Model.TotalAuthors</h2>
+            <h2>Authors</h2>
+            <a class="btn btn-info mt-2 text-white" asp-area="" asp-controller="Admin" asp-action="Index">
+                Show Chart
+            </a>
+        </div>
+    </div>
+
+</section>
+
+
+
+

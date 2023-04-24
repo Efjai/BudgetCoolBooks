@@ -1,0 +1,83 @@
+﻿
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Chart | Comment";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="col-12">
+    <!-- Breadcrumb -->
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-controller="Admin" asp-action="Index">Dash Board</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chart for comments</li>
+        </ol>
+    </nav>
+
+    <div class="col-12 d-flex justify-content-between">
+        <h2 class="text-primary">Comments</h2>
+
+        <!-- dropdown-->
+        <div class="mt-2 mb-2 d-flex">
+            <!-- dropdown  Filter-->
+            <div class="dropdown">
+                <a class="btn  btn-outline-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="">Genre</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="">Author</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- dropdown  Date-->
+            <div class="dropdown ms-2 me-5">
+                <a class="btn  btn-outline-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Date
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item " href="">
+                            Dag
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item " href="">
+                            Week
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart HTML-->
+    <div class="w-100" style="height: 400px;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+</div>
+
+
+<!-- Chart JS-->
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Art", "Biography", "Business", "Children's", "Christian", "test1", "test2", "test3", "Art", "Biography", "Business", "Children's", "Christian"],
+            datasets: [{
+                label: 'Comments',
+                data: [4, 20, 18, 8, 5, 7, 6, 90, 4, 20, 18, 8, 5],
+                borderWidth: 1,
+                borderColor: '#36A2EB',
+                backgroundColor: '#0d6efd',
+            }]
+        },
+    });
+</script>
