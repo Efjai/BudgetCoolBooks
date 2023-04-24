@@ -1,4 +1,5 @@
-﻿using Budget_CoolBooks.Models;
+﻿using Budget_CoolBooks.Data;
+using Budget_CoolBooks.Models;
 using Budget_CoolBooks.Services.Authors;
 using Budget_CoolBooks.Services.Books;
 using Budget_CoolBooks.Services.Genres;
@@ -22,17 +23,33 @@ namespace Budget_CoolBooks.Controllers
         private readonly AuthorServices _authorServices;
         private readonly UserServices _userServices;
         private readonly BookServices _bookServices;
+        private readonly ApplicationDbContext _context;
 
-        public AdminController(ReviewServices reviewServices)
+        public AdminController(ReviewServices reviewServices, ApplicationDbContext context)
         {
+            _context = context;
             _reviewServices = reviewServices;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            int totalComments = _context.Comments.ToList().Count;
+            int totalBooks = _context.Books.Where(b=>b.IsDeleted == false).ToList().Count;
+            int totalUsers = _context.Users.ToList().Count;
+            int totalAuthors = _context.Authors.ToList().Count;
+
+            var total = new TotalinfoViewModel()
+            {
+                TotalComments = totalComments,
+                TotalBooks = totalBooks,
+                TotalUsers = totalUsers,
+                TotalAuthors = totalAuthors,
+            };
+
+            return View(total);
         }
+
 
         //___________REVIEWS_______________________________________
         [HttpGet]
@@ -44,7 +61,7 @@ namespace Budget_CoolBooks.Controllers
         [HttpPost]
         public async Task<IActionResult> ReviewsByName(string userName)
         {
- 
+
             var result = await _reviewServices.GetReviewByUsername(userName);
             if (result == null)
             {
@@ -62,7 +79,7 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-            if (! await _reviewServices.DeleteReview(reviewToDelete))
+            if (!await _reviewServices.DeleteReview(reviewToDelete))
             {
                 return NotFound();
             }
