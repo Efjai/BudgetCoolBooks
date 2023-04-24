@@ -14,7 +14,10 @@
                 </a>
                 <ul class="dropdown-menu text-small">
                     <li>
-                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Index" title="Profile">Profile</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
                     </li>
                     <li>
                         <a class="dropdown-item text-success" asp-area="" asp-controller="Admin" asp-action="Index">Admin Panel</a>

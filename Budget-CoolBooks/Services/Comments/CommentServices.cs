@@ -19,6 +19,11 @@ namespace Budget_CoolBooks.Services.Comments
         {
             return _context.Comments.Where(c => c.Id == id).FirstOrDefault();
         }
+
+        public async Task<List<Comment>> GetCommentByUserId(string id)
+        {
+            return _context.Comments.Where(c => c.User.Id == id).ToList();
+        }
         public async Task<bool> DeleteComment(Comment comment)
         {
             _context.Comments.Remove(comment);

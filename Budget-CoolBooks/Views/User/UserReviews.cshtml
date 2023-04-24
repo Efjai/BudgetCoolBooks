@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model Budget_CoolBooks.ViewModels.ReviewcardViewModel
+<br />
+<h2>Reviews</h2>
+<br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Review ID</th>
+                <th scope="col">Book</th>
+                <th scope="col">Title</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var review in Model.Review)
+            {
+                <tr>
+                    <th scope="row">@review.Id</th>
+                    <td>@review.Book.Title</td>
+                    <td>@review.Title</td>
+                    <td>@review.Rating</td>
+                    <td>@review.Created</td>
+                    <td>
+                        <form method="post" asp-controller="" asp-action="">
+                            <button type="submit" class="btn btn-primary" name="reviewId" value="@review.Id">Delete</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" asp-controller="" asp-action="">
+                            <button type="submit" class="btn btn-primary" name="reviewId" value="@review.Id">Edit</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}

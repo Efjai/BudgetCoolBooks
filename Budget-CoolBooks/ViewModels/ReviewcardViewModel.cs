@@ -6,17 +6,11 @@ namespace Budget_CoolBooks.ViewModels
 {
     public class ReviewcardViewModel
     {
-        public int BookId { get; set; }
-        public string ReviewBook { get; set; }
-        //public string ReviewAuthor { get; set; }
+        public List<Author> ReviewAuthor { get; set; }
+        public List<Book> ReviewBook { get; set; }
         public User ReviewUser { get; set; }
-        public DateTime ReviewCreated { get; set; }
-        public double ReviewRating { get; set; }
-        public string ReviewTitle { get; set; }
-        public string ReviewText { get; set; }
-        public int Like { get; set; }
-        public int Dislike { get; set; }
-        public int Flag { get; set; }
+        public List<Review> Review { get; set; }
+        public List<Comment> ReviewComment { get; set; }
 
 
 

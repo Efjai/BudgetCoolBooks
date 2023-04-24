@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "_Layout";
+    //ViewData["Account"] = "Create A Review";
+}
+
+<nav class="col-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky mt-2">
+        <ul class="nav nav-pills flex-column mb-5">
+            <li class="nav-item">
+                @*@if (ViewData["Title"] == "Admin")*@
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="User" asp-action="UserReviews">
+                    <i class="fa-solid fa-comments"></i>
+                    Reviews
+                </a>
+            </li>
+            
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="User" asp-action="UserComments">
+                        <i class="fa-solid fa-comments"></i>
+                        Comments
+                    </a>
+                </li>
+        </ul>
+    </div>
+</nav>
