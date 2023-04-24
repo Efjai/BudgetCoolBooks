@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Edit author";
+}
+@model Budget_CoolBooks.ViewModels.AdminAuthorViewModel
+
+<h5>Edit - @Model.Author.Firstname @Model.Author.Lastname</h5>
+<form method="post" asp-controller="AdminAuthor" asp-action="Edit">
+    <div class="mb-3">
+        <label for="Firstname" class="form-label">Firstname</label>
+        <input type="text" class="form-control" name="firstname" placeholder="new firstname">
+    </div>
+
+    <div class="mb-3">
+        <label for="Lastname" class="form-label">Lastname</label>
+        <input type="text" class="form-control" name="lastname" placeholder="new firstname">
+    </div>
+
+    <input type="hidden" name="authorId" value="@Model.Author.Id">
+    <button type="submit" class="btn btn-primary">Edit author</button>
+</form>
+
