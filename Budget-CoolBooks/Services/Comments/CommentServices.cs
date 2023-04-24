@@ -46,5 +46,20 @@ namespace Budget_CoolBooks.Services.Comments
         {
             return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).ToList();
         }
+        //public async Task<bool> CreateReview(Comment comment, string userId)
+        //{
+        //    var user = await _context.Users.FindAsync(userId);
+        //    if (user == null)
+        //    {
+        //        return false;
+        //    }
+
+        //    comment.User = user;
+
+
+        //    _context.Reviews.Add(review);
+
+        //    return Save();
+        //}
     }
 }

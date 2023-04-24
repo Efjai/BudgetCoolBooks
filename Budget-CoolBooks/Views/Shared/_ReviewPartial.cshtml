@@ -33,6 +33,10 @@
         </div>
         <!-- Like Dislike -->
         <div class="LikeDislike">
+            <!-- Comment -->
+            <form method="post" asp-controller="" asp-action="" style="margin-top: auto; margin-bottom: auto; margin-right: 1%;">
+                <button input="submit"><img src="~/images/comment.png" style="width: 25px; height: 25px;"></button>
+            </form>
             <div class="LikeDislike" style="justify-items: right;">
                 <!-- Like -->
                 @if (@Model.AllFullReviews[j].Text != null)
@@ -71,6 +75,7 @@
             <small style="color: white; text-decoration: underline; margin-right: auto; margin-left: auto;">@Model.AllFullReviews[j].Created</small>
         </div>
         <div>
+            <p>Comments:</p>
             <!-- Comments -->
             @{
                 int c = 0;
@@ -88,6 +93,10 @@
                             <!-- Comment text -->
                             <p>@Model.CommentsToRatings[c].Text</p>
                             <div style="display: inline-flex; width: 80%;">
+                                <!-- Reply -->
+                                <form method="post" asp-controller="" asp-action="">
+                                    <button input="submit"><img src="~/images/comment.png" style="width: 15px; height: 15px;"></button>
+                                </form>
                                 <!-- Date created -->
                                 <small style="margin: auto;">@Model.CommentsToRatings[c].Created</small>
                                 <!-- Flag comment -->
