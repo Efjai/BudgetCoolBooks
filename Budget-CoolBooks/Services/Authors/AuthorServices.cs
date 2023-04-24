@@ -18,15 +18,6 @@ namespace Budget_CoolBooks.Services.Authors
         {
             return await _context.Authors.AnyAsync(a => a.Firstname == firstName && a.Lastname == lastName);
         }
-        public async Task<int> GetAuthorId(string firstName, string lastName)
-        {
-            var author = await _context.Authors.Where(a => a.Firstname == firstName && a.Lastname == lastName).FirstOrDefaultAsync();
-            return author.Id;
-        }
-        public async Task<ICollection<Author>> GetAuthorByID(int AuthorId) // TA BORT?
-        {
-            return _context.Authors.Where(b => b.Id == AuthorId).ToList();
-        }
 
         public async Task<Author> GetAuthorById(int authorId)
         {
@@ -48,11 +39,29 @@ namespace Budget_CoolBooks.Services.Authors
             return _context.BooksAuthors.ToList();
         }
 
+        public async Task<ICollection<Book>> GetBookListByAuthorId(int authorId)
+        {
+            return _context.Books.Where(b => b.BookAuthor.Any(ba => ba.AuthorId == authorId) && !b.IsDeleted).ToList();
+        }
+
         public async Task<bool> CreateAuthor(Author author)
         {
             _context.Authors.Add(author);
             return Save();
         }
+
+        public async Task<bool> UpdateAuthor(Author author)
+        {
+            _context.Authors.Update(author);
+            return Save();
+        }
+
+        public async Task<bool> DeleteAuthor(Author author)
+        {
+           _context.Authors.Remove(author);
+            return Save();
+        }
+
 
         public bool Save()
         {

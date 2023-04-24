@@ -1,7 +1,8 @@
 ﻿using Budget_CoolBooks.Data;
 using Budget_CoolBooks.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Net;
 
 namespace Budget_CoolBooks.Services.Comments
 {
@@ -13,7 +14,6 @@ namespace Budget_CoolBooks.Services.Comments
         {
             _context = context;
         }
-
         // COMMENTS 
         public async Task<Comment> GetCommentById(int id)
         {
@@ -35,7 +35,10 @@ namespace Budget_CoolBooks.Services.Comments
             _context.Replys.Remove(reply);
             return Save();
         }
-
+        public async Task<List<Reply>> GetAllReplysOfComments(int id)
+        {
+            return _context.Replys.Include(r => r.User).Include(r => r.Comment).Where(r => r.Comment.Id == id).ToList();
+        }
         // OTHER
         public bool Save()
         {
@@ -46,20 +49,24 @@ namespace Budget_CoolBooks.Services.Comments
         {
             return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).ToList();
         }
-        //public async Task<bool> CreateReview(Comment comment, string userId)
-        //{
-        //    var user = await _context.Users.FindAsync(userId);
-        //    if (user == null)
-        //    {
-        //        return false;
-        //    }
+        public async Task<bool> CreateComment(Comment comment, string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
 
-        //    comment.User = user;
+            comment.User = user;
 
 
-        //    _context.Reviews.Add(review);
+            _context.Comments.Add(comment);
 
-        //    return Save();
-        //}
+            return Save();
+        }
+        public async Task<IList<int>> GetAllIdOfComments(int id)
+        {
+            return _context.Comments.Where(r => r.Review.Id == id).Select(r => r.Id).ToList();
+        }
     }
 }

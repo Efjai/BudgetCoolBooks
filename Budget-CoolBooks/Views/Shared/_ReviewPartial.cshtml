@@ -11,6 +11,7 @@
                 <h2>@Model.AllFullReviews[j].User.UserName</h2>
                 <img src="~/images/member.png" style="width: 50px; height: 50px; margin-left: 1%;">
             </div>
+            <h5>Reviewing @Model.BookTitle</h5>
             <!-- Rating in stars -->
             <div>
                 @for (int i = 0; i < 5; i++)
@@ -61,14 +62,12 @@
                     <p style="text-align: left;">0</p>
                 }
             </div>
+            <!-- Flag -->
             <form method="post" asp-controller="User" asp-action="FlagReview" style="margin-top: auto; margin-bottom: auto; margin-left: 1%;">
                 <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
-                <input type="hidden" name="id" value="@Model.AllFullReviews[j].Book.Id">
+                <input type="hidden" name="id" value="@Model.BookId">
                 <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
             </form>
-        </div>
-        <!-- Flag -->
-        <div style="margin: 2%;">
         </div>
         <!-- Date created -->
         <div>
@@ -90,6 +89,7 @@
                                 <h4>@Model.CommentsToRatings[c].User.UserName</h4>
                                 <img src="~/images/member.png" style="width: 30px; height: 30px;">
                             </div>
+                            <h5>Commenting on @Model.AllFullReviews[j].User.UserName</h5>
                             <!-- Comment text -->
                             <p>@Model.CommentsToRatings[c].Text</p>
                             <div style="display: inline-flex; width: 80%;">
@@ -100,13 +100,43 @@
                                 <!-- Date created -->
                                 <small style="margin: auto;">@Model.CommentsToRatings[c].Created</small>
                                 <!-- Flag comment -->
-                                <form method="post" asp-controller="User" asp-action="FlagReview">
-                                    <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
-                                    <input type="hidden" name="id" value="@Model.AllFullReviews[j].Book.Id">
-                                    <button input="submit"><img src="~/images/flag.png" style="width: 15px; height: 15px;"></button>
+                                <form method="post" asp-controller="User" asp-action="FlagComment" style="margin-top: auto; margin-bottom: auto; margin-left: 1%;">
+                                    <input type="hidden" name="commentId" value="@Model.CommentsToRatings[c].Id">
+                                    <input type="hidden" name="id" value="@Model.BookId">
+                                    <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                 </form>
                             </div>
                         </div>
+                    }
+                    <!-- Replys -->
+                    int r = 0;
+                    foreach (var reply in @Model.AllReplysOfComments)
+                    {
+                        <!-- Sort to reviews -->
+                        if (@Model.AllReplysOfComments[r].Comment.Id == Model.CommentsToRatings[c].Id && Model.CommentsToRatings[c].Review.Id == Model.AllFullReviews[j].Id)
+                        {
+                            <div class="replybox">
+                                <div style="display: inline-flex; margin: auto;">
+                                    <!-- Username && generic pic -->
+                                    <h4>@Model.AllReplysOfComments[r].User.UserName</h4>
+                                    <img src="~/images/member.png" style="width: 30px; height: 30px;">
+                                </div>
+                                <h5>Responding to @Model.CommentsToRatings[c].User.UserName</h5>
+                                <!-- Comment text -->
+                                <p>@Model.AllReplysOfComments[r].Text</p>
+                                <div style="display: inline-flex; width: 80%;">
+                                    <!-- Date created -->
+                                    <small style="margin: auto;">@Model.AllReplysOfComments[r].Created</small>
+                                    <!-- Flag comment -->
+                                    <form method="post" asp-controller="User" asp-action="FlagReply" style="margin-bottom: auto; margin-left: 1%;">
+                                        <input type="hidden" name="commentId" value="@Model.AllReplysOfComments[r].Id">
+                                        <input type="hidden" name="id" value="@Model.BookId">
+                                        <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                        r++;
                     }
                     c++;
                 }
