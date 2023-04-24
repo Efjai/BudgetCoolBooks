@@ -83,8 +83,16 @@ namespace Budget_CoolBooks.Services.UserServices
             _context.Reviews.Update(review);
             return Save();
         }
-
-        
+        public async Task<bool> FlagCommentById(Comment comment)
+        {
+            _context.Comments.Update(comment);
+            return Save();
+        }
+        public async Task<bool> FlagReplyById(Reply reply)
+        {
+            _context.Replys.Update(reply);
+            return Save();
+        }
 
         public bool Save()
         {

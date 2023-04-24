@@ -53,6 +53,7 @@ if (app.Environment.IsDevelopment())
         var initialiser = scope.ServiceProvider.GetRequiredService<UserInitialisation>();
         //await initialiser.InitialiseAsync();
         await initialiser.SeedAsync();
+        await initialiser.SeedUsersAsync();
     }
 }
 else
