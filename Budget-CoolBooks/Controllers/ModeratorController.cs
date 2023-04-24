@@ -139,7 +139,7 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
-            return RedirectToAction("IndexAudits");
+            return RedirectToAction("IndexComments");
         }
 
         [HttpGet]

@@ -1,7 +1,8 @@
 ﻿using Budget_CoolBooks.Data;
 using Budget_CoolBooks.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Net;
 
 namespace Budget_CoolBooks.Services.Comments
 {
@@ -46,20 +47,24 @@ namespace Budget_CoolBooks.Services.Comments
         {
             return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).ToList();
         }
-        //public async Task<bool> CreateReview(Comment comment, string userId)
+        public async Task<bool> CreateComment(Comment comment, string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            comment.User = user;
+
+
+            _context.Comments.Add(comment);
+
+            return Save();
+        }
+        //public async Task<List<Comment>> GetAllReplysOfComments(int id)
         //{
-        //    var user = await _context.Users.FindAsync(userId);
-        //    if (user == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    comment.User = user;
-
-
-        //    _context.Reviews.Add(review);
-
-        //    return Save();
+        //    return _context.Comments.Include(r => r.User).Where(r => r.Comment.Id == id).ToList();
         //}
     }
 }
