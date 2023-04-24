@@ -84,7 +84,7 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
-            return Redirect("~/views/book/index.cshtml");
+            return RedirectToAction("BookDetails", "Book", new { id = id });
         }
     }
 }
