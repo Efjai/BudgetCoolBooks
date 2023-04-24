@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Authors";
+}
+@model Budget_CoolBooks.ViewModels.AdminAuthorViewModel
+<link rel="stylesheet" href="~/css/adminview.css" asp-append-version="true" />
+
+@if (TempData["message"] != null)
+{
+    <p><strong><em>@TempData["message"]</em></strong></p>
+    <hr /> <br />
+}
+
+
+<div class="">
+    <a asp-action="Create" class="btn btn-success float-end me-3">
+        <i class="fa-solid fa-plus me-2"></i>Create new Author
+    </a>
+    <h1 class="fs-2 text-black">Author</h1>
+</div>
+
+<table class="table table-striped caption-top">
+    <thead>
+        <tr>
+            <th>
+                Firstname
+            </th>
+            <th>
+                Lastname
+            </th>
+            <th>
+                Added by
+            </th>
+            <th> Setting</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model.Authors)
+        {
+            <tr>
+                <td>
+                    @author.Firstname
+                </td>
+                <td>
+                    @author.Lastname
+                </td>
+                <td>
+                    <p><em>n/a</em></p>
+                </td>
+                <td>
+                    <div class="admin-settings">
+                        <a asp-controller="AdminAuthor" asp-action="Edit" asp-route-id="@author.Id"
+                       class="btn btn-sm btn-outline-primary me-2">
+                            Edit
+                        </a>
+
+                        <form method="post" asp-controller="AdminAuthor" asp-action="Delete">
+                            <input type="hidden" name="id" value="@author.Id">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

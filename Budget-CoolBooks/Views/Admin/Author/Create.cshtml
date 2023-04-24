@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin - Add new author";
+}
+@model Budget_CoolBooks.ViewModels.AdminBooksViewModel
+
+<h5>Add new author</h5>
+<form method="post" asp-controller="AdminAuthor" asp-action="Create">
+    <div class="mb-3">
+        <label for="Firstname" class="form-label">Firstname</label>
+        <input type="text" class="form-control" name="firstname">
+    </div>
+
+    <div class="mb-3">
+        <label for="Lastname" class="form-label">Lastname</label>
+        <input type="text" class="form-control" name="lastname">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add author</button>
+</form>
