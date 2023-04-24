@@ -76,9 +76,13 @@ namespace Budget_CoolBooks.Controllers
                     foreach (var Id in reviewIds)
                     {
                         var GetAllCommentsOfRatings = await _commentServices.GetAllCommentsOfReview(reviewIds[c]);
-                        GetAllCommentsOfReplys.AddRange(GetAllCommentsOfRatings);
-                        var GetAllReplysOfComment = await _commentServices.GetAllReplysOfComments(GetAllCommentsOfReplys[c].Id);
-                        GetAllReplysOfComments.AddRange(GetAllReplysOfComment);
+                        
+                        if (GetAllCommentsOfRatings != null)
+                        {
+                            GetAllCommentsOfReplys.AddRange(GetAllCommentsOfRatings);
+                            var GetAllReplysOfComment = await _commentServices.GetAllReplysOfComments(GetAllCommentsOfReplys[c].Id);
+                            GetAllReplysOfComments.AddRange(GetAllReplysOfComment);
+                        }
                         c++;
                     }
                     
