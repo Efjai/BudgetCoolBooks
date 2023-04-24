@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Audit comment";
 }
+<partial name="~/views/Shared/Moderator/_ModeratorNavbar.cshtml" />
+<link rel="stylesheet" href="~/css/moderatorview.css" asp-append-version="true" />
+
+@model Budget_CoolBooks.ViewModels.ModeratorViewModel
+
+
+<div class="audit-display">
+    <div class="card">
+        <div class="card-header">
+            <div class="audit-buttons">
+                <a asp-controller="Moderator" asp-action="UnflagReply" asp-route-id="@Model.Reply.Id"
+                   class="btn btn-sm btn-outline-success me-2">
+                    Unflag
+                </a>
+                <a asp-controller="Moderator" asp-action="DeleteReply" asp-route-id="@Model.Reply.Id"
+                   class="btn btn-sm btn-outline-danger me-2">
+                    Delete
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text">@Model.Reply.Text</p>
+            <p class="header-audit"><strong>Audit</strong> - <em>Created: @Model.Reply.Created</em></p>
+        </div>
+    </div>
+</div>

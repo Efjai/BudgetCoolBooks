@@ -129,7 +129,7 @@
                                     <small style="margin: auto;">@Model.AllReplysOfComments[r].Created</small>
                                     <!-- Flag comment -->
                                     <form method="post" asp-controller="User" asp-action="FlagReply" style="margin-bottom: auto; margin-left: 1%;">
-                                        <input type="hidden" name="commentId" value="@Model.AllReplysOfComments[r].Id">
+                                        <input type="hidden" name="replyId" value="@Model.AllReplysOfComments[r].Id">
                                         <input type="hidden" name="id" value="@Model.BookId">
                                         <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                     </form>
