@@ -2,6 +2,8 @@
 @{
     int j = 0;
 }
+@inject UserManager<User> UserManager
+
 @foreach (var rating in Model.AllFullReviews)
 {
     <div class="cardreviews" style="max-width: 650px; padding-bottom: 0; padding-top: 1%;">
@@ -75,12 +77,18 @@
                     <p style="text-align: left;">0</p>
                 }
             </div>
+
             <!-- Flag -->
             <form method="post" asp-controller="User" asp-action="FlagReview" style="margin-top: auto; margin-bottom: auto; margin-left: 1%;">
                 <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
                 <input type="hidden" name="id" value="@Model.BookId">
                 <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
             </form>
+            @if (Model.CurrentUserId == @Model.AllFullReviews[j].User.Id)
+            {
+                <button>Edit</button>
+                <button>Delete</button>
+            }
         </div>
         <!-- Date created -->
         <div>
@@ -120,6 +128,12 @@
                                     <input type="hidden" name="id" value="@Model.BookId">
                                     <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                 </form>
+
+                                @if (Model.CurrentUserId == @comment.User.Id)
+                                {
+                                    <button>Edit</button>
+                                    <button>Delete</button>
+                                }
                             </div>
                         </div>
                     }
@@ -148,6 +162,12 @@
                                         <input type="hidden" name="id" value="@Model.BookId">
                                         <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                     </form>
+
+                                    @if (Model.CurrentUserId == @Model.AllFullReviews[j].User.Id)
+                                    {
+                                        <button>Edit</button>
+                                        <button>Delete</button>
+                                    }
                                 </div>
                             </div>
                         }
