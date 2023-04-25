@@ -28,5 +28,6 @@ namespace Budget_CoolBooks.ViewModels
         public string? IsNotReviewed { get; set; }
         public List<Review>? AllFullReviews { get; set; }
         public List<Comment>? CommentsToRatings { get; set; }
+        public List<Reply>? AllReplysOfComments { get; set; }
     }
 }

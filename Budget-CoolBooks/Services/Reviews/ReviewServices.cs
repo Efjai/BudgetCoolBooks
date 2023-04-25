@@ -35,6 +35,18 @@ namespace Budget_CoolBooks.Services.Reviews
         {
             return _context.Reviews.Where(r => !r.IsDeleted).OrderByDescending(r => r.Created).ToList();
         }
+        public async Task<List<Review>> GetReviewByUserId(string userId)
+        {
+            // Include navigation-property. Sorts out all username that has IsDeleted=true. Sort by last created.
+            return _context.Reviews.Include(r => r.User).Where(r => r.User.Id == userId && !r.IsDeleted)
+                .OrderByDescending(r => r.Created).ToList();
+        }
+
+                public async Task<Review> GetSpecificReviewByID(int id)
+        {
+            return _context.Reviews.Where(r => r.Id == id).FirstOrDefault();
+        }
+
         public async Task<List<Review>> GetReviewByUsername(string userName)
         {
             // Include navigation-property. Sorts out all username that has IsDeleted=true. Sort by last created.

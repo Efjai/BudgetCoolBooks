@@ -317,3 +317,18 @@ VALUES (GetDate(), 'awr a< waqr ew tr jhgf jkhgj t', 1, 'ee2bf004-8ee6-41bb-b5a1
 
 INSERT INTO Comments(Created, Text, Flag, UserId, ReviewId)
 VALUES (GetDate(), 'gfdhgfjy ufkyu k uykyul y gulk yulk', 5, 'ee2bf004-8ee6-41bb-b5a1-245e82480c26', 1);
+
+
+
+--SEED Replys
+INSERT INTO Replys(Created, Text, Flag, UserId, CommentId)
+VALUES (GetDate(), 'Test1', 1, '00000000-0000-0000-0000-000000000001', 41);
+
+INSERT INTO Replys(Created, Text, Flag, UserId, CommentId)
+VALUES (GetDate(), 'Test2', 5, '00000000-0000-0000-0000-000000000001', 41);
+
+INSERT INTO Replys(Created, Text, Flag, UserId, CommentId)
+VALUES (GetDate(), 'Test1', 1, '00000000-0000-0000-0000-000000000001', 43);
+
+INSERT INTO Replys(Created, Text, Flag, UserId, CommentId)
+VALUES (GetDate(), 'Test2', 5, '00000000-0000-0000-0000-000000000001', 43);

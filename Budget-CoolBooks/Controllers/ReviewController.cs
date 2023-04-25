@@ -14,15 +14,17 @@ namespace Budget_CoolBooks.Controllers
     [Authorize]
     public class ReviewController : Controller
     {
-        private readonly ReviewServices _ReviewServices;
+        private readonly ReviewServices _reviewServices;
         private readonly BookServices _bookServices;
         private readonly UserServices _userServices;
+        private readonly AuthorServices _authorServices;
 
-        public ReviewController(ReviewServices reviewServices, BookServices bookServices, UserServices userServices)
+        public ReviewController(ReviewServices reviewServices, BookServices bookServices, UserServices userServices, AuthorServices authorServices)
         {
-            _ReviewServices = reviewServices;
+            _reviewServices = reviewServices;
             _bookServices = bookServices;
             _userServices = userServices;
+            _authorServices = authorServices;
         }
        
         public async Task<IActionResult> Index(int id)
@@ -31,17 +33,25 @@ namespace Budget_CoolBooks.Controllers
             return View();
         }
 
-        // ADD BOOK - GET
+        //ADD BOOK - GET
         [HttpGet]
         public async Task<IActionResult> Create(int id)
         {
-            ReviewcardViewModel viewModel = new ReviewcardViewModel();
-            viewModel.BookId = id;
+            ReviewcardViewModel viewModel = new ReviewcardViewModel 
+            {
+                ReviewBook = (List<Book>)await _bookServices.GetBookListByID(id),
+            };
+           
+
+            //var book = await _bookServices.GetBookById(id);
+            
+            //viewModel.ReviewBook.Add(book);
+
             return View("~/views/review/Create.cshtml", viewModel);
         }
 
-            // ADD BOOK - POST
-            [HttpPost]
+        // ADD BOOK - POST
+        [HttpPost]
         public async Task<IActionResult> Create(string title, string text, double rating, int id)
         {
             // Get Book object to review !!FIX BOOKID FROM DETAILS PAGE!!
@@ -79,12 +89,28 @@ namespace Budget_CoolBooks.Controllers
             }
 
 
-            if (!await _ReviewServices.CreateReview(review, currentUserID))
+            if (!await _reviewServices.CreateReview(review, currentUserID))
             {
                 return BadRequest();
             }
 
             return RedirectToAction("BookDetails", "Book", new { id = id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int reviewId)
+        {
+            var reviewToDelete = await _reviewServices.GetReviewByID(reviewId);
+            if (reviewToDelete == null)
+            {
+                return NotFound();
+            }
+            if (!await _reviewServices.DeleteReview(reviewToDelete))
+            {
+                return NotFound();
+            }
+            
+            return RedirectToAction("UserReviews", "User");
         }
     }
 }

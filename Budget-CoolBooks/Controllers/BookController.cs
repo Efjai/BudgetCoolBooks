@@ -63,6 +63,7 @@ namespace Budget_CoolBooks.Controllers
                 {
                     var ratings = await _reviewServices.GetAllRatingsOfBook(id);
                     var reviewIds = await _reviewServices.GetAllIdOfReviews(id);
+                    var commentIds = await _commentServices.GetAllIdOfComments(id);
 
                     var AllFullReviews = await _reviewServices.GetFULLAllRatingsOfBook(id);
 
@@ -70,14 +71,25 @@ namespace Budget_CoolBooks.Controllers
                     var AverageRatings = CalculateAverageRating(ratings);
 
                     int c = 0;
-                    List<Comment> CommentsToRatings = new List<Comment> { };
+                    List<Reply> GetAllReplysOfComments = new List<Reply> { };
+                    List<Comment> GetAllCommentsOfReplys = new List<Comment> { };
                     foreach (var Id in reviewIds)
                     {
                         var GetAllCommentsOfRatings = await _commentServices.GetAllCommentsOfReview(reviewIds[c]);
-                        CommentsToRatings.AddRange(GetAllCommentsOfRatings);
+                        GetAllCommentsOfReplys.AddRange(GetAllCommentsOfRatings);
+                        try
+                        {
+                            
+                            var GetAllReplysOfComment = await _commentServices.GetAllReplysOfComments(GetAllCommentsOfReplys[c].Id);
+                            GetAllReplysOfComments.AddRange(GetAllReplysOfComment);
+                        }
+                        catch 
+                        {
+                            break;
+                        }
                         c++;
                     }
-
+                    
                     BookcardViewModel ratingsViewModel = new BookcardViewModel();
 
                     var bookcardViewModel = new BookcardViewModel()
@@ -105,7 +117,8 @@ namespace Budget_CoolBooks.Controllers
                         AverageRating = AverageRatings,
 
                         AllFullReviews = AllFullReviews.ToList(),
-                        CommentsToRatings = CommentsToRatings.ToList(),
+                        CommentsToRatings = GetAllCommentsOfReplys.ToList(),
+                        AllReplysOfComments = GetAllReplysOfComments.ToList(),
                     };
                     return View("/views/book/bookcard.cshtml", bookcardViewModel);
                 }
