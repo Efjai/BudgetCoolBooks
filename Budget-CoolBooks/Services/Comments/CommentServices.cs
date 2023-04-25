@@ -20,11 +20,6 @@ namespace Budget_CoolBooks.Services.Comments
         {
             return _context.Comments.Where(c => c.Id == id).FirstOrDefault();
         }
-        public async Task<List<Reply>> GetRepliesByUserId(string id)
-        {
-            return _context.Replys.Where(c => c.User.Id == id).ToList();
-        }
-
 
         public async Task<bool> UpdateComment(Comment comment)
         {
@@ -38,6 +33,10 @@ namespace Budget_CoolBooks.Services.Comments
         }
 
         // REPLIES
+        public async Task<List<Reply>> GetRepliesByUserId(string id)
+        { 
+            return _context.Replys.Where(c => c.User.Id == id).ToList();
+        }
         public async Task<Reply> GetReplyById(int id)
         {
             return _context.Replys.Where(c => c.Id == id).FirstOrDefault();
