@@ -227,5 +227,22 @@ namespace Budget_CoolBooks.Controllers
 
             return RedirectToAction("BookDetails", "Book", new { id = bookId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteReply(int replyId)
+        {
+            Reply reply = await _commentServices.GetReplyById(replyId);
+            if (reply == null)
+            {
+                return NotFound();
+            }
+            if (!await _commentServices.DeleteReply(reply))
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("UserComments", "User");
+
+        }
     }
 }

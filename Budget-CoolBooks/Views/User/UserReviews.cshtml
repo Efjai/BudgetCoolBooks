@@ -3,6 +3,7 @@
 }
 @model Budget_CoolBooks.ViewModels.ReviewcardViewModel
 <br />
+
 <h2>Reviews</h2>
 <br />
     <table class="table">
@@ -30,7 +31,7 @@
                         </form>
                     </td>
                     <td>
-                        <form method="post" asp-controller="" asp-action="">
+                        <form method="get" asp-controller="Review" asp-action="Edit">
                             <button type="submit" class="btn btn-primary" name="reviewId" value="@review.Id">Edit</button>
                         </form>
                     </td>

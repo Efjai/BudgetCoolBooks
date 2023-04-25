@@ -112,5 +112,49 @@ namespace Budget_CoolBooks.Controllers
             
             return RedirectToAction("UserReviews", "User");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int reviewId)
+        {
+            var reviewresult = (List<Review>)await _reviewServices.GetReviewListByID(reviewId);
+
+            var bookResult = (List<Book>)await _bookServices.GetBookListByID(reviewresult[0].Book.Id);
+
+            ReviewcardViewModel viewModel = new ReviewcardViewModel
+            {
+                Review = reviewresult,
+                ReviewBook = bookResult,
+            };
+
+            return View("~/views/review/Create.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string title, string text, double rating, int id)
+        {
+            Review updated = await _reviewServices.GetReviewByID(id);
+
+            
+            updated.Title = title;
+            updated.Text = text;
+            updated.Rating = rating;
+
+
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (currentUser == null)
+            {
+                ModelState.AddModelError("", "Could not find user");
+                return StatusCode(500, ModelState);
+            }
+
+
+            if (!await _reviewServices.UpdateReview(updated, currentUserID))
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("UserReviews","User");
+        }
     }
 }

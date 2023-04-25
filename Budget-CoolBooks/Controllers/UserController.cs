@@ -173,18 +173,32 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
 
-            var commentResults = await _commentServices.GetCommentByUserId(currentUserID);
+            var replyResult = await _commentServices.GetRepliesByUserId(currentUserID);
+            if (replyResult == null)
+            {
+                return NotFound();
+            }
+
+            var commentResult = await _commentServices.GetCommentByUserId(currentUserID);
+            if (commentResult == null)
+            {
+                return NotFound();
+            }
 
             var viewmodel = new ReviewcardViewModel
             {
                 Review = reviewResult,
-                ReviewComment = commentResults,
+                ReviewComment = commentResult,
+                ReviewReplies = replyResult,
             };
+
 
 
 
             return View("UserComments", viewmodel);
         }
+
+        
 
     }
 }
