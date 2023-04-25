@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
 
-@if (Model.SearchActive || Model.SortedBooks != null)
+@if (Model.SearchActive || Model.SortedBooks != null || Model.SortedAuthors != null || Model.SortedISBN != null)
 {
     <div class="sorting-holder">
         <h2 class="title-search">Search Results</h2>
@@ -42,7 +42,7 @@
                                 <button input="submit" class="filter-button">@book.Title</button>
                     </form>
                 </td>
-                @*<td>@book.Author.Firstname @book.Author.Lastname</td>*@
+                @*<td>@book.BookAuthor @book.Author.Lastname</td>*@
                 <td>@book.ISBN</td>
             </tr>
         }
@@ -56,19 +56,70 @@
       <table class="table">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>ISBN</th>
+                <th>Authors</th>
             </tr>
         </thead>
         <tbody>
         @foreach (var book in Model.SortedBooks)
         {
             <tr>
-                <td>@book.Title</td>
-                @*<td>@book.Author.Firstname @book.Author.Lastname</td>*@
-                <td>@book.ISBN</td>
+                <td>
+                    <form method="post" asp-controller="Book" asp-action="BookDetails">
+                        <input type="hidden" name="id" value="@book.Id">
+                        <button input="submit" class="filter-button">@book.Title</button>
+                    </form>
+                </td>
             </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@if (Model.SortedAuthors != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var author in Model.SortedAuthors)
+            {
+                <tr>
+                    <td>
+                        <form method="get" asp-controller="Home" asp-action="AuthorDetails">
+                            <input type="hidden" name="id" value="@author.Id">
+                            <button input="submit" class="filter-button">
+                                @author.Firstname @author.Lastname
+                            </button>
+                        </form>
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if(Model.SortedISBN != null)
+{
+      <table class="table">
+        <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.SortedISBN)
+        {
+            <tr>
+                    <td>@book.ISBN</td>
+            </tr>
+                <tr>
+                    <td>@book.Title</td>
+                </tr>
         }
         </tbody>
     </table>

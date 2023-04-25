@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "Author details";
+}
+<link rel="stylesheet" href="~/css/startview.css" asp-append-version="true" />
+@model Budget_CoolBooks.ViewModels.AuthorDetailsViewModel
+
+<div class="card mb-3" id="author-details" style="max-width: 50vw">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="/images/member.png" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+            <h5 class="card-title">@Model.Author.Firstname @Model.Author.Lastname</h5>
+            <p class="card-text">Born: YYMMDD - ..</p>
+            <p class="card-text">Publisher: </p>
+            <p class="card-text">This could be a short biography.. </p>
+               
+            <p><strong>Books written by authors</strong></p>
+            <em>
+                <li>Book 1</li>
+                <li>Book 2</li>
+                <li>Book 3</li>
+                <li>etc</li>
+            </em>
+      </div>
+    </div>
+  </div>
+</div>
