@@ -1,6 +1,7 @@
 ﻿using Budget_CoolBooks.Models;
 using Budget_CoolBooks.Services.Authors;
 using Budget_CoolBooks.Services.Books;
+using Budget_CoolBooks.Services.Comments;
 using Budget_CoolBooks.Services.Reviews;
 using Budget_CoolBooks.Services.UserServices;
 using Budget_CoolBooks.ViewModels;
@@ -18,13 +19,15 @@ namespace Budget_CoolBooks.Controllers
         private readonly BookServices _bookServices;
         private readonly UserServices _userServices;
         private readonly AuthorServices _authorServices;
+        private readonly CommentServices _commentServices;
 
-        public ReviewController(ReviewServices reviewServices, BookServices bookServices, UserServices userServices, AuthorServices authorServices)
+        public ReviewController(ReviewServices reviewServices, BookServices bookServices, UserServices userServices, AuthorServices authorServices, CommentServices commentServices)
         {
             _reviewServices = reviewServices;
             _bookServices = bookServices;
             _userServices = userServices;
             _authorServices = authorServices;
+            _commentServices = commentServices;
         }
        
         public async Task<IActionResult> Index(int id)
@@ -40,6 +43,7 @@ namespace Budget_CoolBooks.Controllers
             ReviewcardViewModel viewModel = new ReviewcardViewModel 
             {
                 ReviewBook = (List<Book>)await _bookServices.GetBookListByID(id),
+                ReviewAuthor = (List<Author>)await _authorServices.GetAuthorsOfBook(id),
             };
            
 
@@ -105,6 +109,40 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
+
+            // CASCADE DELETE COMMENTS AND REPLIES WHEN REVIEWS ISDELETED?
+
+            var commentsToDelete = await _commentServices.GetAllCommentsOfReview(reviewId);
+            if (commentsToDelete == null) { return BadRequest(); }
+
+
+            /////// FUL LÖSNING FÖR ATT TA BORT REPLIES OCH COMMENTS KOPPLAT TILL REVIEW.
+            List<Reply> repliesToDelete = new List<Reply>();
+
+            foreach (var comment in commentsToDelete)
+            {
+                repliesToDelete = await _commentServices.GetAllReplysOfComments(comment.Id);
+                if (!repliesToDelete.Any()) { return BadRequest(); }
+            }
+
+            foreach (var reply in repliesToDelete)
+            {
+                if (!await _commentServices.DeleteReply(reply))
+                {
+                    return NotFound();
+                }
+            }
+
+            foreach (var comment in commentsToDelete)
+            {
+                if (!await _commentServices.DeleteComment(comment))
+                {
+                    return NotFound();
+                }
+            }
+            /////////////////////////
+
+
             if (!await _reviewServices.DeleteReview(reviewToDelete))
             {
                 return NotFound();
