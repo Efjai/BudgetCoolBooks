@@ -77,6 +77,39 @@ namespace Budget_CoolBooks.Controllers
             return RedirectToAction("BookDetails", "Book", new { id = id });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> LikeReview(int reviewId, int id)
+        {
+            var likeReview = await _reviewServices.GetSpecificReviewByID(reviewId);
+            if (likeReview == null)
+            {
+                return NotFound();
+            }
+            likeReview.Like = likeReview.Like + 1;
+
+            if (!await _userServices.LikeReviewById(likeReview))
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("BookDetails", "Book", new { id = id });
+        }
+        [HttpPost]
+        public async Task<IActionResult> DislikeReview(int reviewId, int id)
+        {
+            var dislikeReview = await _reviewServices.GetSpecificReviewByID(reviewId);
+            if (dislikeReview == null)
+            {
+                return NotFound();
+            }
+            dislikeReview.Like = dislikeReview.Like + 1;
+
+            if (!await _userServices.DislikeReviewById(dislikeReview))
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("BookDetails", "Book", new { id = id });
+        }
+
         public async Task<IActionResult> Index()
         {
             return View();

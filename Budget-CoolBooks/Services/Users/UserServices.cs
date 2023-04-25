@@ -94,6 +94,21 @@ namespace Budget_CoolBooks.Services.UserServices
             return Save();
         }
 
+        // LIKE - FUNCTIONS
+
+        public async Task<bool> LikeReviewById(Review Like)
+        {
+            _context.Reviews.Update(Like);
+            return Save();
+        }
+
+        // DISLIKE - FUNCTION
+        public async Task<bool> DislikeReviewById(Review DisLike)
+        {
+            _context.Reviews.Update(DisLike);
+            return Save();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
