@@ -83,8 +83,15 @@
             </form>
             @if (Model.CurrentUserId == @Model.AllFullReviews[j].User.Id)
             {
-                <button>Edit</button>
-                <button>Delete</button>
+                <form method="get" asp-controller="Review" asp-action="Edit">
+                    <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
+                    <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
+                </form>
+
+                <form method="post" asp-controller="Review" asp-action="Delete">
+                    <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
             }
         </div>
         <!-- Date created -->

@@ -13,9 +13,14 @@
         <!-- Author/s-->
         @foreach (var author in Model.Authors)
         {
-            <h4 class="card-text" style="padding-bottom: 3%;">
-                by @author.Firstname @author.Lastname
-            </h4>
+            <form method="get" asp-controller="Home" asp-action="AuthorDetails">        
+                <h4 class="card-text" style="padding-bottom: 3%;">
+                    <input type="hidden" name="id" value="@author.Id">
+                    <button input="submit" class="filter-button">
+                        @author.Firstname @author.Lastname
+                    </button>
+                </h4>
+            </form>
         }
         <div class="col-md-4" style="margin-bottom: auto; margin-top: auto;">
             <!-- Img -->
