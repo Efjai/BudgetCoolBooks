@@ -99,7 +99,7 @@ namespace Budget_CoolBooks.Services.Reviews
         }
         public async Task<ICollection<Review>> GetFULLAllRatingsOfBook(int id)
         {
-            return _context.Reviews.Include(r => r.User).Where(r => r.Book.Id == id && !r.IsDeleted).ToList();
+            return _context.Reviews.Include(r => r.User).Where(r => r.Book.Id == id && !r.IsDeleted).OrderByDescending(r => r.Like).ToList();
         }
         public bool Save()
         {

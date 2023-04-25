@@ -125,7 +125,5 @@ namespace Budget_CoolBooks.Controllers
 
             return RedirectToAction("BookDetails", "Book", new { id = bookId });
         }
-        
-
     }
 }
