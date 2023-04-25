@@ -25,7 +25,7 @@
                     <td>@review.Rating</td>
                     <td>@review.Created</td>
                     <td>
-                        <form method="post" asp-controller="" asp-action="">
+                        <form method="post" asp-controller="Review" asp-action="Delete">
                             <button type="submit" class="btn btn-primary" name="reviewId" value="@review.Id">Delete</button>
                         </form>
                     </td>
