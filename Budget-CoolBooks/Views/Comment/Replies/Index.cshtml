@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Reply to comment";
+}
+<link rel="stylesheet" href="~/css/commentreplyview.css" asp-append-version="true" />
+@model Budget_CoolBooks.ViewModels.CommentViewModel
+
+
+<div class="comment-section">
+    <form method="post" asp-controller="Comment" asp-action="AddReply">
+        <div class="mb-3" id="comment-box">
+            <label for="commentText" class="form-label"><h5>Leave a reply</h5></label>
+            <textarea class="form-control" rows="6" name="replyText"></textarea>
+        </div>
+
+        <input type="hidden" name="commentId" value="@Model.Comment.Id">
+        <input type="hidden" name="bookId" value="@Model.BookId">
+        <button input="submit"  class="btn btn-primary btn sm">Publish</button>
+    </form>
+
+
+    <br /><hr /><br />
+    <h5>Reply to comment</h5>
+    <p><em> @Model.Comment.Text</em></p>
+</div>

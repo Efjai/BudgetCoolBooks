@@ -34,7 +34,9 @@
         <!-- Like Dislike -->
         <div class="LikeDislike">
             <!-- Comment -->
-            <form method="post" asp-controller="" asp-action="" style="margin-top: auto; margin-bottom: auto; margin-right: 1%;">
+            <form method="post" asp-controller="Comment" asp-action="index" style="margin-top: auto; margin-bottom: auto; margin-right: 1%;">
+                <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
+                <input type="hidden" name="bookId" value="@Model.BookId">
                 <button input="submit"><img src="~/images/comment.png" style="width: 25px; height: 25px;"></button>
             </form>
             <div class="LikeDislike" style="justify-items: right;">
@@ -92,7 +94,9 @@
                             <p>@Model.CommentsToRatings[c].Text</p>
                             <div style="display: inline-flex; width: 80%;">
                                 <!-- Reply -->
-                                <form method="post" asp-controller="" asp-action="">
+                                <form method="post" asp-controller="Comment" asp-action="ReplyIndex">
+                                    <input type="hidden" name="commentId" value="@comment.Id">
+                                    <input type="hidden" name="bookId" value="@Model.BookId">
                                     <button input="submit"><img src="~/images/comment.png" style="width: 15px; height: 15px;"></button>
                                 </form>
                                 <!-- Date created -->

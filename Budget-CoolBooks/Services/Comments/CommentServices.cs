@@ -37,34 +37,35 @@ namespace Budget_CoolBooks.Services.Comments
             return Save();
         }
 
+       
+        public async Task<List<Comment>> GetAllCommentsOfReview(int id)
+        {
+            return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).ToList();
+        }
+
+        //public async Task<List<Comment>> GetAllReplysOfComments(int id)
+        //{
+        //    return _context.Comments.Include(r => r.User).Where(r => r.Comments.Id == id).ToList();
+        //}
+
+        public async Task<bool> CreateComment(Comment comment)
+        {
+            _context.Comments.Add(comment);
+            return Save();
+        }
+
+        public async Task<bool> CreateReply(Reply reply)
+        {
+            _context.Replys.Add(reply);
+            return Save();
+        }
+
         // OTHER
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
-        public async Task<List<Comment>> GetAllCommentsOfReview(int id)
-        {
-            return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).ToList();
-        }
-        public async Task<bool> CreateComment(Comment comment, string userId)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-            {
-                return false;
-            }
 
-            comment.User = user;
-
-
-            _context.Comments.Add(comment);
-
-            return Save();
-        }
-        //public async Task<List<Comment>> GetAllReplysOfComments(int id)
-        //{
-        //    return _context.Comments.Include(r => r.User).Where(r => r.Comment.Id == id).ToList();
-        //}
     }
 }
