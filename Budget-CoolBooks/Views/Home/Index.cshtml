@@ -13,7 +13,7 @@
         <input type="radio" name="slider" id="slide1" checked>
         <input type="radio" name="slider" id="slide2">
         <input type="radio" name="slider" id="slide3">
-       @* <input type="radio" name="slider" id="slide4"> *@   
+ 
         <div id="slides">
             <div id="overflow">
                 <div class="inner">
@@ -22,12 +22,11 @@
                  
                         <div class="slide slide_1">
                             <div class="slide-content">
-                                <h2>@book.Title</h2>
-                                <p><img src=@book.Imagepath alt=@book.Title style="width: 35%; margin-right: auto; margin-left: auto;" /></p>
-                            <form method="post" asp-controller="Book" asp-action="BookDetails">
+                                <h2>@book.Title</h2>                                
+                                <form method="post" asp-controller="Book" asp-action="BookDetails">
                                 <input type="hidden" name="id" value="@book.Id">
-                                <button input="submit" class="btn btn-primary btn sm">Details</button>
-                            </form>
+                                <button input="submit" style="background-color: transparent; border: none;"><img src=@book.Imagepath alt=@book.Title style="width: 125%; margin-right: auto; margin-left: auto;" /></button>
+                                </form>
                             </div>                        
                         </div>                    
                     i++;
