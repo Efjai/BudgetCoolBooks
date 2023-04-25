@@ -9,6 +9,8 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Net;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
+using Budget_CoolBooks.Services.UserServices;
+using System.Security.Claims;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -18,6 +20,7 @@ namespace Budget_CoolBooks.Controllers
         private readonly AuthorServices _authorServices;
         private readonly ReviewServices _reviewServices;
         private readonly CommentServices _commentServices;
+        private readonly UserServices _userServices;
 
         public BookController(BookServices bookServices, AuthorServices authorServices, ReviewServices reviewServices, CommentServices commentServices)
         {
@@ -89,7 +92,14 @@ namespace Budget_CoolBooks.Controllers
                         }
                         c++;
                     }
-                    
+
+                    ClaimsPrincipal currentUser = this.User;
+                    var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    if (currentUserID == null)
+                    {
+                        return NotFound();
+                    }
+
                     BookcardViewModel ratingsViewModel = new BookcardViewModel();
 
                     var bookcardViewModel = new BookcardViewModel()
@@ -119,6 +129,7 @@ namespace Budget_CoolBooks.Controllers
                         AllFullReviews = AllFullReviews.ToList(),
                         CommentsToRatings = GetAllCommentsOfReplys.ToList(),
                         AllReplysOfComments = GetAllReplysOfComments.ToList(),
+                        CurrentUserId = currentUserID,
                     };
                     return View("/views/book/bookcard.cshtml", bookcardViewModel);
                 }

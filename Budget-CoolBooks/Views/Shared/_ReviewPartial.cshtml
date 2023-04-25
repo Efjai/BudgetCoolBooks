@@ -2,6 +2,8 @@
 @{
     int j = 0;
 }
+@inject UserManager<User> UserManager
+
 @foreach (var rating in Model.AllFullReviews)
 {
     <div class="cardreviews" style="max-width: 650px; padding-bottom: 0; padding-top: 1%;">
@@ -35,16 +37,13 @@
         <!-- Like Dislike -->
         <div class="LikeDislike">
             <!-- Comment -->
-            <form method="post" asp-controller="" asp-action="" style="margin-top: auto; margin-bottom: auto; margin-right: 1%;">
+            <form method="post" asp-controller="Comment" asp-action="index" style="margin-top: auto; margin-bottom: auto; margin-right: 1%;">
+                <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
+                <input type="hidden" name="bookId" value="@Model.BookId">
                 <button input="submit"><img src="~/images/comment.png" style="width: 25px; height: 25px;"></button>
             </form>
             <div class="LikeDislike" style="justify-items: right;">
                 <!-- Like -->
-                <form method="post" asp-controller="User" asp-action="LikeReview">
-                    <input type="hidden" name="reviewId" value="@Model.BookId" />
-                    <input type="hidden" name="id" value="@Model.AllFullReviews[j]" />
-                    <button type="submit" name="like"><img src="https://i.imgur.com/mHSQOaX.png"></button>
-                </form>
                 @if (@Model.AllFullReviews[j].Text != null)
                 {
                     <p style="text-align: left;">@Model.AllFullReviews[j].Like</p>
@@ -53,16 +52,18 @@
                 {
                     <p style="text-align: left;">0</p>
                 }
-                @*<a style="text-align: right;"><img src="https://i.imgur.com/mHSQOaX.png"></a>*@
+                <form method="post" asp-controller="User" asp-action="LikeReview">
+                    <input type="hidden" name="reviewId" value="@Model.BookId" />
+                    <input type="hidden" name="id" value="@Model.AllFullReviews[j]" />
+                    <button type="submit" name="like" style="border: none; background-color: transparent;"><img src="https://i.imgur.com/mHSQOaX.png"></button>
+                </form>
             </div>
-
             <!-- Dislike -->
             <div class="LikeDislike">
-                @*<a style="text-align: right;"><img src="https://i.imgur.com/bFBO3J7.png"></a>*@
                 <form method="post" asp-controller="User" asp-action="DislikeReview">
                     <input type="hidden" name="reviewId" value="@Model.BookId" />
                     <input type="hidden" name="id" value="@Model.AllFullReviews[j].Id" />
-                    <button type="submit" name="dislike"><img src="https://i.imgur.com/bFBO3J7.png"></button>
+                    <button type="submit" name="dislike" style="border: none; background-color: transparent;"><img src="https://i.imgur.com/bFBO3J7.png"></button>
                 </form>
                 @if (@Model.AllFullReviews[j].Text != null)
                 {
@@ -73,12 +74,18 @@
                     <p style="text-align: left;">0</p>
                 }
             </div>
+
             <!-- Flag -->
             <form method="post" asp-controller="User" asp-action="FlagReview" style="margin-top: auto; margin-bottom: auto; margin-left: 1%;">
                 <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
                 <input type="hidden" name="id" value="@Model.BookId">
                 <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
             </form>
+            @if (Model.CurrentUserId == @Model.AllFullReviews[j].User.Id)
+            {
+                <button>Edit</button>
+                <button>Delete</button>
+            }
         </div>
         <!-- Date created -->
         <div>
@@ -105,7 +112,9 @@
                             <p>@Model.CommentsToRatings[c].Text</p>
                             <div style="display: inline-flex; width: 80%;">
                                 <!-- Reply -->
-                                <form method="post" asp-controller="" asp-action="">
+                                <form method="post" asp-controller="Comment" asp-action="ReplyIndex">
+                                    <input type="hidden" name="commentId" value="@comment.Id">
+                                    <input type="hidden" name="bookId" value="@Model.BookId">
                                     <button input="submit"><img src="~/images/comment.png" style="width: 15px; height: 15px;"></button>
                                 </form>
                                 <!-- Date created -->
@@ -116,6 +125,21 @@
                                     <input type="hidden" name="id" value="@Model.BookId">
                                     <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                 </form>
+
+                                @if (Model.CurrentUserId == @comment.User.Id)
+                                {
+                                    <form method="get" asp-controller="Comment" asp-action="EditComment">
+                                        <input type="hidden" name="commentId" value="@comment.Id">
+                                        <input type="hidden" name="bookId" value="@Model.BookId">
+                                        <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
+                                    </form>
+
+                                    <form method="post" asp-controller="Comment" asp-action="DeleteComment">
+                                        <input type="hidden" name="commentId" value="@comment.Id">
+                                        <input type="hidden" name="bookId" value="@Model.BookId">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </form>
+                                }
                             </div>
                         </div>
                     }
@@ -144,6 +168,21 @@
                                         <input type="hidden" name="id" value="@Model.BookId">
                                         <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                     </form>
+
+                                    @if (Model.CurrentUserId == @Model.AllFullReviews[j].User.Id)
+                                    {
+                                        <form method="get" asp-controller="Comment" asp-action="EditReply">
+                                            <input type="hidden" name="replyId" value="@reply.Id">
+                                            <input type="hidden" name="bookId" value="@Model.BookId">
+                                            <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
+                                        </form>
+
+                                        <form method="post" asp-controller="Comment" asp-action="DeleteReply">
+                                            <input type="hidden" name="replyId" value="@reply.Id">
+                                            <input type="hidden" name="bookId" value="@Model.BookId">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    }
                                 </div>
                             </div>
                         }

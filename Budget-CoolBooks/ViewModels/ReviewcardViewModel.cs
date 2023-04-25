@@ -11,6 +11,7 @@ namespace Budget_CoolBooks.ViewModels
         public User ReviewUser { get; set; }
         public List<Review> Review { get; set; }
         public List<Comment> ReviewComment { get; set; }
+        public List<Reply> ReviewReplies { get; set; }
 
 
 

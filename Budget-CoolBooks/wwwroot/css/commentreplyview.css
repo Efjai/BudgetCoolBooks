@@ -1,0 +1,13 @@
+﻿body {
+}
+
+.comment-section {
+    display: grid;
+    justify-content: center;
+
+}
+
+#comment-box {
+    width: 40vw;
+    text-align: center;
+}

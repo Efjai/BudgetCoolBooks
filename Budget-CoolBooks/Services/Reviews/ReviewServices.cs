@@ -31,6 +31,22 @@ namespace Budget_CoolBooks.Services.Reviews
             return Save();
         }
 
+        public async Task<bool> UpdateReview(Review review, string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            review.User = user;
+
+
+            _context.Reviews.Update(review);
+
+            return Save();
+        }
+
         public async Task<List<Review>> GetAllReviews()
         {
             return _context.Reviews.Where(r => !r.IsDeleted).OrderByDescending(r => r.Created).ToList();
@@ -55,7 +71,13 @@ namespace Budget_CoolBooks.Services.Reviews
         }
         public async Task<Review> GetReviewByID(int id)
         {
+            // ADDED INCLUDE TO .Include(r => r.Book)
             return _context.Reviews.Where(r => r.Id == id && !r.IsDeleted).FirstOrDefault();
+        }
+        public async Task<List<Review>> GetReviewListByID(int id)
+        {
+            // ADDED INCLUDE TO TEST
+            return _context.Reviews.Include(r => r.Book).Where(r => r.Id == id && !r.IsDeleted).ToList();
         }
         public async Task<string> CheckForReview(int BookId)
         {
@@ -99,7 +121,7 @@ namespace Budget_CoolBooks.Services.Reviews
         }
         public async Task<ICollection<Review>> GetFULLAllRatingsOfBook(int id)
         {
-            return _context.Reviews.Include(r => r.User).Where(r => r.Book.Id == id && !r.IsDeleted).ToList();
+            return _context.Reviews.Include(r => r.User).Where(r => r.Book.Id == id && !r.IsDeleted).OrderByDescending(r => r.Like).ToList();
         }
         public bool Save()
         {

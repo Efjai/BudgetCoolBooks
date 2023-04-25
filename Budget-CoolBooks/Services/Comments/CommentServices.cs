@@ -14,15 +14,17 @@ namespace Budget_CoolBooks.Services.Comments
         {
             _context = context;
         }
+
         // COMMENTS 
         public async Task<Comment> GetCommentById(int id)
         {
             return _context.Comments.Where(c => c.Id == id).FirstOrDefault();
         }
 
-        public async Task<List<Comment>> GetCommentByUserId(string id)
+        public async Task<bool> UpdateComment(Comment comment)
         {
-            return _context.Comments.Where(c => c.User.Id == id).ToList();
+            _context.Comments.Update(comment);
+            return Save();
         }
         public async Task<bool> DeleteComment(Comment comment)
         {
@@ -31,43 +33,61 @@ namespace Budget_CoolBooks.Services.Comments
         }
 
         // REPLIES
+        public async Task<List<Reply>> GetRepliesByUserId(string id)
+        { 
+            return _context.Replys.Where(c => c.User.Id == id).ToList();
+        }
         public async Task<Reply> GetReplyById(int id)
         {
             return _context.Replys.Where(c => c.Id == id).FirstOrDefault();
-        } 
+        }
+        public async Task<bool> UpdateReply(Reply reply)
+        {
+            _context.Replys.Update(reply);
+            return Save();
+        }
         public async Task<bool> DeleteReply(Reply reply)
         {
             _context.Replys.Remove(reply);
             return Save();
         }
-        public async Task<List<Reply>> GetAllReplysOfComments(int id)
+
+       
+        public async Task<List<Comment>> GetAllCommentsOfReview(int id)
         {
-            return _context.Replys.Include(r => r.User).Include(r => r.Comment).Where(r => r.Comment.Id == id).ToList();
+            return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).OrderByDescending(r => r.Created).ToList();
         }
+
+        //public async Task<List<Comment>> GetAllReplysOfComments(int id)
+        //{
+        //    return _context.Comments.Include(r => r.User).Where(r => r.Comments.Id == id).ToList();
+        //}
+
+        public async Task<bool> CreateComment(Comment comment)
+        {
+            _context.Comments.Add(comment);
+            return Save();
+        }
+
+        public async Task<bool> CreateReply(Reply reply)
+        {
+            _context.Replys.Add(reply);
+            return Save();
+        }
+
         // OTHER
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
-        public async Task<List<Comment>> GetAllCommentsOfReview(int id)
+        public async Task<List<Comment>> GetCommentByUserId(string id)
         {
-            return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).ToList();
+            return _context.Comments.Where(c => c.User.Id == id).ToList();
         }
-        public async Task<bool> CreateComment(Comment comment, string userId)
+        public async Task<List<Reply>> GetAllReplysOfComments(int id)
         {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-            {
-                return false;
-            }
-
-            comment.User = user;
-
-
-            _context.Comments.Add(comment);
-
-            return Save();
+            return _context.Replys.Include(r => r.User).Include(r => r.Comment).Where(r => r.Comment.Id == id).OrderByDescending(r => r.Created).ToList();
         }
         public async Task<IList<int>> GetAllIdOfComments(int id)
         {
