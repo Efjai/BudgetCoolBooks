@@ -128,8 +128,17 @@
 
                                 @if (Model.CurrentUserId == @comment.User.Id)
                                 {
-                                    <button>Edit</button>
-                                    <button>Delete</button>
+                                    <form method="get" asp-controller="Comment" asp-action="EditComment">
+                                        <input type="hidden" name="commentId" value="@comment.Id">
+                                        <input type="hidden" name="bookId" value="@Model.BookId">
+                                        <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
+                                    </form>
+
+                                    <form method="post" asp-controller="Comment" asp-action="DeleteComment">
+                                        <input type="hidden" name="commentId" value="@comment.Id">
+                                        <input type="hidden" name="bookId" value="@Model.BookId">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </form>
                                 }
                             </div>
                         </div>
@@ -162,8 +171,17 @@
 
                                     @if (Model.CurrentUserId == @Model.AllFullReviews[j].User.Id)
                                     {
-                                        <button>Edit</button>
-                                        <button>Delete</button>
+                                        <form method="get" asp-controller="Comment" asp-action="EditReply">
+                                            <input type="hidden" name="replyId" value="@reply.Id">
+                                            <input type="hidden" name="bookId" value="@Model.BookId">
+                                            <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
+                                        </form>
+
+                                        <form method="post" asp-controller="Comment" asp-action="DeleteReply">
+                                            <input type="hidden" name="replyId" value="@reply.Id">
+                                            <input type="hidden" name="bookId" value="@Model.BookId">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
                                     }
                                 </div>
                             </div>

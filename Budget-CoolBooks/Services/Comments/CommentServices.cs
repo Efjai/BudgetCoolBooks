@@ -20,6 +20,11 @@ namespace Budget_CoolBooks.Services.Comments
         {
             return _context.Comments.Where(c => c.Id == id).FirstOrDefault();
         }
+        public async Task<bool> UpdateComment(Comment comment)
+        {
+            _context.Comments.Update(comment);
+            return Save();
+        }
         public async Task<bool> DeleteComment(Comment comment)
         {
             _context.Comments.Remove(comment);
@@ -30,7 +35,12 @@ namespace Budget_CoolBooks.Services.Comments
         public async Task<Reply> GetReplyById(int id)
         {
             return _context.Replys.Where(c => c.Id == id).FirstOrDefault();
-        } 
+        }
+        public async Task<bool> UpdateReply(Reply reply)
+        {
+            _context.Replys.Update(reply);
+            return Save();
+        }
         public async Task<bool> DeleteReply(Reply reply)
         {
             _context.Replys.Remove(reply);

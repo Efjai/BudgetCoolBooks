@@ -6,6 +6,7 @@ namespace Budget_CoolBooks.ViewModels
     {
         public Review Review { get; set; }
         public Comment Comment { get; set; }    
+        public Reply Reply { get; set; }
         public int BookId { get; set; }
 
     }
