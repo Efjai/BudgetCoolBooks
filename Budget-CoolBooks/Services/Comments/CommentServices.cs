@@ -20,6 +20,12 @@ namespace Budget_CoolBooks.Services.Comments
         {
             return _context.Comments.Where(c => c.Id == id).FirstOrDefault();
         }
+        public async Task<List<Reply>> GetRepliesByUserId(string id)
+        {
+            return _context.Replys.Where(c => c.User.Id == id).ToList();
+        }
+
+
         public async Task<bool> UpdateComment(Comment comment)
         {
             _context.Comments.Update(comment);

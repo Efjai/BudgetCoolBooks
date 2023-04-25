@@ -132,6 +132,8 @@ namespace Budget_CoolBooks.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string title, string text, double rating, int id)
         {
+            var test = id; 
+
             Review updated = await _reviewServices.GetReviewByID(id);
 
             
