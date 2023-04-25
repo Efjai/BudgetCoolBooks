@@ -9,6 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Net;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
+using Budget_CoolBooks.Services.UserServices;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -18,6 +19,7 @@ namespace Budget_CoolBooks.Controllers
         private readonly AuthorServices _authorServices;
         private readonly ReviewServices _reviewServices;
         private readonly CommentServices _commentServices;
+        private readonly UserServices _userServices;
 
         public BookController(BookServices bookServices, AuthorServices authorServices, ReviewServices reviewServices, CommentServices commentServices)
         {

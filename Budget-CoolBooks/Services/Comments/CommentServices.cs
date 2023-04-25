@@ -66,6 +66,17 @@ namespace Budget_CoolBooks.Services.Comments
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
-
+        public async Task<List<Comment>> GetCommentByUserId(string id)
+        {
+            return _context.Comments.Where(c => c.User.Id == id).ToList();
+        }
+        public async Task<List<Reply>> GetAllReplysOfComments(int id)
+        {
+            return _context.Replys.Include(r => r.User).Include(r => r.Comment).Where(r => r.Comment.Id == id).ToList();
+        }
+        public async Task<IList<int>> GetAllIdOfComments(int id)
+        {
+            return _context.Comments.Where(r => r.Review.Id == id).Select(r => r.Id).ToList();
+        }
     }
 }

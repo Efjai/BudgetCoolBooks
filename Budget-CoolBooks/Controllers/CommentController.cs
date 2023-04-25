@@ -7,6 +7,7 @@ using Budget_CoolBooks.Services.UserServices;
 using Budget_CoolBooks.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Net;
 using System.Security.Claims;
@@ -17,13 +18,12 @@ namespace Budget_CoolBooks.Controllers
         
     public class CommentController : Controller
     {
-            private readonly ReviewServices _ReviewServices;
-            private readonly BookServices _bookServices;
-            private readonly UserServices _userServices;
+        private readonly ReviewServices _ReviewServices;
+        private readonly BookServices _bookServices;
+        private readonly UserServices _userServices;
         private readonly CommentServices _commentServices;
 
-        public CommentController(ReviewServices reviewServices, BookServices bookServices, UserServices userServices,
-            CommentServices commentServices)
+        public CommentController(ReviewServices reviewServices, BookServices bookServices, UserServices userServices,CommentServices commentServices)
         {
             _ReviewServices = reviewServices;
             _bookServices = bookServices;
@@ -125,5 +125,7 @@ namespace Budget_CoolBooks.Controllers
 
             return RedirectToAction("BookDetails", "Book", new { id = bookId });
         }
+        
+
     }
 }
