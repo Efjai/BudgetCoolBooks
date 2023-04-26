@@ -8,5 +8,6 @@
         public DateTime Created { get; set; }
         public Book? Book { get; set; }
         public Author Author { get; set; }
+        public List<QuoteCategory> QuotesCategories { get; } = new();
     }
 }
