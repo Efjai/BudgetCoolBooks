@@ -41,8 +41,7 @@ body {
     }
 }
 footer {
-    background-color: gray;
-    color: white;
+    background-color: rgba(248,249,250);
     padding: 50px;
     cursor: default;
     position: absolute;
