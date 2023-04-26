@@ -20,6 +20,9 @@
                 Role
             </th>
             <th> 
+                Modify role
+            </th>
+            <th>
                 Setting
             </th>
         </tr>
@@ -45,10 +48,6 @@
                 </td>
                 <td>
                     <div class="admin-settings">
-                        <form method="post" asp-controller="AdminUser" asp-action="Delete">
-                            <input type="hidden" name="id" value="@user.Id">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
                         @if(!await UserManager.IsInRoleAsync(user, "Admin"))
                         {
                             <form method = "post" asp-controller="AdminUser" asp-action="PromoteToAdmin">
@@ -64,7 +63,7 @@
                             </form>
                         }
 
-                        @if (!await UserManager.IsInRoleAsync(user, "Admin"))
+                        @if (await UserManager.IsInRoleAsync(user, "Moderator"))
                         {
                         <form method="post" asp-controller="AdminUser" asp-action="Demote" >
                             <input type="hidden" name ="id" value="@user.Id">
@@ -73,6 +72,12 @@
                         }
                        
                     </div>
+                </td>
+                <td>
+                    <form method="post" asp-controller="AdminUser" asp-action="Delete">
+                            <input type="hidden" name="id" value="@user.Id">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
                 </td>
             </tr>
         }
