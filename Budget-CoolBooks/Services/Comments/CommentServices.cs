@@ -28,7 +28,8 @@ namespace Budget_CoolBooks.Services.Comments
         }
         public async Task<bool> DeleteComment(Comment comment)
         {
-            _context.Comments.Remove(comment);
+            comment.IsDeleted = true;
+            _context.Comments.Update(comment);
             return Save();
         }
 
@@ -48,7 +49,8 @@ namespace Budget_CoolBooks.Services.Comments
         }
         public async Task<bool> DeleteReply(Reply reply)
         {
-            _context.Replys.Remove(reply);
+            reply.IsDeleted = true;
+            _context.Replys.Update(reply);
             return Save();
         }
 
