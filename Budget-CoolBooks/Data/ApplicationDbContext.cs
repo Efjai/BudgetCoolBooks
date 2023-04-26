@@ -21,6 +21,7 @@ namespace Budget_CoolBooks.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reply> Replys { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Quote> Quotes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
