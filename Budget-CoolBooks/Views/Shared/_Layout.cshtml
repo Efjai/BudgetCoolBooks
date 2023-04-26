@@ -34,7 +34,31 @@
                 </div>
             </div>
         <!-- Navbar -->
-        <partial name="_NavbarPartial" />
+        <nav class="navbar navbar-expand-md bg-light">
+            <div class="container">
+                <!-- Navbar Start -->
+                <ul class="nav nav-pills">
+                    <!-- LOGO -->
+                    <li class="nav-item">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/images/Book.png" alt="" width="40" height="40" class=" " />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Book" asp-action="Index">Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact us</a>
+                    </li>
+                </ul>
+                <!-- Navbar End -->
+                <!-- Login,Register and User Menu -->
+                <partial name="_LoginPartial"/>
+            </div>
+        </nav>
     </header>
     <!-- Header End -->
     <div class="container">
@@ -42,10 +66,27 @@
             @RenderBody()
         </main>
     </div>
-    &copy; 2023 - Budget_CoolBooks
     <!-- Footer -->
-    <footer class=footer>
-        <partial name="_FooterPartial" />
+    <footer>
+        <div class="footercontent">
+            <div class="footerinfobox">
+                <h3>Company</h3>
+                <p>We provide a review service of books and the ability to submit books to be reviewed. Make sure to swipe the right way on tinder!</p>
+            </div>
+            <div class="footerinfobox">
+                <h3>Socials</h3>
+                <a href="#"><img src="/images/facebook.png" alt="error" style="width: 40px;"></a>
+                <a href="#"><img src="/images/twitter.png" alt="error" style="width: 40px;"></a>
+                <a href="#"><img src="/images/instagram.jpg" alt="error" style="width: 40px;"></a>
+                <a href="https://imgur.com/mawrYLx"><img src="/images/tinder.png" alt="error" style="width: 40px;"></a>
+            </div>
+            <div class="footerinfobox">
+                <h3>Contact us</h3>
+                <p>Adress: Filsbäcksvägen 13, 531 70 Lidköping</p>
+                <p>Email: BudgetCoolbooks@wecare.com</p>
+                <p>Tele: +46723952740</p>
+            </div>
+        </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

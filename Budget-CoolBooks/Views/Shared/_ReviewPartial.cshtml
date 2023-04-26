@@ -120,7 +120,7 @@
                             <div style="display: inline-flex; width: 80%;">
                                 <!-- Reply -->
                                 <form method="post" asp-controller="Comment" asp-action="ReplyIndex">
-                                    <input type="hidden" name="commentId" value="@comment.Id">
+                                    <input type="hidden" name="commentId" value="@Model.CommentsToRatings[j].Id">
                                     <input type="hidden" name="bookId" value="@Model.BookId">
                                     <button input="submit"><img src="~/images/comment.png" style="width: 15px; height: 15px;"></button>
                                 </form>
