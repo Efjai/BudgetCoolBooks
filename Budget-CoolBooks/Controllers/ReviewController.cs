@@ -110,37 +110,37 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
 
-            // CASCADE DELETE COMMENTS AND REPLIES WHEN REVIEWS ISDELETED?
+            //// CASCADE DELETE COMMENTS AND REPLIES WHEN REVIEWS ISDELETED?
 
-            var commentsToDelete = await _commentServices.GetAllCommentsOfReview(reviewId);
-            if (commentsToDelete == null) { return BadRequest(); }
+            //var commentsToDelete = await _commentServices.GetAllCommentsOfReview(reviewId);
+            //if (commentsToDelete == null) { return BadRequest(); }
 
 
-            /////// FUL LÖSNING FÖR ATT TA BORT REPLIES OCH COMMENTS KOPPLAT TILL REVIEW.
-            List<Reply> repliesToDelete = new List<Reply>();
+            ///////// FUL LÖSNING FÖR ATT TA BORT REPLIES OCH COMMENTS KOPPLAT TILL REVIEW.
+            //List<Reply> repliesToDelete = new List<Reply>();
 
-            foreach (var comment in commentsToDelete)
-            {
-                repliesToDelete = await _commentServices.GetAllReplysOfComments(comment.Id);
-                if (!repliesToDelete.Any()) { return BadRequest(); }
-            }
+            //foreach (var comment in commentsToDelete)
+            //{
+            //    repliesToDelete = await _commentServices.GetAllReplysOfComments(comment.Id);
+            //    if (!repliesToDelete.Any()) { return BadRequest(); }
+            //}
 
-            foreach (var reply in repliesToDelete)
-            {
-                if (!await _commentServices.DeleteReply(reply))
-                {
-                    return NotFound();
-                }
-            }
+            //foreach (var reply in repliesToDelete)
+            //{
+            //    if (!await _commentServices.DeleteReply(reply))
+            //    {
+            //        return NotFound();
+            //    }
+            //}
 
-            foreach (var comment in commentsToDelete)
-            {
-                if (!await _commentServices.DeleteComment(comment))
-                {
-                    return NotFound();
-                }
-            }
-            /////////////////////////
+            //foreach (var comment in commentsToDelete)
+            //{
+            //    if (!await _commentServices.DeleteComment(comment))
+            //    {
+            //        return NotFound();
+            //    }
+            //}
+            ///////////////////////////
 
 
             if (!await _reviewServices.DeleteReview(reviewToDelete))
