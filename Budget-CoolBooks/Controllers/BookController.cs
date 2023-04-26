@@ -46,7 +46,7 @@ namespace Budget_CoolBooks.Controllers
         public async Task<IActionResult> BookDetails(int id)
         {
             //Get book by bookid
-            var bookResult = await _bookServices.GetBookById(id);
+            var bookResult = await _bookServices.GetBookListByID(id);
             if (bookResult == null)
             {
                 return NotFound();
@@ -57,13 +57,9 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-            //Get a review by bookid
-            var reviewResults = await _reviewServices.GetReviewByBookID(id);
             try
             {
-                //Try to get full review statistics and make full viewcardmodel
-                if (reviewResults.Title != null || reviewResults.Title == "")
-                {
+
                     var ratings = await _reviewServices.GetAllRatingsOfBook(id);
                     var reviewIds = await _reviewServices.GetAllIdOfReviews(id);
                     var commentIds = await _commentServices.GetAllIdOfComments(id);
@@ -92,7 +88,6 @@ namespace Budget_CoolBooks.Controllers
                         }
                         c++;
                     }
-
                     ClaimsPrincipal currentUser = this.User;
                     var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
                     if (currentUserID == null)
@@ -104,24 +99,11 @@ namespace Budget_CoolBooks.Controllers
 
                     var bookcardViewModel = new BookcardViewModel()
                     {
-                        BookId = bookResult.Id,
-                        BookTitle = bookResult.Title,
-                        BookDescription = bookResult.Description,
-                        ImgPath = bookResult.Imagepath,
+                        Books = bookResult.ToList(),
 
                         Authors = authorsResult.ToList(),
 
-                        ReviewUser = reviewResults.User,
-                        ReviewCreated = reviewResults.Created,
-                        ReviewRating = reviewResults.Rating,
-                        ReviewTitle = reviewResults.Title,
-                        ReviewText = reviewResults.Text,
-                        ReviewID = reviewResults.Id,
-                        Like = reviewResults.Like,
-                        Dislike = reviewResults.Dislike,
-                        Flag = reviewResults.Flag,
-
-                        IsNotReviewed = reviewResults.Title,
+                        IsNotReviewed = 0,
 
                         RatingsByValue = RatingPerGrades,
                         AverageRating = AverageRatings,
@@ -132,7 +114,6 @@ namespace Budget_CoolBooks.Controllers
                         CurrentUserId = currentUserID,
                     };
                     return View("/views/book/bookcard.cshtml", bookcardViewModel);
-                }
             }
             //If no reviews on book
             catch (NullReferenceException)
@@ -140,14 +121,11 @@ namespace Budget_CoolBooks.Controllers
                 //Just get book info (no reviews) & a nis not reviewed varible
                 var bookcardViewModel2 = new BookcardViewModel()
                 {
-                    BookId = bookResult.Id,
-                    BookTitle = bookResult.Title,
-                    BookDescription = bookResult.Description,
-                    ImgPath = bookResult.Imagepath,
+                    Books = bookResult.ToList(),
 
                     Authors = authorsResult.ToList(),
 
-                    IsNotReviewed = "yes",
+                    IsNotReviewed = 1,
                 };
                 return View("/views/book/bookcard.cshtml", bookcardViewModel2);
             }
