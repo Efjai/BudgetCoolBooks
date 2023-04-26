@@ -57,20 +57,20 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-                    var ratings = await _reviewServices.GetAllRatingsOfBook(id);
+            var ratings = await _reviewServices.GetAllRatingsOfBook(id);
 
-                for (int i = 0; i < 1; i++) 
+            for (int i = 0; i < 1; i++)
+            {
+                if (ratings == null)
                 {
-                    if (ratings == null)
-                    {
-                        throw new ArgumentException("Review is null");
-                    }
+                    throw new ArgumentException("Review is null");
                 }
+            }
 
-                
-                var CheckIfReviewed = await _reviewServices.GetReviewByBookID(id);
-                if (CheckIfReviewed == null)
-                {
+
+            var CheckIfReviewed = await _reviewServices.GetReviewByBookID(id);
+            if (CheckIfReviewed == null)
+            {
                 //Just get book info (no reviews) & a nis not reviewed varible
                 var bookcardViewModel2 = new BookcardViewModel()
                 {
@@ -82,62 +82,67 @@ namespace Budget_CoolBooks.Controllers
                 };
                 return View("/views/book/bookcard.cshtml", bookcardViewModel2);
             }
-                var reviewIds = await _reviewServices.GetAllIdOfReviews(id);
-                    var commentIds = await _commentServices.GetAllIdOfComments(id);
+            var reviewIds = await _reviewServices.GetAllIdOfReviews(id);
+            var commentIds = await _commentServices.GetAllIdOfComments(id);
 
-                    var AllFullReviews = await _reviewServices.GetFULLAllRatingsOfBook(id);
+            var AllFullReviews = await _reviewServices.GetFULLAllRatingsOfBook(id);
 
-                    var RatingPerGrades = RatingPerGrade(ratings);
-                    var AverageRatings = CalculateAverageRating(ratings);
+            var RatingPerGrades = RatingPerGrade(ratings);
+            var AverageRatings = CalculateAverageRating(ratings);
 
-                
 
-                int c = 0;
-                    List<Reply> GetAllReplysOfComments = new List<Reply> { };
-                    List<Comment> GetAllCommentsOfReplys = new List<Comment> { };
-                    foreach (var Id in reviewIds)
-                    {
-                        var GetAllCommentsOfRatings = await _commentServices.GetAllCommentsOfReview(reviewIds[c]);
-                        GetAllCommentsOfReplys.AddRange(GetAllCommentsOfRatings);
-                        try
-                        {
-                            
-                            var GetAllReplysOfComment = await _commentServices.GetAllReplysOfComments(GetAllCommentsOfReplys[c].Id);
-                            GetAllReplysOfComments.AddRange(GetAllReplysOfComment);
-                        }
-                        catch 
-                        {
-                            break;
-                        }
-                        c++;
-                    }
-                    ClaimsPrincipal currentUser = this.User;
-                    var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    if (currentUserID == null)
-                    {
-                        return NotFound();
-                    }
 
-                    BookcardViewModel ratingsViewModel = new BookcardViewModel();
+            int c = 0;
+            List<Reply> GetAllReplysOfComments = new List<Reply> { };
+            List<Comment> GetAllCommentsOfReplys = new List<Comment> { };
+            foreach (var Id in reviewIds)
+            {
+                var GetAllCommentsOfRatings = await _commentServices.GetAllCommentsOfReview(reviewIds[c]);
+                GetAllCommentsOfReplys.AddRange(GetAllCommentsOfRatings);
+                try
+                {
 
-                    var bookcardViewModel = new BookcardViewModel()
-                    {
-                        Books = bookResult.ToList(),
+                    var GetAllReplysOfComment = await _commentServices.GetAllReplysOfComments(GetAllCommentsOfReplys[c].Id);
+                    GetAllReplysOfComments.AddRange(GetAllReplysOfComment);
+                }
+                catch
+                {
+                    break;
+                }
+                c++;
+            }
 
-                        Authors = authorsResult.ToList(),
+            BookcardViewModel ratingsViewModel = new BookcardViewModel();
 
-                        IsNotReviewed = 0,
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserID = "";
+            try
+            {
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            catch
+            {
+                currentUserID = "NoUserLoggedIn";
+            }
+            var bookcardViewModel = new BookcardViewModel()
+            {
+                Books = bookResult.ToList(),
 
-                        RatingsByValue = RatingPerGrades,
-                        AverageRating = AverageRatings,
+                Authors = authorsResult.ToList(),
 
-                        AllFullReviews = AllFullReviews.ToList(),
-                        CommentsToRatings = GetAllCommentsOfReplys.ToList(),
-                        AllReplysOfComments = GetAllReplysOfComments.ToList(),
-                        CurrentUserId = currentUserID,
-                    };
-                    return View("/views/book/bookcard.cshtml", bookcardViewModel); 
-    }
+                IsNotReviewed = 0,
+
+                RatingsByValue = RatingPerGrades,
+                AverageRating = AverageRatings,
+
+                AllFullReviews = AllFullReviews.ToList(),
+                CommentsToRatings = GetAllCommentsOfReplys.ToList(),
+                AllReplysOfComments = GetAllReplysOfComments.ToList(),
+
+                CurrentUserId = currentUserID,
+            };
+            return View("/views/book/bookcard.cshtml", bookcardViewModel);
+        }
         private double CalculateAverageRating(ICollection<double> ratings)
         {
             double totalRating = 0;
@@ -168,5 +173,5 @@ namespace Budget_CoolBooks.Controllers
             };
             return RatingPerGrades;
         }
-    } 
+    }
 }
