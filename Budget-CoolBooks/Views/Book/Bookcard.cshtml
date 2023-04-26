@@ -9,7 +9,7 @@
 <div class="card mb-3" style="max-width: 650px;">
     <div class="row g-0">
         <!-- Title -->
-        <h2 class="card-title">@Model.BookTitle</h2>
+        <h2 class="card-title">@Model.Books[0].Title</h2>
         <!-- Author/s-->
         @foreach (var author in Model.Authors)
         {
@@ -24,17 +24,17 @@
         }
         <div class="col-md-4" style="margin-bottom: auto; margin-top: auto;">
             <!-- Img -->
-            <img src="@Model.ImgPath" class="img-fluid rounded-start" alt="" style="margin-left: 5%;">
+            <img src="@Model.Books[0].Imagepath" class="img-fluid rounded-start" alt="" style="margin-left: 5%;">
         </div>
         <div class="col-md-8">
             <div class="card-body">
                 <!-- Description -->
-                <p class="cardtext">@Model.BookDescription</p>
+                <p class="cardtext">@Model.Books[0].Description</p>
             </div>
             <!-- Review -->
         </div>
         <!-- Average & statiscics -->
-        @if (Model.IsNotReviewed != "yes")
+        @if (Model.IsNotReviewed == 0)
         {
             <div style="width: 150%;">
                 <partial name="_AveragePartial" />
@@ -42,7 +42,7 @@
         }
         <!-- Review button -->
         <div class="Review">
-            <a asp-controller="Review" asp-action="Create" asp-route-id="@Model.BookId">
+            <a asp-controller="Review" asp-action="Create" asp-route-id="@Model.Books[0].Id">
                 <button class="btn btn-primary btn sm">Review</button>
             </a>
         </div>
@@ -51,12 +51,12 @@
 </div>
 <!-- Top review -->
 <div>
-    @if (Model.IsNotReviewed != "yes")
+    @if (Model.IsNotReviewed == 0)
     {
         <partial name="_ReviewPartial" />
     }
     <!-- Be the first to review text -->
-    @if (Model.IsNotReviewed == "yes")
+    @if (Model.IsNotReviewed == 1)
     {
         <div class="card">
             <div class="cardinfo">

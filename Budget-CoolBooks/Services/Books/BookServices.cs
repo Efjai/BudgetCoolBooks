@@ -19,7 +19,6 @@ namespace Budget_CoolBooks.Services.Books
         {
             return _context.Books.Where(b => b.Id == bookId && !b.IsDeleted).FirstOrDefault();
         }
-
         public async Task<ICollection<Book>> GetBookListByID(int bookId)
         {
             return _context.Books.Where(b => b.Id == bookId && !b.IsDeleted).ToList();
