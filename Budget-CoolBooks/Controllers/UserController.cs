@@ -93,7 +93,7 @@ namespace Budget_CoolBooks.Controllers
             }
             return RedirectToAction("BookDetails", "Book", new { id = id });
         }
-        [HttpPost]
+        //[HttpPost]
         public async Task<IActionResult> DislikeReview(int reviewId, int id)
         {
             var dislikeReview = await _reviewServices.GetSpecificReviewByID(reviewId);

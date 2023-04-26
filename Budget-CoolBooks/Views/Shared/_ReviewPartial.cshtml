@@ -42,8 +42,13 @@
                 <input type="hidden" name="bookId" value="@Model.BookId">
                 <button input="submit"><img src="~/images/comment.png" style="width: 25px; height: 25px;"></button>
             </form>
+            <!-- Like -->
             <div class="LikeDislike" style="justify-items: right;">
-                <!-- Like -->
+                <form method="post" asp-controller="User" asp-action="LikeReview">
+                    <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id" />
+                    <input type="hidden" name="id" value="@Model.BookId" />
+                    <button type="submit" name="like" style="border: none; background-color: transparent;"><img src="https://i.imgur.com/mHSQOaX.png"></button>
+                </form>                
                 @if (@Model.AllFullReviews[j].Text != null)
                 {
                     <p style="text-align: left;">@Model.AllFullReviews[j].Like</p>
@@ -51,12 +56,7 @@
                 else
                 {
                     <p style="text-align: left;">0</p>
-                }
-                <form method="post" asp-controller="User" asp-action="LikeReview">
-                    <input type="hidden" name="reviewId" value="@Model.BookId" />
-                    <input type="hidden" name="id" value="@Model.AllFullReviews[j]" />
-                    <button type="submit" name="like" style="border: none; background-color: transparent;"><img src="https://i.imgur.com/mHSQOaX.png"></button>
-                </form>
+                }                
             </div>
             <!-- Dislike -->
             <div class="LikeDislike">
