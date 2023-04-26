@@ -9,8 +9,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Comment ID</th>
-            @*<th scope="col">Review ID</th>*@
             <th scope="col">Text</th>
             <th scope="col">Date</th>
         </tr>
@@ -20,8 +18,6 @@
             @foreach (var comment in Model.ReviewComment)
             {
                 <tr>
-                    <th scope="row">@comment.Id</th>
-                    @*<td>@comment.Review.Id</td>*@
                     <td>@comment.Text</td>
                     <td>@comment.Created</td>
                     <td>

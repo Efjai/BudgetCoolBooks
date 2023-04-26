@@ -9,7 +9,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Review ID</th>
                 <th scope="col">Book</th>
                 <th scope="col">Title</th>
                 <th scope="col">Rating</th>
@@ -20,7 +19,6 @@
             @foreach (var review in Model.Review)
             {
                 <tr>
-                    <th scope="row">@review.Id</th>
                     <td>@review.Book.Title</td>
                     <td>@review.Title</td>
                     <td>@review.Rating</td>
