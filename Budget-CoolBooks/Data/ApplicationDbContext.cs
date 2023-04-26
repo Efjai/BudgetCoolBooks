@@ -20,6 +20,7 @@ namespace Budget_CoolBooks.Data
         public DbSet<BookGenre> BooksGenres { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reply> Replys { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
