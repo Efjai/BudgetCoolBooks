@@ -93,7 +93,7 @@ namespace Budget_CoolBooks.Controllers
             }
             return RedirectToAction("BookDetails", "Book", new { id = id });
         }
-        [HttpPost]
+        //[HttpPost]
         public async Task<IActionResult> DislikeReview(int reviewId, int id)
         {
             var dislikeReview = await _reviewServices.GetSpecificReviewByID(reviewId);
@@ -101,7 +101,7 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-            dislikeReview.Like = dislikeReview.Like + 1;
+            dislikeReview.Dislike = dislikeReview.Dislike + 1;
 
             if (!await _userServices.DislikeReviewById(dislikeReview))
             {
