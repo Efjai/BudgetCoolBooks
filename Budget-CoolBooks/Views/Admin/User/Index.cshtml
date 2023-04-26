@@ -64,10 +64,14 @@
                             </form>
                         }
 
+                        @if (!await UserManager.IsInRoleAsync(user, "Admin"))
+                        {
                         <form method="post" asp-controller="AdminUser" asp-action="Demote" >
                             <input type="hidden" name ="id" value="@user.Id">
                             <button type ="submit" class="btn btn-sm btn-outline-danger">Demote to member</button>
-                        </form>
+                        </form> 
+                        }
+                       
                     </div>
                 </td>
             </tr>
