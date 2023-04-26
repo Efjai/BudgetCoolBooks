@@ -51,17 +51,19 @@
 </div>
 <!-- Top review -->
 <div>
-    @if (Model.IsNotReviewed == 0)
-    {
-        <partial name="_ReviewPartial" />
-    }
-    <!-- Be the first to review text -->
-    @if (Model.IsNotReviewed == 1)
-    {
-        <div class="card">
-            <div class="cardinfo">
-                <h4 class="cardinfo">Be the first to review this book!</h4>
+    @{
+        if (Model.IsNotReviewed == 0)
+        {
+            <partial name="_ReviewPartial"/>
+        }
+        else if (Model.IsNotReviewed == 1)
+        {
+        <!-- Be the first to review text -->
+            <div class="card">
+                <div class="cardinfo">
+                    <h4 class="cardinfo">Be the first to review this book!</h4>
+                </div>
             </div>
-        </div>
+        }
     }
 </div>

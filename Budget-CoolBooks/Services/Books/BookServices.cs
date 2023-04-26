@@ -23,17 +23,6 @@ namespace Budget_CoolBooks.Services.Books
         {
             return _context.Books.Where(b => b.Id == bookId && !b.IsDeleted).ToList();
         }
-        public async Task<Book> GetFullBookById(int bookId)
-        {
-            return await _context.Books
-                        .Include(b => b.BookAuthor)
-                            .ThenInclude(a => a.Author)
-                        .Include(b => b.BookGenre)
-                            .ThenInclude(c => c.Genre)
-                        .Include(b => b.user)
-                        .Where(b => !b.IsDeleted)
-                        .FirstOrDefaultAsync(b => b.Id == bookId);
-        }
         public async Task<ICollection<Book>> GetAllBooksSorted()
         {
             return _context.Books
@@ -42,20 +31,17 @@ namespace Budget_CoolBooks.Services.Books
                 .OrderBy(b => b.Title)
                 .ToList();
         }
-
         public async Task<bool> AddBookGenre(BookGenre bookGenre)
         {
             _context.BooksGenres.Add(bookGenre);
             return Save();
         }
-
         public async Task<bool> AddBookAuthor(BookAuthor bookAuthor)
         {
             _context.BooksAuthors.Add(bookAuthor);
             return Save();
-    }
-
-    public async Task<bool> CreateBook(Book book, string userId)
+        }
+        public async Task<bool> CreateBook(Book book, string userId)
         {
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
@@ -67,21 +53,17 @@ namespace Budget_CoolBooks.Services.Books
 
             return Save();
         }
-
         public async Task<bool> UpdateBook(Book book)
         {
             _context.Books.Update(book);
             return Save();
         }
-
-
         public async Task<bool> DeleteBook(Book book)
         {
             book.IsDeleted = true;
             var result = _context.Books.Update(book);
             return Save();
         }
-
         public bool Save()
         {
             var saved = _context.SaveChanges();

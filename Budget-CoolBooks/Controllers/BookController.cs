@@ -57,11 +57,32 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-            try
-            {
-
                     var ratings = await _reviewServices.GetAllRatingsOfBook(id);
-                    var reviewIds = await _reviewServices.GetAllIdOfReviews(id);
+
+                for (int i = 0; i < 1; i++) 
+                {
+                    if (ratings == null)
+                    {
+                        throw new ArgumentException("Review is null");
+                    }
+                }
+
+                
+                var CheckIfReviewed = await _reviewServices.GetReviewByBookID(id);
+                if (CheckIfReviewed == null)
+                {
+                //Just get book info (no reviews) & a nis not reviewed varible
+                var bookcardViewModel2 = new BookcardViewModel()
+                {
+                    Books = bookResult.ToList(),
+
+                    Authors = authorsResult.ToList(),
+
+                    IsNotReviewed = 1,
+                };
+                return View("/views/book/bookcard.cshtml", bookcardViewModel2);
+            }
+                var reviewIds = await _reviewServices.GetAllIdOfReviews(id);
                     var commentIds = await _commentServices.GetAllIdOfComments(id);
 
                     var AllFullReviews = await _reviewServices.GetFULLAllRatingsOfBook(id);
@@ -69,7 +90,9 @@ namespace Budget_CoolBooks.Controllers
                     var RatingPerGrades = RatingPerGrade(ratings);
                     var AverageRatings = CalculateAverageRating(ratings);
 
-                    int c = 0;
+                
+
+                int c = 0;
                     List<Reply> GetAllReplysOfComments = new List<Reply> { };
                     List<Comment> GetAllCommentsOfReplys = new List<Comment> { };
                     foreach (var Id in reviewIds)
@@ -113,24 +136,8 @@ namespace Budget_CoolBooks.Controllers
                         AllReplysOfComments = GetAllReplysOfComments.ToList(),
                         CurrentUserId = currentUserID,
                     };
-                    return View("/views/book/bookcard.cshtml", bookcardViewModel);
-            }
-            //If no reviews on book
-            catch (NullReferenceException)
-            {
-                //Just get book info (no reviews) & a nis not reviewed varible
-                var bookcardViewModel2 = new BookcardViewModel()
-                {
-                    Books = bookResult.ToList(),
-
-                    Authors = authorsResult.ToList(),
-
-                    IsNotReviewed = 1,
-                };
-                return View("/views/book/bookcard.cshtml", bookcardViewModel2);
-            }
-            return NotFound();
-        }
+                    return View("/views/book/bookcard.cshtml", bookcardViewModel); 
+    }
         private double CalculateAverageRating(ICollection<double> ratings)
         {
             double totalRating = 0;
