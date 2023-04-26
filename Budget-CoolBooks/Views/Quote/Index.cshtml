@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Quotes";
+}
+<link rel="stylesheet" href="~/css/quoteview.css" asp-append-version="true" />
+@model Budget_CoolBooks.ViewModels.QuoteViewModel
+
+
+
+<form method="post" asp-controller="Quote" asp-action="SortQuotes">
+    <select class="form-select" onchange="this.form.submit()" aria-label="FilterQuotes" 
+        name="SortInput" id="filter-dropdown">
+        <option selected>Filter by category</option>
+        @foreach (var category in Model.Categories)
+        {
+            <option value="@category.Name">@category.Name</option>
+        }      
+    </select>
+</form>
+
+@foreach(var quote in Model.Quotes)
+{
+    <figure class="text-center">
+    <blockquote class="blockquote">
+            <p>@quote.Text</p>
+    </blockquote>
+        <figcaption class="blockquote-footer">
+            Author: 
+            <cite title="Source Title">
+                @quote.Author.Firstname @quote.Author.Lastname @if (@quote.Book != null)
+                {
+                    <p>(@quote.Book.Title)</p>
+                }
+            </cite>
+        </figcaption>
+    </figure>    
+}
