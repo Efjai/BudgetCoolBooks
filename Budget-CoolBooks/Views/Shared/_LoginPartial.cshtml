@@ -19,12 +19,6 @@
                     <li>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
                     </li>
-                    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
-                    {
-                     <li>
-                        <a class="dropdown-item text-primary" asp-controller="Moderator" asp-action="Index">Moderator Panel</a>
-                    </li>
-                    }
                     @if (User.IsInRole("Admin"))
                     {
                      <li>
