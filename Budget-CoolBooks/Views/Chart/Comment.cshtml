@@ -70,8 +70,8 @@
 <!-- Chart -->
 <script type="text/javascript">
     const ctx = document.getElementById('myChart');  
-    var labels = @Html.Raw(JsonSerializer.Serialize(ViewBag.commentLabels));
-    var data = @Html.Raw(JsonSerializer.Serialize(ViewBag.commentData));
+    var labels = @Html.Raw(JsonSerializer.Serialize(ViewBag.chartLabels));
+    var data = @Html.Raw(JsonSerializer.Serialize(ViewBag.chartData));
 
     new Chart(ctx, {
         type: 'line',

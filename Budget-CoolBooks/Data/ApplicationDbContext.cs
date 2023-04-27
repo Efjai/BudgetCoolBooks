@@ -21,6 +21,10 @@ namespace Budget_CoolBooks.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reply> Replys { get; set; }
 
+        // Set Views in DB
+        public DbSet<CommentsGenresFromView> CommentsGenresFromViews { get; set; }
+        public DbSet<CommentsAuthorsFromView> CommentsAuthorsFromViews { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -37,6 +41,11 @@ namespace Budget_CoolBooks.Data
             builder.Entity<BookGenre>()
                 .HasKey(b => new { b.GenreId, b.BookId });
 
+            //CommentsGenresFromView is View and Has Not Key
+            builder.Entity<CommentsGenresFromView>().HasNoKey().ToView("View_Comments_Genres");
+
+            //CommentsAuthorsFromView is View and Has Not Key
+            builder.Entity<CommentsAuthorsFromView>().HasNoKey().ToView("View_Comments_Authors");
 
             #endregion
         }

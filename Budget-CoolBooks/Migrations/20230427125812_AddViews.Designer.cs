@@ -4,6 +4,7 @@ using Budget_CoolBooks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Budget_CoolBooks.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230427125812_AddViews")]
+    partial class AddViews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Book", b =>
@@ -83,7 +86,7 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.BookAuthor", b =>
@@ -98,7 +101,7 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BooksAuthors", (string)null);
+                    b.ToTable("BooksAuthors");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.BookGenre", b =>
@@ -113,7 +116,7 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BooksGenres", (string)null);
+                    b.ToTable("BooksGenres");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Comment", b =>
@@ -146,7 +149,7 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Genre", b =>
@@ -170,7 +173,7 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Reply", b =>
@@ -203,7 +206,7 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Replys", (string)null);
+                    b.ToTable("Replys");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Review", b =>
@@ -252,7 +255,7 @@ namespace Budget_CoolBooks.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
