@@ -1,6 +1,7 @@
 ﻿using Budget_CoolBooks.Models;
 using Budget_CoolBooks.Services.Authors;
 using Budget_CoolBooks.Services.Books;
+using Budget_CoolBooks.Services.Genres;
 using Budget_CoolBooks.Services.Search;
 using Budget_CoolBooks.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -20,14 +21,16 @@ namespace Budget_CoolBooks.Controllers
         private readonly BookServices _bookServices;
         private readonly SearchServices _searchServices;
         private readonly AuthorServices _authorServices;
+        private readonly GenreServices _genreServices;
 
         public HomeController(ILogger<HomeController> logger, BookServices bookServices, SearchServices searchServices, 
-            AuthorServices authorServices)
+            AuthorServices authorServices, GenreServices genreServices)
         {
             _logger = logger;
             _bookServices = bookServices;
             _searchServices = searchServices;
             _authorServices = authorServices;
+            _genreServices = genreServices;
         }
         public IActionResult AboutUs()
         {
@@ -50,14 +53,27 @@ namespace Budget_CoolBooks.Controllers
         [HttpPost]
         public async Task<IActionResult> Search(string search)
         {
-            string cleanedSearchString = search.ToLower();
-            var result = await _searchServices.SearchAll(cleanedSearchString);
+            string cleanedSearchString = "";
+            var result = new List<Book>();
+
+            if (string.IsNullOrEmpty(search))
+            {
+                result = (List<Book>)await _bookServices.GetAllBooksSorted();
+            }
+
+            if (search != null)
+            {
+                cleanedSearchString = search.ToLower();
+                result = (List<Book>)await _searchServices.SearchAll(cleanedSearchString);
+            }
 
             var searchViewModel = new SearchViewModel()
             {
                 Books = result.ToList(),
                 SearchActive = true,
                 OriginalSearchString = cleanedSearchString,
+                SearchAuthors = (List<Author>)await _authorServices.GetAuthors(),
+                SearchGenres = (List<Genre>)await _genreServices.GetGenres(),
             };
 
             return View("/views/home/search.cshtml", searchViewModel);
@@ -67,50 +83,107 @@ namespace Budget_CoolBooks.Controllers
         [HttpPost]
         public async Task<IActionResult> SortSearch(int sortInput, string searchString)
         {
-            var listToSort = await _searchServices.SearchAll(searchString);
-            var searchViewModel = new SearchViewModel();
+            // EJ FIXAD, SKA LÖSA AVERAGE RATING FÖR SORTERING!
 
-            if (listToSort == null)
+            //var listToSort = await _searchServices.SearchAll(searchString);
+            //var searchViewModel = new SearchViewModel();
+
+            //if (listToSort == null)
+            //{
+            //    return BadRequest();
+            //}
+
+
+
+            //searchViewModel.Books = listToSort.ToList();
+
+
+            //searchViewModel.OriginalSearchString = searchString;
+            //return View("/views/home/search.cshtml", searchViewModel);
+            return View("/views/home/search.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FilterSearch(int genreId, int authorId, string searchString)
+        {
+            // List of books from search
+            var listToFilter = await _searchServices.SearchAll(searchString);
+
+            // If Search was blank, show all books.
+            if (string.IsNullOrEmpty(searchString))
             {
-                return BadRequest();
+                listToFilter = (List<Book>)await _bookServices.GetAllBooksSorted();
             }
 
-            switch (sortInput)
+            // New list for storing books from search with relevant filter.
+            List<Book> filteredBooks = new List<Book>();
+
+            // Creates ViewModel.
+            SearchViewModel searchViewModel = new SearchViewModel();
+
+            // Filters if only Author is desired.
+            if (authorId != null)
             {
-                case 1:
-                    var titlesSorted = listToSort
-                                       .Where(b => b.Title
-                                       .Contains(searchString))
-                                       .OrderBy(book => book.Title)
-                                       .ToList();
+                // Gets reference list of all books by filtered author 
+                var compareList = await _authorServices.GetBookListByAuthorId(authorId);
 
-                    searchViewModel.SortedBooks = titlesSorted;
-                    break;
-                case 2:
-                    var authorsSorted = listToSort.SelectMany(b => b.BookAuthor)
-                                            .Where(ba => ba.Author.Firstname.Contains(searchString) || ba.Author.Lastname.Contains(searchString))
-                                            .Select(ba => ba.Author)
-                                            .Distinct()
-                                            .ToList();
-                    searchViewModel.SortedAuthors = authorsSorted;
-                    break;
+                if (compareList == null)
+                {
+                    return BadRequest();
+                }
 
-                case 3:
-                    var isbnSorted = listToSort // Sort by ISBN
-                                       .Where(b => b.ISBN
-                                       .Contains(searchString))
-                                       .OrderBy(book => book.ISBN)
-                                       .ToList();
 
-                    searchViewModel.SortedISBN = isbnSorted;
-                    break;
+                // Compares the searchresults to the reference list
+                foreach (Book book in listToFilter)
+                {
+                    if (compareList.Contains(book))
+                    {
+                        filteredBooks.Add(book);
+                    }
+                }
 
-                default:
-                    break;
+                // Populate ViewModel.
+                searchViewModel.OriginalSearchString = searchString;
+                searchViewModel.Books = filteredBooks;
+                searchViewModel.SearchAuthors = (List<Author>)await _authorServices.GetAuthors();
+                searchViewModel.SearchGenres = (List<Genre>)await _genreServices.GetGenres();
+                searchViewModel.SearchActive = true;
+
             }
 
-            searchViewModel.OriginalSearchString = searchString;
+            // Filters if only Genre is desired.
+            if (genreId != null)
+            {
+                // Gets reference list of all books by filtered genre.
+                var compareList = await _bookServices.GetBookListByGenreId(genreId);
+
+                if (compareList == null)
+                {
+                    return BadRequest();
+                }
+
+
+
+                foreach (Book book in listToFilter)
+                {
+                    if (compareList.Contains(book))
+                    {
+                        filteredBooks.Add(book);
+                    }
+                }
+
+                // Populate ViewModel.
+                searchViewModel.OriginalSearchString = searchString;
+                searchViewModel.Books = filteredBooks;
+                searchViewModel.SearchAuthors = (List<Author>)await _authorServices.GetAuthors();
+                searchViewModel.SearchGenres = (List<Genre>)await _genreServices.GetGenres();
+                searchViewModel.SearchActive = true;
+
+            }
+
+
             return View("/views/home/search.cshtml", searchViewModel);
+
         }
 
         [HttpGet]
