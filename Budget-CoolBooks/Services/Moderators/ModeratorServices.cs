@@ -61,8 +61,24 @@ namespace Budget_CoolBooks.Services.Moderators
             return Save();
         }
 
+        // QUOTES
+        public async Task<ICollection<Quote>> GetQuotesToModerate()
+        {
+            return _context.Quotes.Where(q => q.IsModerated == false).OrderBy(q => q.Created).ToList();
+        }
+        public async Task<bool> ApproveQuote(Quote quote)
+        {
+            quote.IsModerated = true;   
+            _context.Quotes.Update(quote);
+            return Save();
+        }
+        public async Task<bool> DeleteQuote(Quote quote)
+        {
+            _context.Quotes.Remove(quote);
+            return Save();
+        }
 
-       
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

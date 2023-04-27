@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Create new quote";
+}
+<link rel="stylesheet" href="~/css/quoteview.css" asp-append-version="true" />
+@model Budget_CoolBooks.ViewModels.QuoteViewModel
+
+<h5>Add new quote</h5>
+<p><em>All quotes need to be approved by moderator before it appears in the quotes-section of CoolBooks.</em></p>
+
+<form method="post" asp-controller="Quote" asp-action="Create">
+
+@* Quote*@
+    <div class="mb-3">
+        <label for="QuoteText" class="form-label">Quote text</label>
+        <input type="text" class="form-control" name="quoteText">
+    </div>
+
+    @* Choose category/categories*@
+    @foreach (var category in Model.Categories)
+    {
+    <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="categories" value="@category.Name" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+            @category.Name
+        </label>
+    </div>
+    }
+
+    @* Choose book (optional)*@
+    <div class="mb-3">
+        <select class="form-select" aria-label="Choose book (optional)" name="bookId" id="book-dropdown">
+            <option selected>Choose Book</option>
+                @foreach (var book in Model.Books)
+                {
+                    <option value="@book.Id">@book.Title</option>
+                }
+        </select>
+    </div>
+    <input type="hidden" name="authorId" value="@Model.AuthorId" />
+    <button type="submit" class="btn btn-primary">Add quote</button>
+</form>

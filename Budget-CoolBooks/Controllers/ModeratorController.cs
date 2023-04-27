@@ -1,5 +1,7 @@
-﻿using Budget_CoolBooks.Services.Comments;
+﻿using Budget_CoolBooks.Models;
+using Budget_CoolBooks.Services.Comments;
 using Budget_CoolBooks.Services.Moderators;
+using Budget_CoolBooks.Services.Quotes;
 using Budget_CoolBooks.Services.Reviews;
 using Budget_CoolBooks.Services.UserServices;
 using Budget_CoolBooks.ViewModels;
@@ -15,13 +17,15 @@ namespace Budget_CoolBooks.Controllers
         private readonly ModeratorServices _moderatorServices;
         private readonly ReviewServices _reviewServices;
         private readonly CommentServices _commentServices;
+        private readonly QuoteServices _quoteServices;
 
         public ModeratorController(ModeratorServices moderatorServices, ReviewServices reviewServices,
-            CommentServices commentServices)
+            CommentServices commentServices, QuoteServices quoteServices)
         {
             _moderatorServices = moderatorServices;
             _reviewServices = reviewServices;
             _commentServices = commentServices;
+            _quoteServices = quoteServices;
         }
 
 
@@ -221,5 +225,66 @@ namespace Budget_CoolBooks.Controllers
 
             return RedirectToAction("IndexReplies");
         }
+
+
+        // QUOTES
+        [HttpGet]
+        public async Task<IActionResult> IndexQuotes()
+        {
+            // Get all quote IsModerated = false
+            var quotes = await _moderatorServices.GetQuotesToModerate();
+
+            var moderatorViewModel = new ModeratorViewModel();
+            moderatorViewModel.QuotesToApprove = quotes.ToList();
+
+            return View("~/views/Moderator/quotes/index.cshtml", moderatorViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AuditQuote(int Id)
+        {
+            var quote = await _quoteServices.GetQuoteById(Id);
+            if (quote == null)
+            {
+                return NotFound();
+            }
+            var moderatorViewModel = new ModeratorViewModel();
+            moderatorViewModel.Quote = quote;
+
+            return View("~/views/Moderator/quotes/audit.cshtml", moderatorViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ApproveQuote(int Id)
+        {
+            var quote = await _quoteServices.GetQuoteById(Id);
+            if(quote == null) 
+            { 
+                return NotFound(); 
+            }
+            if(! await _moderatorServices.ApproveQuote(quote))
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("IndexQuotes");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteQuote(int Id)
+        {
+            var quote = await _quoteServices.GetQuoteById(Id);
+            if (quote == null)
+            {
+                return NotFound();
+            }
+            if (!await _moderatorServices.DeleteQuote(quote))
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("IndexQuotes");
+        }
+
     }
 }

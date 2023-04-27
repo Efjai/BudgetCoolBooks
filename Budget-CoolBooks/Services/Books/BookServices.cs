@@ -31,6 +31,7 @@ namespace Budget_CoolBooks.Services.Books
                 .OrderBy(b => b.Title)
                 .ToList();
         }
+        
         public async Task<bool> AddBookGenre(BookGenre bookGenre)
         {
             _context.BooksGenres.Add(bookGenre);

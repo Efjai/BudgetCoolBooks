@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Audit quote";
+}
+<partial name="~/views/Shared/Moderator/_ModeratorNavbar.cshtml" />
+<link rel="stylesheet" href="~/css/moderatorview.css" asp-append-version="true" />
+
+@model Budget_CoolBooks.ViewModels.ModeratorViewModel
+
+
+<div class="audit-display">
+    <div class="card">
+        <div class="card-header">
+            <div class="audit-buttons">
+                <a asp-controller="Moderator" asp-action="ApproveQuote" asp-route-id="@Model.Quote.Id"
+                   class="btn btn-sm btn-outline-success me-2">
+                    Approve
+                </a>
+                <a asp-controller="Moderator" asp-action="DeleteQuote" asp-route-id="@Model.Quote.Id"
+                   class="btn btn-sm btn-outline-danger me-2">
+                    Delete
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text">@Model.Quote.Text</p>
+            <p class="header-audit"><em>Created: @Model.Quote.Created</em></p>
+        </div>
+    </div>
+</div>
