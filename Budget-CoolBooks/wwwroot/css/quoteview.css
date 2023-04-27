@@ -11,3 +11,9 @@
     justify-content: center;
     margin: 3em;
 }
+
+#viewall-button {
+    margin-top: 1em;
+    display: grid;
+    justify-content: center;
+}

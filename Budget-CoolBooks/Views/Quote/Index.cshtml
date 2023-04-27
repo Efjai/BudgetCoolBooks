@@ -3,47 +3,28 @@
 }
 <link rel="stylesheet" href="~/css/quoteview.css" asp-append-version="true" />
 @model Budget_CoolBooks.ViewModels.QuoteViewModel
-<div class="quote-create-container">
-    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-    <div id="dropdown-field"> 
-        <form method="post" asp-controller="Quote" asp-action="SortQuotes">
-            <select class="form-select" onchange="this.form.submit()" aria-label="FilterQuotes"
-                    name="SortInput" id="filter-dropdown">
-                <option selected>Filter by category</option>
-                @foreach (var category in Model.Categories)
-                {
-                    <option value="@category.Name">@category.Name</option>
-                }
-            </select>
-        </form>
-    </div>
-    <div id="create-button">
-        <form method="Get" asp-controller="Quote" asp-action="InitialCreate" >
-                <button type="submit" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                <i class="fa-solid fa-plus me-2"></i><em>Quote</em>
-            </button>
-        </form>
-    </div>
-   
-</div>
-</div>
 
-
-@*Displays all quotes or all sorted quotes*@
-@foreach(var quote in Model.Quotes)
-{
-    <figure class="text-center">
+<h1 style="text-align: center; margin-top:2em;"><em>Quote of the day!</em></h1>
+<figure class="text-center">
     <blockquote class="blockquote">
-            <p>@quote.Text</p>
+            <p>@Model.Quote.Text</p>
     </blockquote>
         <figcaption class="blockquote-footer">
             Author: 
             <cite title="Source Title">
-                @quote.Author.Firstname @quote.Author.Lastname @if (@quote.Book != null)
+            @Model.Quote.Author.Firstname @Model.Quote.Author.Lastname @if (@Model.Quote.Book != null)
                 {
-                    <p>(@quote.Book.Title)</p>
+                <p>(@Model.Quote.Book.Title)</p>
                 }
             </cite>
         </figcaption>
-    </figure>    
-}
+    </figure>   
+
+
+    <div id="viewall-button">
+            <form method="Get" asp-controller="Quote" asp-action="ViewAll">
+                <button type="submit" class="btn btn-success">
+                   <em>View all quotes</em>
+                </button>
+            </form>
+        </div>
