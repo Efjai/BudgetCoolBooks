@@ -1,6 +1,6 @@
 ﻿@using System.Text.Json
 @{
-    Layout = "_AdminLayout";
+    Layout = "/Views/Shared/Admin/_AdminLayout.cshtml";
     ViewData["Title"] = "Chart | Comment";
 }
 
@@ -35,19 +35,6 @@
                         <form method="post" asp-controller="Chart" asp-action="Comment">
                             <input type="hidden" name="filter" value="Week">
                             <button input="submit" class="dropdown-item">Week</button>
-                        </form>
-                    </li>
-
-                    <li>
-                        <form method="post" asp-controller="Chart" asp-action="Comment">
-                            <input type="hidden" name="filter" value="Genre">
-                            <button input="submit" class="dropdown-item">Genre</button>
-                        </form>
-                    </li>
-                    <li>
-                        <form method="post" asp-controller="Chart" asp-action="Comment">
-                            <input type="hidden" name="filter" value="Author">
-                            <button input="submit" class="dropdown-item">Author</button>
                         </form>
                     </li>
                 </ul>

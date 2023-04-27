@@ -50,22 +50,6 @@ namespace Budget_CoolBooks.Controllers
                     ViewData["chartData"] = weeks.GroupBy(x => x.label).Select(a => a.Sum(b => b.data)).ToList(); 
                     break;
 
-                case "Author":
-                    ViewData["chartLabels"] = _context.CommentsAuthorsFromViews.GroupBy(a => a.Firstname)
-                        .Select(grp => grp.Key).ToList();
-
-                    ViewData["chartData"] = _context.CommentsAuthorsFromViews.GroupBy(a => a.Firstname)
-                        .Select(grp => grp.Count()).ToList();
-                    break;
-
-                case "Genre":
-                    ViewData["chartLabels"] = _context.CommentsGenresFromViews.GroupBy(g => g.Name)
-                        .Select(grp => grp.Key).ToList();
-
-                    ViewData["chartData"] = _context.CommentsGenresFromViews.GroupBy(g => g.Name)
-                        .Select(grp => grp.Count()).ToList();
-                    break;
-
             }
 
 
