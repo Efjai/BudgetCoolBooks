@@ -39,9 +39,12 @@ namespace Budget_CoolBooks.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var result = await _bookServices.GetAllBooksSorted();
-            ViewBag.BookList = result;
-            return View(ViewBag.BookList);
+            var result = await _bookServices.GetAllBooksSorted();            
+            var homeViewModel = new HomeViewModel
+            {
+                Books = result.ToList(),
+            };
+            return View(homeViewModel);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
