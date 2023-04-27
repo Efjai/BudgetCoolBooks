@@ -28,6 +28,21 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
+
+            QuoteViewModel quoteViewModel = new QuoteViewModel();
+            quoteViewModel.Quotes = quotes;
+            quoteViewModel.Quote = GenerateRandomQuote(quotes);
+            return View(quoteViewModel);
+        }
+
+        public async Task<IActionResult> ViewAll()
+        {
+            var quotes = await _quoteServices.GetQuotes();
+            if (quotes == null)
+            {
+                return NotFound();
+            }
+
             var categories = await _quoteServices.GetCategories();
             if (categories == null)
             {
@@ -37,7 +52,14 @@ namespace Budget_CoolBooks.Controllers
             QuoteViewModel quoteViewModel = new QuoteViewModel();
             quoteViewModel.Quotes = quotes;
             quoteViewModel.Categories = categories;
-            return View(quoteViewModel);
+
+            return View("~/views/quote/viewall.cshtml", quoteViewModel);
+        }
+
+        private Quote GenerateRandomQuote(List<Quote> quotes)
+        {
+            Random rnd = new Random();
+            return quotes[rnd.Next(quotes.Count)];
         }
 
         [HttpPost]
@@ -58,7 +80,7 @@ namespace Budget_CoolBooks.Controllers
 
             quoteViewModel.Quotes = sortedQuotes;
             quoteViewModel.Categories = categories;
-            return View("~/views/quote/index.cshtml", quoteViewModel);
+            return View("~/views/quote/viewall.cshtml", quoteViewModel);
         }
 
 
