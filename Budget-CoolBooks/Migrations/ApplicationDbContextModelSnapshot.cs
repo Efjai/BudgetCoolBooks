@@ -116,6 +116,23 @@ namespace Budget_CoolBooks.Migrations
                     b.ToTable("BooksGenres", (string)null);
                 });
 
+            modelBuilder.Entity("Budget_CoolBooks.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Budget_CoolBooks.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -129,6 +146,9 @@ namespace Budget_CoolBooks.Migrations
 
                     b.Property<int>("Flag")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
@@ -173,6 +193,54 @@ namespace Budget_CoolBooks.Migrations
                     b.ToTable("Genres", (string)null);
                 });
 
+            modelBuilder.Entity("Budget_CoolBooks.Models.Quote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsModerated")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Quotes");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.QuoteCategory", b =>
+                {
+                    b.Property<int>("QuoteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("QuoteId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("QuotesCategories");
+                });
+
             modelBuilder.Entity("Budget_CoolBooks.Models.Reply", b =>
                 {
                     b.Property<int>("Id")
@@ -189,6 +257,9 @@ namespace Budget_CoolBooks.Migrations
 
                     b.Property<int>("Flag")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -469,6 +540,9 @@ namespace Budget_CoolBooks.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<int>("TotalFlags")
+                        .HasColumnType("int");
+
                     b.HasDiscriminator().HasValue("User");
                 });
 
@@ -534,6 +608,42 @@ namespace Budget_CoolBooks.Migrations
                     b.Navigation("Review");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.Quote", b =>
+                {
+                    b.HasOne("Budget_CoolBooks.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Budget_CoolBooks.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.QuoteCategory", b =>
+                {
+                    b.HasOne("Budget_CoolBooks.Models.Category", "Category")
+                        .WithMany("QuotesCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Budget_CoolBooks.Models.Quote", "Quote")
+                        .WithMany("QuotesCategories")
+                        .HasForeignKey("QuoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Quote");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.Reply", b =>
@@ -633,9 +743,19 @@ namespace Budget_CoolBooks.Migrations
                     b.Navigation("BookGenre");
                 });
 
+            modelBuilder.Entity("Budget_CoolBooks.Models.Category", b =>
+                {
+                    b.Navigation("QuotesCategories");
+                });
+
             modelBuilder.Entity("Budget_CoolBooks.Models.Genre", b =>
                 {
                     b.Navigation("BookGenre");
+                });
+
+            modelBuilder.Entity("Budget_CoolBooks.Models.Quote", b =>
+                {
+                    b.Navigation("QuotesCategories");
                 });
 
             modelBuilder.Entity("Budget_CoolBooks.Models.User", b =>

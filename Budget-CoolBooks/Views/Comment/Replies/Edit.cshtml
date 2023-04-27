@@ -8,17 +8,12 @@
 <div class="comment-section">
     <form method="post" asp-controller="Comment" asp-action="EditReply">
         <div class="mb-3" id="comment-box">
-            <label for="EditCommentText" class="form-label"><h5>New reply</h5></label>
-            <textarea class="form-control" rows="6" name="editedReply"></textarea>
+            <label for="EditCommentText" class="form-label"><h5>Alter your reply</h5></label>
+            <input type="text" class="form-control" rows="6" name="editedReply" value="@Model.Reply.Text"></input>
         </div>
 
         <input type="hidden" name="replyId" value="@Model.Reply.Id">
         <input type="hidden" name="bookId" value="@Model.BookId">
         <button input="submit" class="btn btn-primary btn sm">Edit reply</button>
     </form>
-
-
-    <br /><hr /><br />
-    <h5>Original message</h5>
-    <p><em> @Model.Reply.Text</em></p>
 </div>

@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Quotes";
+}
+@model Budget_CoolBooks.ViewModels.ModeratorViewModel
+<link rel="stylesheet" href="~/css/moderatorview.css" asp-append-version="true" />
+
+<div class="moderator-titles">
+    <h1 class="fs-2 text-black">Quotes</h1>
+</div>
+
+<table class="table table-striped caption-top">
+    <thead>
+        <tr>
+            <th>
+                Quotes to approve
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var quote in Model.QuotesToApprove)
+        {
+            <tr>
+                <td>
+                    @if (quote.Text.Length > 100)
+                    {
+                        quote.Text.Substring(0, 100);
+                    }
+                    @quote.Text
+                </td>
+                <td>
+                    @quote.Created
+                </td>
+                <td>
+                    <div class="moderator-settings">
+                        <a asp-controller="Moderator" asp-action="AuditQuote" asp-route-id="@quote.Id"
+                            class="btn btn-sm btn-outline-primary me-2">
+                            Audit
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

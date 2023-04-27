@@ -19,12 +19,12 @@
                     <li>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
                     </li>
-                    <li>
-                        <a class="dropdown-item text-success" asp-area="" asp-controller="Admin" asp-action="Index">Admin Panel</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-success" asp-controller="Moderator" asp-action="Index">Moderator Panel</a>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                     <li>
+                        <a class="dropdown-item text-danger" asp-area="" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                    </li> 
+                    }
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
@@ -33,7 +33,7 @@
                             <button type="submit" class="dropdown-item">Logout</button>
                         </form>
                     </li>
-                </ul>
+                </ul> 
             </div>
         </div>
 

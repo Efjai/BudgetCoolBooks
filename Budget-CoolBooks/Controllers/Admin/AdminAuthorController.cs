@@ -26,13 +26,13 @@ namespace Budget_CoolBooks.Controllers.Admin
         {
             var authorList = await _authorServices.GetAuthors();
 
-            var adminAuthorViewModel = new AdminAuthorViewModel()
+            var AdminAuthorViewModels = new AdminAuthorViewModel()
             {
                 Authors = authorList.ToList(),
             };
 
 
-            return View("~/views/admin/author/index.cshtml", adminAuthorViewModel);
+            return View("~/views/admin/author/index.cshtml", AdminAuthorViewModels);
         }
 
         [HttpGet]

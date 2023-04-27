@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Quotes";
+}
+<link rel="stylesheet" href="~/css/quoteview.css" asp-append-version="true" />
+@model Budget_CoolBooks.ViewModels.QuoteViewModel
+
+<h1 style="text-align: center; margin-top:2em;"><em>Quote of the day!</em></h1>
+<figure class="text-center">
+    <blockquote class="blockquote">
+            <p>@Model.Quote.Text</p>
+    </blockquote>
+        <figcaption class="blockquote-footer">
+            Author: 
+            <cite title="Source Title">
+            @Model.Quote.Author.Firstname @Model.Quote.Author.Lastname @if (@Model.Quote.Book != null)
+                {
+                <p>(@Model.Quote.Book.Title)</p>
+                }
+            </cite>
+        </figcaption>
+    </figure>   
+
+
+    <div id="viewall-button">
+            <form method="Get" asp-controller="Quote" asp-action="ViewAll">
+                <button type="submit" class="btn btn-success">
+                   <em>View all quotes</em>
+                </button>
+            </form>
+        </div>

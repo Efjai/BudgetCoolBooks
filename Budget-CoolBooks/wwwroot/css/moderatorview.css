@@ -8,8 +8,19 @@
 .audit-display {
     display: grid;
     justify-content: center;
+    margin-top: 3em;
 }
 
 .card {
     width: 50vw;
+}
+
+.moderator-settings {
+    display: flex;
+    flex-direction: row;
+}
+
+.moderator-titles {
+    text-align: center;
+    margin-top: 3em;
 }

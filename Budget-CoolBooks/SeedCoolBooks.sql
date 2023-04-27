@@ -332,3 +332,49 @@ VALUES (GetDate(), 'Test1', 1, '00000000-0000-0000-0000-000000000001', 43);
 
 INSERT INTO Replys(Created, Text, Flag, UserId, CommentId)
 VALUES (GetDate(), 'Test2', 5, '00000000-0000-0000-0000-000000000001', 43);
+
+
+
+--QUOTES
+INSERT INTO Quotes (Text ,IsModerated ,Created ,BookId ,AuthorId)
+     VALUES('Life is good', 1, GETDATE(), 1, 1);
+
+INSERT INTO Quotes (Text ,IsModerated ,Created ,BookId ,AuthorId)
+     VALUES('Life is bad', 1, GETDATE(), 2, 2);
+
+INSERT INTO Quotes (Text ,IsModerated ,Created ,BookId ,AuthorId)
+     VALUES('Life is average', 1, GETDATE(), 3, 1);
+
+INSERT INTO Quotes (Text ,IsModerated ,Created, AuthorId)
+     VALUES('Do as good as you can', 1, GETDATE(), 5);
+
+
+--CATEGORIES
+INSERT INTO Categories (Name)
+     VALUES('Though provoking');
+	 
+INSERT INTO Categories (Name)
+     VALUES('Uplifting');
+	 
+INSERT INTO Categories (Name)
+     VALUES('Sad');
+
+
+--QUOTESCATEGORIES
+INSERT INTO QuotesCategories(QuoteId, CategoryId)
+VALUES(1, 1);
+
+INSERT INTO QuotesCategories(QuoteId, CategoryId)
+VALUES(2, 3);
+
+INSERT INTO QuotesCategories(QuoteId, CategoryId)
+VALUES(3, 1);
+
+INSERT INTO QuotesCategories(QuoteId, CategoryId)
+VALUES(3, 2);
+
+INSERT INTO QuotesCategories(QuoteId, CategoryId)
+VALUES(3, 3);
+
+INSERT INTO QuotesCategories(QuoteId, CategoryId)
+VALUES(4, 1);

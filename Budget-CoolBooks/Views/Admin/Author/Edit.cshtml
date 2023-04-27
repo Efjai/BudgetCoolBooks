@@ -1,9 +1,8 @@
 ﻿@{
-    Layout = "_AdminLayout";
+    Layout = "/Views/Shared/Admin/_AdminLayout.cshtml";
     ViewData["Title"] = "Admin - Edit author";
 }
 @model Budget_CoolBooks.ViewModels.AdminAuthorViewModel
-
 <h5>Edit - @Model.Author.Firstname @Model.Author.Lastname</h5>
 <form method="post" asp-controller="AdminAuthor" asp-action="Edit">
     <div class="mb-3">

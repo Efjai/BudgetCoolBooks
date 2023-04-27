@@ -1,5 +1,7 @@
-﻿using Budget_CoolBooks.Services.Comments;
+﻿using Budget_CoolBooks.Models;
+using Budget_CoolBooks.Services.Comments;
 using Budget_CoolBooks.Services.Moderators;
+using Budget_CoolBooks.Services.Quotes;
 using Budget_CoolBooks.Services.Reviews;
 using Budget_CoolBooks.Services.UserServices;
 using Budget_CoolBooks.ViewModels;
@@ -15,13 +17,17 @@ namespace Budget_CoolBooks.Controllers
         private readonly ModeratorServices _moderatorServices;
         private readonly ReviewServices _reviewServices;
         private readonly CommentServices _commentServices;
+        private readonly QuoteServices _quoteServices;
+        private readonly UserServices _userServices;
 
         public ModeratorController(ModeratorServices moderatorServices, ReviewServices reviewServices,
-            CommentServices commentServices)
+            CommentServices commentServices, QuoteServices quoteServices, UserServices userServices)
         {
             _moderatorServices = moderatorServices;
             _reviewServices = reviewServices;
             _commentServices = commentServices;
+            _quoteServices = quoteServices;
+            _userServices = userServices;
         }
 
 
@@ -87,6 +93,13 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
 
+            // Get user and assign all flags related to review to user.
+            review.User.TotalFlags = review.User.TotalFlags + review.Flag;
+            if (!await _userServices.UpdateUser(review.User))
+            {
+                return BadRequest();
+            }
+
             if (!await _reviewServices.DeleteReview(review))
             {
                 return BadRequest();
@@ -144,20 +157,27 @@ namespace Budget_CoolBooks.Controllers
 
         [HttpGet]
         public async Task<IActionResult> DeleteComment(int Id)
-        {
-            //Unflag review
+            {
             var comment = await _commentServices.GetCommentById(Id);
             if (comment == null)
             {
                 return NotFound();
             }
 
+            // Get user and assign all flags related to comment to user.
+            comment.User.TotalFlags = comment.User.TotalFlags + comment.Flag;
+            if (!await _userServices.UpdateUser(comment.User))
+            {
+                return BadRequest();
+            }
+
+            // Delete comment (soft delete)
             if (!await _commentServices.DeleteComment(comment))
             {
                 return BadRequest();
             }
 
-            return RedirectToAction("IndexAudits");
+            return RedirectToAction("IndexComments");
         }
 
         //COMMENTS
@@ -214,12 +234,79 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
 
+            // Get user and assign all flags related to reply to user.
+            reply.User.TotalFlags = reply.User.TotalFlags + reply.Flag;
+            if (!await _userServices.UpdateUser(reply.User))
+            {
+                return BadRequest();
+            }
+
             if (!await _commentServices.DeleteReply(reply))
             {
                 return BadRequest();
             }
 
             return RedirectToAction("IndexReplies");
+        }
+
+
+        // QUOTES
+        [HttpGet]
+        public async Task<IActionResult> IndexQuotes()
+        {
+            // Get all quote IsModerated = false
+            var quotes = await _moderatorServices.GetQuotesToModerate();
+
+            var moderatorViewModel = new ModeratorViewModel();
+            moderatorViewModel.QuotesToApprove = quotes.ToList();
+
+            return View("~/views/Moderator/quotes/index.cshtml", moderatorViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AuditQuote(int Id)
+        {
+            var quote = await _quoteServices.GetQuoteById(Id);
+            if (quote == null)
+            {
+                return NotFound();
+            }
+            var moderatorViewModel = new ModeratorViewModel();
+            moderatorViewModel.Quote = quote;
+
+            return View("~/views/Moderator/quotes/audit.cshtml", moderatorViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ApproveQuote(int Id)
+        {
+            var quote = await _quoteServices.GetQuoteById(Id);
+            if(quote == null) 
+            { 
+                return NotFound(); 
+            }
+            if(! await _moderatorServices.ApproveQuote(quote))
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("IndexQuotes");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteQuote(int Id)
+        {
+            var quote = await _quoteServices.GetQuoteById(Id);
+            if (quote == null)
+            {
+                return NotFound();
+            }
+            if (!await _moderatorServices.DeleteQuote(quote))
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("IndexQuotes");
         }
     }
 }

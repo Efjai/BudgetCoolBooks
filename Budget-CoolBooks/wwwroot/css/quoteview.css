@@ -1,0 +1,19 @@
+﻿#dropdown-field {
+    margin-right: 2em;
+}
+
+#create-button {
+    margin-left: 2em;
+}
+
+.quote-create-container {
+    display: grid;
+    justify-content: center;
+    margin: 3em;
+}
+
+#viewall-button {
+    margin-top: 1em;
+    display: grid;
+    justify-content: center;
+}

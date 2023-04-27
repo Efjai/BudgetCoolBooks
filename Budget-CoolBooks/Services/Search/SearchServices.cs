@@ -24,6 +24,14 @@ namespace Budget_CoolBooks.Services.Search
                                          ba.Author.Lastname.Contains(search)) ||
                                          b.ISBN.Contains(search))
                         .ToList();
+
+            var result2 = _context.Books.Include(b => b.BookGenre).ThenInclude(ba => ba.Genre).Where(b => b.BookGenre.Any(ba => ba.Genre.Name.Contains(search))).ToList();
+
+            foreach (var book in result2)
+            {
+                result.Add(book);
+            }
+
             return result;
         }
     }

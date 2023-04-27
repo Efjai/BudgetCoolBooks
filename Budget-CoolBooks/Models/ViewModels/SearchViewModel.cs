@@ -5,10 +5,8 @@ namespace Budget_CoolBooks.ViewModels
     public class SearchViewModel
     {
         public List<Book> Books { get; set; }
-        public List<Book> SortedBooks { get; set; }
-        public List<Book> SortedISBN { get; set; }
-        public List<Author> SortedAuthors { get; set; }
-        public string SortBy { get; set; }
+        public List<Author> SearchAuthors { get; set; }
+        public List<Genre> SearchGenres { get; set; }
         public bool SearchActive { get; set; }
         public string OriginalSearchString { get; set; } // Keep modelstate in order to sort result later.
     }

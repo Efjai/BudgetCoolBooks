@@ -34,7 +34,65 @@
                 </div>
             </div>
         <!-- Navbar -->
-        <partial name="_NavbarPartial" />
+        <nav class="navbar navbar-expand-md bg-light">
+            <div class="container">
+                <!-- Navbar Start -->
+                <ul class="nav nav-pills">
+                    <!-- LOGO -->
+                    <li class="nav-item">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/images/Book.png" alt="" width="40" height="40" class=" " />
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Book" asp-action="Index">Books</a>
+                    </li
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Review" asp-action="Index">Reviews</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Quote" asp-action="Index">Quotes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
+                    </li>
+                    @*Shows moderator panel if role = mod or admin*@
+                    @if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                    {
+                    <ul class="navbar-nav">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 dropdown me-4">
+                                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Moderator
+                                </a>
+                                <ul class="dropdown-menu text-small">
+                                    <li>
+                                        <a class="nav-link" asp-controller="Moderator" asp-action="IndexComments">Comments</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" asp-controller="Moderator" asp-action="IndexReplies">Replies</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" asp-controller="Moderator" asp-action="IndexQuotes">Quotes</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" asp-controller="Moderator" asp-action="IndexReviews">Reviews</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ul>
+                    }
+
+                </ul>
+                <!-- Navbar End -->
+                <!-- Login,Register and User Menu -->
+                <partial name="_LoginPartial"/>
+            </div>
+        </nav>
     </header>
     <!-- Header End -->
     <div class="container">
@@ -42,13 +100,33 @@
             @RenderBody()
         </main>
     </div>
-    &copy; 2023 - Budget_CoolBooks
     <!-- Footer -->
-    <footer class=footer>
-        <partial name="_FooterPartial" />
+    <footer>
+        <div class="footercontent">
+            <div class="footerinfobox">
+                <h3>Company</h3>
+                <p>We provide a review service of books and the ability to submit books to be reviewed. Make sure to swipe the right way on tinder!</p>
+            </div>
+            <div class="footerinfobox">
+                <h3>Socials</h3>
+                <a href="#"><img src="/images/facebook.png" alt="error" style="width: 40px;"></a>
+                <a href="#"><img src="/images/twitter.png" alt="error" style="width: 40px;"></a>
+                <a href="#"><img src="/images/instagram.jpg" alt="error" style="width: 40px;"></a>
+                <a href="https://imgur.com/mawrYLx"><img src="/images/tinder.png" alt="error" style="width: 40px;"></a>
+            </div>
+            <div class="footerinfobox">
+                <h3>Contact us</h3>
+                <p>Adress: Filsbäcksvägen 13, 531 70 Lidköping</p>
+                <p>Email: BudgetCoolbooks@wecare.com</p>
+                <p>Tele: +46723952740</p>
+            </div>
+        </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

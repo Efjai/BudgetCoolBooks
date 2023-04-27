@@ -10,5 +10,7 @@ namespace Budget_CoolBooks.ViewModels
         public Comment Comment { get; set; }
         public List<Reply> Replies { get; set; }
         public Reply Reply { get; set; }
+        public Quote Quote { get; set; }
+        public List<Quote> QuotesToApprove { get; set; }
     }
 }

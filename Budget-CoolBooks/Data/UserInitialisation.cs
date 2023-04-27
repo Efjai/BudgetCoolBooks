@@ -1,4 +1,5 @@
 ﻿using Budget_CoolBooks.Models;
+using Budget_CoolBooks.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

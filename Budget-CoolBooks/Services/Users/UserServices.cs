@@ -9,6 +9,7 @@ using System;
 using Budget_CoolBooks.Services.UserServices;
 using Budget_CoolBooks.ViewModels;
 using Budget_CoolBooks.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Budget_CoolBooks.Services.UserServices
 {
@@ -36,6 +37,22 @@ namespace Budget_CoolBooks.Services.UserServices
             return _context.Users.Where(u => u.Id == id).FirstOrDefault();
         }
 
+        public async Task<bool> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            return Save();
+        }
+
+
+        // SORTING
+        public async Task<ICollection<User>> SortUsersByFlag()
+        {
+            return _context.Users.OrderByDescending(u => u.TotalFlags).ToList();
+        }
+        public async Task<ICollection<User>> SortUsersByName()
+        {
+            return _context.Users.OrderBy(u => u.UserName).ToList();
+        }      
 
         // ROLE - FUNCTIONS
         public async Task<bool> PromoteToAdmin(User user)

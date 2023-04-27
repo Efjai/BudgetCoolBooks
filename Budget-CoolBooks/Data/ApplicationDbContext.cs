@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Budget_CoolBooks.Data
 {
@@ -20,6 +21,9 @@ namespace Budget_CoolBooks.Data
         public DbSet<BookGenre> BooksGenres { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reply> Replys { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Quote> Quotes { get; set; }
+        public DbSet<QuoteCategory> QuotesCategories { get; set; } 
 
         // Set Views in DB
         public DbSet<CommentsGenresFromView> CommentsGenresFromViews { get; set; }
@@ -28,6 +32,8 @@ namespace Budget_CoolBooks.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<QuoteCategory>()
+        .HasKey(ba => new { ba.QuoteId, ba.CategoryId });
 
 
             #region Fluent API

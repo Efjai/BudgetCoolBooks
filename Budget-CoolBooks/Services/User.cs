@@ -6,5 +6,7 @@ namespace Budget_CoolBooks.Models
     {
         public ICollection<Book> Books { get; set; }
         public ICollection<Review> Reviews { get; set; }
+        public int TotalFlags { get; set; }
+      
     }
 }

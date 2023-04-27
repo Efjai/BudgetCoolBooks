@@ -2,12 +2,10 @@
     ViewData["Title"] = "Reply to comment";
 }
 @model Budget_CoolBooks.ViewModels.ModeratorViewModel
-<link rel="stylesheet" href="~/css/adminview.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/moderatorview.css" asp-append-version="true" />
 
-<partial name="~/views/Shared/Moderator/_ModeratorNavbar.cshtml" />
-
-<div class="">
-    <h1 class="fs-2 text-black">Replies to comments to moderate</h1>
+<div class="moderator-titles">
+    <h1 class="fs-2 text-black">Replies</h1>
 </div>
 
 <table class="table table-striped caption-top">
@@ -38,7 +36,7 @@
                     @reply.Flag
                 </td>
                 <td>
-                    <div class="admin-settings">
+                    <div class="moderator-settings">
                         <a asp-controller="Moderator" asp-action="AuditReplies" asp-route-id="@reply.Id"
                        class="btn btn-sm btn-outline-primary me-2">
                             Audit
