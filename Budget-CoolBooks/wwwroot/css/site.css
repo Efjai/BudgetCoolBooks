@@ -12,6 +12,7 @@ html {
 html {
     position: relative;
     min-height: 100%;
+    margin-bottom: 20%;
 }
 .page-title {
     margin-top: 2em;
@@ -32,21 +33,17 @@ html {
     }
 }
 footer {
-    max-height: 5%;
+    max-height: 0%;
     padding: 50px;
-    padding-top: 10px;
     cursor: default;
     position: absolute;
-    bottom: 0;
+    bottom: -50px;
     margin-top: 2%;
 }
 h3{
     padding-bottom: 5%;
 }
 .footerinfobox{
-    padding-bottom: 5%;
-}
-.footercontent {
     padding-bottom: 5%;
 }
 #sort-dropdown {
