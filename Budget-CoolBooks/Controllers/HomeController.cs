@@ -29,7 +29,7 @@ namespace Budget_CoolBooks.Controllers
             _searchServices = searchServices;
             _authorServices = authorServices;
         }
-        public IActionResult ContactUs()
+        public IActionResult AboutUs()
         {
             return View();
         }

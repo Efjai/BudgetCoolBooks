@@ -57,7 +57,7 @@
                         <a class="nav-link" asp-area="" asp-controller="Quote" asp-action="Index">Quotes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact us</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
                     </li>
                     @*Shows moderator panel if role = mod or admin*@
                     @if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
