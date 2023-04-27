@@ -87,7 +87,6 @@
                     <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
                     <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
                 </form>
-
                 <form method="post" asp-controller="Review" asp-action="Delete">
                     <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
                     <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -103,97 +102,94 @@
             <!-- Comments -->
             @{
                 int c = 0;
-                foreach (var comment in @Model.CommentsToRatings)
+                foreach (var comments in @Model.CommentsList)
                 {
                     <!-- Sort to reviews -->
-                    if (Model.CommentsToRatings[c].Review.Id == Model.AllFullReviews[j].Id)
+                    if (@Model.CommentsList[c].Review.Id == @Model.AllFullReviews[j].Id)
                     {
                         <div class="commentbox">
                             <div style="display: inline-flex; margin: auto;">
                                 <!-- Username && generic pic -->
-                                <h4>@Model.CommentsToRatings[c].User.UserName</h4>
+                                <h4>@Model.CommentsList[c].User.UserName</h4>
                                 <img src="~/images/member.png" style="width: 30px; height: 30px;">
                             </div>
                             <h5>Commenting on @Model.AllFullReviews[j].User.UserName</h5>
                             <!-- Comment text -->
-                            <p>@Model.CommentsToRatings[c].Text</p>
+                            <p>@Model.CommentsList[c].Text</p>
                             <div style="display: inline-flex; width: 80%;">
                                 <!-- Reply -->
                                 <form method="post" asp-controller="Comment" asp-action="ReplyIndex">
-                                    <input type="hidden" name="commentId" value="@Model.CommentsToRatings[j].Id">
+                                    <input type="hidden" name="commentId" value="@Model.CommentsList[c].Id">
                                     <input type="hidden" name="bookId" value="@Model.Books[0].Id">
                                     <button input="submit"><img src="~/images/comment.png" style="width: 15px; height: 15px;"></button>
                                 </form>
                                 <!-- Date created -->
-                                <small style="margin: auto;">@Model.CommentsToRatings[c].Created</small>
+                                <small style="margin: auto;">@Model.CommentsList[c].Created</small>
                                 <!-- Flag comment -->
                                 <form method="post" asp-controller="User" asp-action="FlagComment" style="margin-top: auto; margin-bottom: auto; margin-left: 1%;">
-                                    <input type="hidden" name="commentId" value="@Model.CommentsToRatings[c].Id">
+                                    <input type="hidden" name="commentId" value="@Model.CommentsList[c].Id">
                                     <input type="hidden" name="id" value="@Model.Books[0].Id">
                                     <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                 </form>
 
-                                @if (Model.CurrentUserId == @comment.User.Id)
+                                @if (@Model.CurrentUserId == @Model.CommentsList[c].User.Id)
                                 {
                                     <form method="get" asp-controller="Comment" asp-action="EditComment">
-                                        <input type="hidden" name="commentId" value="@comment.Id">
+                                        <input type="hidden" name="commentId" value="@Model.CommentsList[c].Id">
                                         <input type="hidden" name="bookId" value="@Model.Books[0].Id">
                                         <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
                                     </form>
-
                                     <form method="post" asp-controller="Comment" asp-action="DeleteComment">
-                                        <input type="hidden" name="commentId" value="@comment.Id">
+                                        <input type="hidden" name="commentId" value="@Model.CommentsList[c].Id">
                                         <input type="hidden" name="bookId" value="@Model.Books[0].Id">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                                     </form>
                                 }
                             </div>
                         </div>
-                    }
-                    <!-- Replys -->
-                    int r = 0;
-                    foreach (var reply in @Model.AllReplysOfComments)
-                    {
-                        <!-- Sort to reviews -->
-                        if (@Model.AllReplysOfComments[r].Comment.Id == Model.CommentsToRatings[c].Id && Model.CommentsToRatings[c].Review.Id == Model.AllFullReviews[j].Id)
+                        <!-- Replys -->
+                        int r = 0;
+                        foreach (var replys in @Model.RepliesList)
                         {
-                            <div class="replybox">
-                                <div style="display: inline-flex; margin: auto;">
-                                    <!-- Username && generic pic -->
-                                    <h4>@Model.AllReplysOfComments[r].User.UserName</h4>
-                                    <img src="~/images/member.png" style="width: 30px; height: 30px;">
-                                </div>
-                                <h5>Responding to @Model.CommentsToRatings[c].User.UserName</h5>
-                                <!-- Comment text -->
-                                <p>@Model.AllReplysOfComments[r].Text</p>
-                                <div style="display: inline-flex; width: 80%;">
-                                    <!-- Date created -->
-                                    <small style="margin: auto;">@Model.AllReplysOfComments[r].Created</small>
-                                    <!-- Flag comment -->
-                                    <form method="post" asp-controller="User" asp-action="FlagReply" style="margin-bottom: auto; margin-left: 1%;">
-                                        <input type="hidden" name="replyId" value="@Model.AllReplysOfComments[r].Id">
-                                        <input type="hidden" name="id" value="@Model.Books[0].Id">
-                                        <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
-                                    </form>
-
-                                    @if (Model.CurrentUserId == @Model.AllFullReviews[j].User.Id)
-                                    {
-                                        <form method="get" asp-controller="Comment" asp-action="EditReply">
-                                            <input type="hidden" name="replyId" value="@reply.Id">
-                                            <input type="hidden" name="bookId" value="@Model.Books[0].Id">
-                                            <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
+                            <!-- Sort to Comments -->
+                            if (@Model.RepliesList[r].Comment.Id == Model.CommentsList[c].Id)
+                            {
+                                <div class="replybox">
+                                    <div style="display: inline-flex; margin: auto;">
+                                        <!-- Username && generic pic -->
+                                        <h4>@Model.RepliesList[r].User.UserName</h4>
+                                        <img src="~/images/member.png" style="width: 30px; height: 30px;">
+                                    </div>
+                                    <h5>Responding to @Model.RepliesList[c].User.UserName</h5>
+                                    <!-- Comment text -->
+                                    <p>@Model.RepliesList[r].Text</p>
+                                    <div style="display: inline-flex; width: 80%;">
+                                        <!-- Date created -->
+                                        <small style="margin: auto;">@Model.RepliesList[r].Created</small>
+                                        <!-- Flag comment -->
+                                        <form method="post" asp-controller="User" asp-action="FlagReply" style="margin-bottom: auto; margin-left: 1%;">
+                                            <input type="hidden" name="replyId" value="@Model.RepliesList[r].Id">
+                                            <input type="hidden" name="id" value="@Model.Books[0].Id">
+                                            <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                         </form>
-
-                                        <form method="post" asp-controller="Comment" asp-action="DeleteReply">
-                                            <input type="hidden" name="replyId" value="@reply.Id">
-                                            <input type="hidden" name="bookId" value="@Model.Books[0].Id">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                        </form>
-                                    }
+                                        @if (@Model.CurrentUserId == @Model.RepliesList[j].User.Id)
+                                        {
+                                            <form method="get" asp-controller="Comment" asp-action="EditReply">
+                                                <input type="hidden" name="replyId" value="@Model.RepliesList[r].Id">
+                                                <input type="hidden" name="bookId" value="@Model.Books[0].Id">
+                                                <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
+                                            </form>
+                                            <form method="post" asp-controller="Comment" asp-action="DeleteReply">
+                                                <input type="hidden" name="replyId" value="@Model.RepliesList[r].Id">
+                                                <input type="hidden" name="bookId" value="@Model.Books[0].Id">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            r++;
                         }
-                        r++;
                     }
                     c++;
                 }

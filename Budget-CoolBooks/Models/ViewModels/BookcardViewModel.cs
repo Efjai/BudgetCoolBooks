@@ -15,8 +15,8 @@ namespace Budget_CoolBooks.ViewModels
         public double? AverageRating { get; set; }
         public int? IsNotReviewed { get; set; }
         public List<Review>? AllFullReviews { get; set; }
-        public List<Comment>? CommentsToRatings { get; set; }
-        public List<Reply>? AllReplysOfComments { get; set; }
+        public List<Comment>? CommentsList { get; set; }
+        public List<Reply>? RepliesList { get; set; }
         public string CurrentUserId { get; set; }
         
     }

@@ -109,6 +109,7 @@ namespace Budget_CoolBooks.Services.Reviews
         {
             return _context.Reviews.Include(r => r.User).Where(r => r.Book.Id == bookId && !r.IsDeleted).FirstOrDefault();            
         }
+        //Get all ID of reviews by BookID
         public async Task<IList<int>> GetAllIdOfReviews(int id)
         {
             return _context.Reviews.Where(r => r.Book.Id == id && !r.IsDeleted).Select(r => r.Id).ToList();

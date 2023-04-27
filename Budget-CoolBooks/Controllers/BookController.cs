@@ -82,34 +82,60 @@ namespace Budget_CoolBooks.Controllers
                 };
                 return View("/views/book/bookcard.cshtml", bookcardViewModel2);
             }
+            //Get Review IDS
             var reviewIds = await _reviewServices.GetAllIdOfReviews(id);
-            var commentIds = await _commentServices.GetAllIdOfComments(id);
+
+            List<int> CommentIDs = new List<int> { };
+            try
+            {
+                int r = 0;
+                foreach (var reviewId in reviewIds)
+                {
+                    var commentIds = await _commentServices.GetAllIdOfComments(reviewIds[r]);
+                    CommentIDs.AddRange(commentIds);
+                    r++;
+                }   
+            }
+            catch
+            {
+
+            }
 
             var AllFullReviews = await _reviewServices.GetFULLAllRatingsOfBook(id);
 
             var RatingPerGrades = RatingPerGrade(ratings);
             var AverageRatings = CalculateAverageRating(ratings);
 
-
+            List<Comment> CommentsList = new List<Comment> { };
+            List<Reply> RepliesList = new List<Reply> { };
 
             int c = 0;
-            List<Reply> GetAllReplysOfComments = new List<Reply> { };
-            List<Comment> GetAllCommentsOfReplys = new List<Comment> { };
-            foreach (var Id in reviewIds)
+            try
             {
-                var GetAllCommentsOfRatings = await _commentServices.GetAllCommentsOfReview(reviewIds[c]);
-                GetAllCommentsOfReplys.AddRange(GetAllCommentsOfRatings);
-                try
+                foreach (var Id in reviewIds)
                 {
+                    var Comments = await _commentServices.GetAllCommentsOfReview(reviewIds[c]);
+                    CommentsList.AddRange(Comments);
+                    c++;
+                }
+            }
+            catch (Exception ex)
+            {
 
-                    var GetAllReplysOfComment = await _commentServices.GetAllReplysOfComments(GetAllCommentsOfReplys[c].Id);
-                    GetAllReplysOfComments.AddRange(GetAllReplysOfComment);
-                }
-                catch
+            }
+            c = 0;
+            try
+            {
+                foreach (var Comment in CommentsList)
                 {
-                    break;
+                    var Replies = await _commentServices.GetAllReplysOfComments(CommentIDs[c]);
+                    RepliesList.AddRange(Replies);
+                    c++;
                 }
-                c++;
+            }
+            catch
+            {
+
             }
 
             BookcardViewModel ratingsViewModel = new BookcardViewModel();
@@ -136,8 +162,8 @@ namespace Budget_CoolBooks.Controllers
                 AverageRating = AverageRatings,
 
                 AllFullReviews = AllFullReviews.ToList(),
-                CommentsToRatings = GetAllCommentsOfReplys.ToList(),
-                AllReplysOfComments = GetAllReplysOfComments.ToList(),
+                CommentsList = CommentsList.ToList(),
+                RepliesList = RepliesList.ToList(),
 
                 CurrentUserId = currentUserID,
             };

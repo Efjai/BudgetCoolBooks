@@ -53,18 +53,21 @@ namespace Budget_CoolBooks.Services.Comments
             _context.Replys.Update(reply);
             return Save();
         }
-
-       
+        //Get all comment IDS from review by review ID
+        public async Task<IList<int>> GetAllIdOfComments(int id)
+        {
+            return _context.Comments.Where(r => r.Review.Id == id && !r.IsDeleted).Select(r => r.Id).ToList();
+        }
+        //Get all comments of reviews by review ID
         public async Task<List<Comment>> GetAllCommentsOfReview(int id)
         {
-            return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id).OrderByDescending(r => r.Created).ToList();
+            return _context.Comments.Include(r => r.User).Where(r => r.Review.Id == id && !r.IsDeleted).OrderByDescending(r => r.Created).ToList();
         }
-
-        //public async Task<List<Comment>> GetAllReplysOfComments(int id)
-        //{
-        //    return _context.Comments.Include(r => r.User).Where(r => r.Comments.Id == id).ToList();
-        //}
-
+        //Get all replies from comments by comment ID
+        public async Task<List<Reply>> GetAllReplysOfComments(int id)
+        {
+            return _context.Replys.Include(r => r.User).Include(r => r.Comment).Where(r => r.Comment.Id == id && !r.IsDeleted).OrderByDescending(r => r.Created).ToList();
+        }
         public async Task<bool> CreateComment(Comment comment)
         {
             _context.Comments.Add(comment);
@@ -76,7 +79,6 @@ namespace Budget_CoolBooks.Services.Comments
             _context.Replys.Add(reply);
             return Save();
         }
-
         // OTHER
         public bool Save()
         {
@@ -86,14 +88,6 @@ namespace Budget_CoolBooks.Services.Comments
         public async Task<List<Comment>> GetCommentByUserId(string id)
         {
             return _context.Comments.Where(c => c.User.Id == id).ToList();
-        }
-        public async Task<List<Reply>> GetAllReplysOfComments(int id)
-        {
-            return _context.Replys.Include(r => r.User).Include(r => r.Comment).Where(r => r.Comment.Id == id).OrderByDescending(r => r.Created).ToList();
-        }
-        public async Task<IList<int>> GetAllIdOfComments(int id)
-        {
-            return _context.Comments.Where(r => r.Review.Id == id).Select(r => r.Id).ToList();
         }
     }
 }
