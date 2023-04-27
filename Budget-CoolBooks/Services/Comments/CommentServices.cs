@@ -18,7 +18,10 @@ namespace Budget_CoolBooks.Services.Comments
         // COMMENTS 
         public async Task<Comment> GetCommentById(int id)
         {
-            return _context.Comments.Where(c => c.Id == id).FirstOrDefault();
+            return _context.Comments
+                    .Include(c => c.User)
+                    .Where(c => c.Id == id)
+                    .FirstOrDefault();
         }
 
         public async Task<bool> UpdateComment(Comment comment)
@@ -40,7 +43,10 @@ namespace Budget_CoolBooks.Services.Comments
         }
         public async Task<Reply> GetReplyById(int id)
         {
-            return _context.Replys.Where(c => c.Id == id).FirstOrDefault();
+            return _context.Replys
+                .Include(r => r.User)
+                .Where(r => r.Id == id)
+                .FirstOrDefault();
         }
         public async Task<bool> UpdateReply(Reply reply)
         {

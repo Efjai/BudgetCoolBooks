@@ -2,11 +2,9 @@
     ViewData["Title"] = "Comments";
 }
 @model Budget_CoolBooks.ViewModels.ModeratorViewModel
-<link rel="stylesheet" href="~/css/adminview.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/moderatorview.css" asp-append-version="true" />
 
-<partial name="~/views/Shared/Moderator/_ModeratorNavbar.cshtml" />
-
-<div class="">
+<div class="moderator-titles">
     <h1 class="fs-2 text-black">Comments to moderate</h1>
 </div>
 
@@ -41,7 +39,7 @@
                     @comment.Flag
                 </td>
                 <td>
-                   <div class="admin-settings">
+                    <div class="moderator-settings">
                         <a asp-controller="Moderator" asp-action="AuditComments" asp-route-id="@comment.Id"
                             class="btn btn-sm btn-outline-primary me-2">
                             Audit
