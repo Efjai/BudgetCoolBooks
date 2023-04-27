@@ -2,125 +2,97 @@
     ViewData["Title"] = "Search result";
 }
 @model Budget_CoolBooks.ViewModels.SearchViewModel
+<link rel="stylesheet" href="~/css/bookview.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
 
-@if (Model.SearchActive || Model.SortedBooks != null || Model.SortedAuthors != null || Model.SortedISBN != null)
+@if (Model.SearchActive)
 {
     <div class="sorting-holder">
-        <h2 class="title-search">Search Results</h2>
-            <form method="post" asp-controller="Home" asp-action="SortSearch">
-                <select class="form-select" onchange="this.form.submit()" aria-label="Filter" 
+    <h2 class="title-search">Search Results</h2>
+    </div>
+    <hr />
+
+    <div class="sorting-holder">
+        <h6 class="title-search">Filters</h6>
+        <form method="post" asp-controller="Home" asp-action="FilterSearch">
+            <select class="form-select" onchange="this.form.submit()" aria-label="Filter"
+                    name="authorId" id="filter-dropdown">
+                <option selected>Authors</option>
+                @{
+                int i = 0;
+                @foreach(var author in Model.SearchAuthors)
+                {
+                    <option value="@Model.SearchAuthors[i].Id">@Model.SearchAuthors[i].Firstname @Model.SearchAuthors[i].Lastname</option>
+                    i++;
+                }
+                }
+            </select>
+            <input type="hidden" name="searchString" value="@Model.OriginalSearchString">
+        </form>
+        <br />
+        <form method="post" asp-controller="Home" asp-action="FilterSearch">
+            <select class="form-select" onchange="this.form.submit()" aria-label="Filter"
+                    name="genreId" id="filter-dropdown">
+                <option selected>Genres</option>
+                @{
+                    int j = 0;
+                    @foreach (var genre in Model.SearchGenres)
+                    {
+                        <option value="@Model.SearchGenres[j].Id">@Model.SearchGenres[j].Name</option>
+                        j++;
+                    }
+                }
+            </select>
+            <input type="hidden" name="searchString" value="@Model.OriginalSearchString">
+        </form>
+        <form method="post" asp-controller="Home" asp-action="SortSearch">
+            <select class="form-select" onchange="this.form.submit()" aria-label="Filter"
                     name="SortInput" id="filter-dropdown">
-                    <option selected>Filter by</option>
-                    <option value="1">Book title</option>
-                    <option value="2">Author</option>
-                    <option value="3">ISBN</option>
-                </select>
+                <option selected>Sort by</option>
+                <option value="1">Alpabetical</option>
+                <option value="2">Highest Rated</option>
+                <option value="3">Newest Added</option>
+            </select>
             <input type="hidden" name="searchString" value="@Model.OriginalSearchString">
         </form>
     </div>
+    <hr />
+
 }
 
 @if (Model.SearchActive)
 {
-  <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>ISBN</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+
         @foreach (var book in Model.Books)
         {
-            <tr>
-                <td>
-                    <form method="post" asp-controller="Book" asp-action="BookDetails">
-                        <input type="hidden" name="id" value="@book.Id">
-                                <button input="submit" class="filter-button">@book.Title</button>
-                    </form>
-                </td>
-                @*<td>@book.BookAuthor @book.Author.Lastname</td>*@
-                <td>@book.ISBN</td>
-            </tr>
-        }
-        </tbody>
-    </table>  
-}
-
-
-@if(Model.SortedBooks != null)
-{
-      <table class="table">
-        <thead>
-            <tr>
-                <th>Authors</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var book in Model.SortedBooks)
-        {
-            <tr>
-                <td>
-                    <form method="post" asp-controller="Book" asp-action="BookDetails">
-                        <input type="hidden" name="id" value="@book.Id">
-                        <button input="submit" class="filter-button">@book.Title</button>
-                    </form>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-
-@if (Model.SortedAuthors != null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var author in Model.SortedAuthors)
+            string shortenedDesc = null;
+            @if (book.Description.Length > 100)
             {
-                <tr>
-                    <td>
-                        <form method="get" asp-controller="Home" asp-action="AuthorDetails">
-                            <input type="hidden" name="id" value="@author.Id">
-                            <button input="submit" class="filter-button">
-                                @author.Firstname @author.Lastname
-                            </button>
-                        </form>
-                    </td>
-                    
-                </tr>
+                shortenedDesc = book.Description.Substring(0, 100) + "...";
             }
-        </tbody>
-    </table>
-}
 
-@if(Model.SortedISBN != null)
-{
-      <table class="table">
-        <thead>
-            <tr>
-                <th>ISBN</th>
-                <th>Title</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var book in Model.SortedISBN)
-        {
-            <tr>
-                    <td>@book.ISBN</td>
-            </tr>
-                <tr>
-                    <td>@book.Title</td>
-                </tr>
+            <div class="col">
+                <div class="card h-100" id="book-card">
+                    <img src="@book.Imagepath" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">@shortenedDesc</p>
+                    </div>
+
+                    <div class="mb-3" id="button-details">
+                        <form method="post" asp-controller="Book" asp-action="BookDetails">
+                            <input type="hidden" name="id" value="@book.Id">
+                            <button input="submit" class="btn btn-primary btn sm">Details</button>
+                        </form>
+                    </div>
+
+                    <div class="card-footer">
+                        <small class="text-body-secondary">Created: @book.Created.ToString("yy-MM-dd")</small>
+                    </div>
+                </div>
+            </div>
         }
-        </tbody>
-    </table>
+    </div>
 }
