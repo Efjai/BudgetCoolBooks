@@ -45,11 +45,8 @@ footer {
     padding: 50px;
     cursor: default;
     position: absolute;
-    bottom: 0;
-    margin-top: 50%;
+    margin-top: 2%;
     margin-bottom: 0;
-    z-index: 0;
-    overflow: hidden;
 }
 h3{
     padding-bottom: 5%;
