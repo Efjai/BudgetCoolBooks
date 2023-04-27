@@ -56,7 +56,10 @@ namespace Budget_CoolBooks.Services.Reviews
         }
         public async Task<Review> GetSpecificReviewByID(int id)
         {
-            return _context.Reviews.Where(r => r.Id == id).FirstOrDefault();
+            return _context.Reviews
+                .Include(r => r.User)
+                .Where(r => r.Id == id)
+                .FirstOrDefault();
         }
         public async Task<List<Review>> GetReviewByUsername(string userName)
         {
@@ -67,7 +70,10 @@ namespace Budget_CoolBooks.Services.Reviews
         public async Task<Review> GetReviewByID(int id)
         {
             // ADDED INCLUDE TO .Include(r => r.Book)
-            return _context.Reviews.Where(r => r.Id == id && !r.IsDeleted).FirstOrDefault();
+            return _context.Reviews
+                .Include(r => r.User)
+                .Where(r => r.Id == id && !r.IsDeleted)
+                .FirstOrDefault();
         }
         public async Task<List<Review>> GetReviewListByID(int id)
         {

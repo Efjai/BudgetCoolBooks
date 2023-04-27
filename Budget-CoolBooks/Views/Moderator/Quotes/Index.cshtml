@@ -1,11 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Quotes";
 }
-<partial name="~/views/Shared/Moderator/_ModeratorNavbar.cshtml" />
 @model Budget_CoolBooks.ViewModels.ModeratorViewModel
-<link rel="stylesheet" href="~/css/adminview.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/moderatorview.css" asp-append-version="true" />
 
-<div class="">
+<div class="moderator-titles">
     <h1 class="fs-2 text-black">Quotes to approve</h1>
 </div>
 
@@ -38,7 +37,7 @@
                     @quote.Created
                 </td>
                 <td>
-                    <div class="admin-settings">
+                    <div class="moderator-settings">
                         <a asp-controller="Moderator" asp-action="AuditQuote" asp-route-id="@quote.Id"
                             class="btn btn-sm btn-outline-primary me-2">
                             Audit

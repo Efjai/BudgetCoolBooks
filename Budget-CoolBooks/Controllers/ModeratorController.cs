@@ -18,14 +18,16 @@ namespace Budget_CoolBooks.Controllers
         private readonly ReviewServices _reviewServices;
         private readonly CommentServices _commentServices;
         private readonly QuoteServices _quoteServices;
+        private readonly UserServices _userServices;
 
         public ModeratorController(ModeratorServices moderatorServices, ReviewServices reviewServices,
-            CommentServices commentServices, QuoteServices quoteServices)
+            CommentServices commentServices, QuoteServices quoteServices, UserServices userServices)
         {
             _moderatorServices = moderatorServices;
             _reviewServices = reviewServices;
             _commentServices = commentServices;
             _quoteServices = quoteServices;
+            _userServices = userServices;
         }
 
 
@@ -91,6 +93,13 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
 
+            // Get user and assign all flags related to review to user.
+            review.User.TotalFlags = review.User.TotalFlags + review.Flag;
+            if (!await _userServices.UpdateUser(review.User))
+            {
+                return BadRequest();
+            }
+
             if (!await _reviewServices.DeleteReview(review))
             {
                 return BadRequest();
@@ -148,20 +157,27 @@ namespace Budget_CoolBooks.Controllers
 
         [HttpGet]
         public async Task<IActionResult> DeleteComment(int Id)
-        {
-            //Unflag review
+            {
             var comment = await _commentServices.GetCommentById(Id);
             if (comment == null)
             {
                 return NotFound();
             }
 
+            // Get user and assign all flags related to comment to user.
+            comment.User.TotalFlags = comment.User.TotalFlags + comment.Flag;
+            if (!await _userServices.UpdateUser(comment.User))
+            {
+                return BadRequest();
+            }
+
+            // Delete comment (soft delete)
             if (!await _commentServices.DeleteComment(comment))
             {
                 return BadRequest();
             }
 
-            return RedirectToAction("IndexAudits");
+            return RedirectToAction("IndexComments");
         }
 
         //COMMENTS
@@ -216,6 +232,13 @@ namespace Budget_CoolBooks.Controllers
             if (reply == null)
             {
                 return NotFound();
+            }
+
+            // Get user and assign all flags related to reply to user.
+            reply.User.TotalFlags = reply.User.TotalFlags + reply.Flag;
+            if (!await _userServices.UpdateUser(reply.User))
+            {
+                return BadRequest();
             }
 
             if (!await _commentServices.DeleteReply(reply))
@@ -285,6 +308,5 @@ namespace Budget_CoolBooks.Controllers
 
             return RedirectToAction("IndexQuotes");
         }
-
     }
 }

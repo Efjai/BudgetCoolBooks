@@ -36,6 +36,13 @@ namespace Budget_CoolBooks.Services.UserServices
             return _context.Users.Where(u => u.Id == id).FirstOrDefault();
         }
 
+        public async Task<bool> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            return Save();
+        }
+        
+
 
         // ROLE - FUNCTIONS
         public async Task<bool> PromoteToAdmin(User user)

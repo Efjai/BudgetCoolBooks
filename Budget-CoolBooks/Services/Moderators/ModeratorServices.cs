@@ -34,7 +34,7 @@ namespace Budget_CoolBooks.Services.Moderators
             return _context.Comments
                     .Include(c => c.Review)
                     .Include(c => c.User)
-                    .Where(c => c.Flag > 0)
+                    .Where(c => c.Flag > 0 && !c.IsDeleted)
                     .OrderBy(c => c.Created)
                     .ToList();
         }
@@ -49,10 +49,10 @@ namespace Budget_CoolBooks.Services.Moderators
         public async Task<ICollection<Reply>> GetFlaggedReplies()
         {
             return _context.Replys
-                    .Include(c => c.Comment)
-                    .Include(c => c.User)
-                    .Where(c => c.Flag > 0)
-                    .OrderBy(c => c.Created)
+                    .Include(r => r.Comment)
+                    .Include(r => r.User)
+                    .Where(r => r.Flag > 0 && !r.IsDeleted)
+                    .OrderBy(r => r.Created)
                     .ToList();
         }
         public async Task<bool> UnflagReply(Reply reply)
