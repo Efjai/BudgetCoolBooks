@@ -283,7 +283,6 @@ namespace Budget_CoolBooks.Controllers
             };
 
             return View("~/views/Home/AuthorDetails.cshtml", authorDetailsViewModel);
-<<<<<<< Updated upstream
         }
 
         private double CalculateAverageRating(ICollection<double> ratings)
@@ -296,9 +295,6 @@ namespace Budget_CoolBooks.Controllers
             double averageRating = totalRating / ratings.Count;
             averageRating = Math.Round(averageRating, 1);
             return averageRating;
-        }
-=======
-        }        
->>>>>>> Stashed changes
+        }     
     }
 }
