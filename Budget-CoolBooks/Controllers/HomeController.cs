@@ -145,14 +145,11 @@ namespace Budget_CoolBooks.Controllers
                     result.Sort((x, y) => x.Title.CompareTo(y.Title));
                     result.Reverse();
                     break;
-                case 1:                                                   // NAME
+                case 1:                                                   // NAME ASC
                     result.Sort((x, y) => x.Title.CompareTo(y.Title));
                     break;
-                case 2:                                                   // HIGHEST RATED
-                    for (int i = 0; i < result.Count; i++ ) 
-                    {
-                        result[i].Title = ratingPerBook[string];
-                    }
+                case 2:                                               // HIGHEST RATED
+                    
                     break;
                 case 3:
                     result.Sort((x, y) => x.Created.CompareTo(y.Created));  // DATE
