@@ -4,8 +4,9 @@
 @model Budget_CoolBooks.ViewModels.SearchViewModel
 <link rel="stylesheet" href="~/css/bookview.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+@*<link rel="stylesheet" href="~/css/rating.css" asp-append-version="true" />*@
 
-
+<!-- FILTERS AND SORTING -->
 @if (Model.SearchActive)
 {
     <div class="sorting-holder">
@@ -15,6 +16,7 @@
 
     <div class="sorting-holder">
         <h6 class="title-search">Filters</h6>
+        <!------------------------- FILTER BY AUTHOR -------------------------->
         <form method="post" asp-controller="Home" asp-action="FilterSearch">
             <select class="form-select" onchange="this.form.submit()" aria-label="Filter"
                     name="authorId" id="filter-dropdown">
@@ -30,7 +32,11 @@
             </select>
             <input type="hidden" name="searchString" value="@Model.OriginalSearchString">
         </form>
+        <!--------------------------------------------------------------------->
+        
         <br />
+
+        <!------------------------- FILTER BY GENRE --------------------------->
         <form method="post" asp-controller="Home" asp-action="FilterSearch">
             <select class="form-select" onchange="this.form.submit()" aria-label="Filter"
                     name="genreId" id="filter-dropdown">
@@ -46,23 +52,29 @@
             </select>
             <input type="hidden" name="searchString" value="@Model.OriginalSearchString">
         </form>
+        <!--------------------------------------------------------------------->
+
+        <!----- SORT BY ALPHABETICAL, HIGHEST RATED OR NEWEST ADDED ----------->
         <form method="post" asp-controller="Home" asp-action="SortSearch">
             <select class="form-select" onchange="this.form.submit()" aria-label="Filter"
                     name="SortInput" id="filter-dropdown">
                 <option selected>Sort by</option>
-                <option value="1">Alpabetical</option>
+                <option value="0">Title Descending</option>
+                <option value="1">Title Ascending</option>
                 <option value="2">Highest Rated</option>
                 <option value="3">Newest Added</option>
             </select>
-            <input type="hidden" name="searchString" value="@Model.OriginalSearchString">
+            <input type="hidden" name="search" value="@Model.OriginalSearchString">
         </form>
     </div>
     <hr />
 
 }
 
+<!-- BOOKINFO -->
 @if (Model.SearchActive)
 {
+
     <div class="row row-cols-1 row-cols-md-5 g-4">
 
         @foreach (var book in Model.Books)
@@ -76,6 +88,21 @@
             <div class="col">
                 <div class="card h-100" id="book-card">
                     <img src="@book.Imagepath" class="card-img-top">
+                    <div class="ratingstar">
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            if (Model.RatingPerBook[book.Title] < i + 1)
+                            {
+                                <span class="fa fa-star star-inactive mx-1"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-star star-active mx-1"></span>
+                            }
+                        }
+                        
+                    </div>
+
                     <div class="card-body">
                         <h5 class="card-title">@book.Title</h5>
                         <p class="card-text">@shortenedDesc</p>
