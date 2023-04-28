@@ -23,38 +23,33 @@
         <h1>@Model.ReviewBook[0].Title</h1>
         <h3>By @Model.ReviewAuthor[0].Firstname @Model.ReviewAuthor[0].Lastname</h3>
 
-        @*<div class="pinfo">ACCOUNTINFO</div>
-
-        <div class="form-group">
-            <div class="col-md-4 inputGroupContainer">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input name="name" placeholder="John Doe" class="form-control" type="text">
-                </div>
-            </div>
-        </div>*@
-
-
-        <div class="pinfo">Rate our overall services.</div>
+        <div class="pinfo">How do you rate this book?.</div>
 
         <!-- DROPDOWN MENU FOR RATING, CAN BE REPLACED WITH RADIO BTN STARS -->
         <div class="form-group">
             <div class="col-md-4 inputGroupContainer">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-star"></i></span>
-                    <select class="form-control" name="rating" required>
-                        <option value=1>1</option>
-                        <option value=2>2</option>
-                        <option value=3>3</option>
-                        <option value=4>4</option>
-                        <option value=5>5</option>
-                    </select>
+                <div class="input-group" style="display: grid; grid-template-columns: 1fr;">
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; text-align:center;">
+                        <p class="fa fa-star star-active mx-1">1</p>
+                        <p class="fa fa-star star-active mx-1">2</p>
+                        <p class="fa fa-star star-active mx-1">3</p>
+                        <p class="fa fa-star star-active mx-1">4</p>
+                        <p class="fa fa-star star-active mx-1">5</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;">
+                        <input type="radio" id="1" name="rating" value="1">
+                        <input type="radio" id="2" name="rating" value="2">
+                        <input type="radio" id="3" name="rating" value="3">
+                        <input type="radio" id="4" name="rating" value="4">
+                        <input type="radio" id="5" name="rating" value="5">
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- ADD REVIEW TITLE -->
-        <div class="pinfo">Enter Title.</div>
+        <div class="pinfo">Title of review.</div>
         <div class="form-group">
             <div class="col-md-4 inputGroupContainer">
                 <div class="input-group">
@@ -92,18 +87,6 @@
 
         <!-- ADD BOOK TITLE, AUTHOR , AND MINI LOGO -->
         <h1>BOOKINFO</h1>
-
-        @*<div class="pinfo">ACCOUNTINFO</div>
-
-    <div class="form-group">
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-    <input name="name" placeholder="John Doe" class="form-control" type="text">
-    </div>
-    </div>
-    </div>*@
-
 
         <div class="pinfo">Edit Your Rating</div>
 
