@@ -9,5 +9,8 @@ namespace Budget_CoolBooks.ViewModels
         public List<Genre> SearchGenres { get; set; }
         public bool SearchActive { get; set; }
         public string OriginalSearchString { get; set; } // Keep modelstate in order to sort result later.
+
+        public Dictionary<string, int> RatingPerBook {  get; set; }
+
     }
 }

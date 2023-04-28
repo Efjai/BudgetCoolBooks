@@ -5,3 +5,20 @@
 .page-title {
     text-align: center;
 }
+
+.star-active {
+    color: gold;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+.star-inactive {
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+.ratingstar {
+    display: flex;
+    justify-content: center;
+}
