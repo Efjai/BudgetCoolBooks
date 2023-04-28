@@ -26,24 +26,19 @@ namespace Budget_CoolBooks.Services.UserServices
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
         public async Task<ICollection<User>> GetUsers()
         {
             return _context.Users.OrderBy(u => u.Id).ToList();
         }
-
         public async Task<User> GetUserById(string id)
         {
             return _context.Users.Where(u => u.Id == id).FirstOrDefault();
         }
-
         public async Task<bool> UpdateUser(User user)
         {
             _context.Users.Update(user);
             return Save();
         }
-
-
         // SORTING
         public async Task<ICollection<User>> SortUsersByFlag()
         {
@@ -53,7 +48,6 @@ namespace Budget_CoolBooks.Services.UserServices
         {
             return _context.Users.OrderBy(u => u.UserName).ToList();
         }      
-
         // ROLE - FUNCTIONS
         public async Task<bool> PromoteToAdmin(User user)
         {
@@ -77,23 +71,18 @@ namespace Budget_CoolBooks.Services.UserServices
                 var result = await _userManager.RemoveFromRoleAsync(user, "Moderator");
                 return result.Succeeded ? Save() : false;
             }
-
             if (await _userManager.IsInRoleAsync(user, "Admin"))
             {
                 var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
                 return result.Succeeded ? Save() : false;
             }
-
             return false;
         }
-
         public async Task<bool> Delete(User user)
         {
             var result = await _userManager.DeleteAsync(user);
             return result.Succeeded ? Save() : false;
         }
-
-
         // FLAGGING - FUNCTIONS
         public async Task<bool> FlagReviewById(Review review)
         {
@@ -110,22 +99,18 @@ namespace Budget_CoolBooks.Services.UserServices
             _context.Replys.Update(reply);
             return Save();
         }
-
         // LIKE - FUNCTIONS
-
         public async Task<bool> LikeReviewById(Review Like)
         {
             _context.Reviews.Update(Like);
             return Save();
         }
-
         // DISLIKE - FUNCTION
         public async Task<bool> DislikeReviewById(Review DisLike)
         {
             _context.Reviews.Update(DisLike);
             return Save();
         }
-
         public bool Save()
         {
             var saved = _context.SaveChanges();

@@ -18,12 +18,8 @@ namespace Budget_CoolBooks.Services.Comments
         // COMMENTS 
         public async Task<Comment> GetCommentById(int id)
         {
-            return _context.Comments
-                    .Include(c => c.User)
-                    .Where(c => c.Id == id)
-                    .FirstOrDefault();
+            return _context.Comments.Include(c => c.User).Where(c => c.Id == id).FirstOrDefault();
         }
-
         public async Task<bool> UpdateComment(Comment comment)
         {
             _context.Comments.Update(comment);
@@ -35,7 +31,6 @@ namespace Budget_CoolBooks.Services.Comments
             _context.Comments.Update(comment);
             return Save();
         }
-
         // REPLIES
         public async Task<List<Reply>> GetRepliesByUserId(string id)
         { 
@@ -43,10 +38,7 @@ namespace Budget_CoolBooks.Services.Comments
         }
         public async Task<Reply> GetReplyById(int id)
         {
-            return _context.Replys
-                .Include(r => r.User)
-                .Where(r => r.Id == id)
-                .FirstOrDefault();
+            return _context.Replys.Include(r => r.User).Where(r => r.Id == id).FirstOrDefault();
         }
         public async Task<bool> UpdateReply(Reply reply)
         {
@@ -79,7 +71,6 @@ namespace Budget_CoolBooks.Services.Comments
             _context.Comments.Add(comment);
             return Save();
         }
-
         public async Task<bool> CreateReply(Reply reply)
         {
             _context.Replys.Add(reply);

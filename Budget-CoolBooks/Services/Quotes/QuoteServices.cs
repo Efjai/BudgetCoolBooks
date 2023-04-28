@@ -12,14 +12,11 @@ namespace Budget_CoolBooks.Services.Quotes
         {
             _context = context;
         }
-
-
         // QUOTES
         public async Task<Quote> GetQuoteById(int quoteId)
         {
             return _context.Quotes.Where(q => q.Id == quoteId && !q.IsModerated).FirstOrDefault();
         }
-        
         public async Task<List<Quote>> GetQuotes()
         {
             return _context.Quotes
@@ -38,14 +35,11 @@ namespace Budget_CoolBooks.Services.Quotes
                         .Any(qc => qc.Category.Name == sortedInput && q.IsModerated))
                     .ToList();
         }
-
         public async Task<bool> AddQuote(Quote quote)
         {
             _context.Quotes.Add(quote);
             return Save();
         }
-
-
         // CATEGORIES
         public async Task<List<Category>> GetCategories()
         {
@@ -56,15 +50,12 @@ namespace Budget_CoolBooks.Services.Quotes
         {
             return _context.Categories.Where(c => c.Name == categoryName).FirstOrDefault();
         }
-
-
         // QUOTE-CATEGORIES
         public async Task<bool> AddQuoteCategory(QuoteCategory quoteCategory)
         {
             _context.QuotesCategories.Add(quoteCategory);
             return Save();
         }
-
         //OTHER
         public bool Save()
         {

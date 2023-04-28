@@ -13,7 +13,6 @@ namespace Budget_CoolBooks.Services.Genres
         {
             _context = context;
         }
-
         public async Task<Genre> GetGenreById(int genreId)
         {
             var genre = await _context.Genres.FindAsync(genreId);
@@ -23,12 +22,10 @@ namespace Budget_CoolBooks.Services.Genres
         {
             return _context.Genres.OrderBy(p => p.Id).ToList();
         }
-
         public async Task<bool> GenreExists(int id)
         {
             return await _context.Authors.AnyAsync(g => g.Id == id);
         }
-
         public async Task<bool> CreateGenre(Genre genre)
         {
             _context.Genres.Add(genre);
