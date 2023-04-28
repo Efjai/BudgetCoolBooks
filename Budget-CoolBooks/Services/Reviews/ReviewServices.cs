@@ -120,5 +120,11 @@ namespace Budget_CoolBooks.Services.Reviews
         {
             return _context.Reviews.Where(r => r.Book.Id == id && !r.IsDeleted).Select(r => r.Id).ToList();
         }
+        public async Task<List<Review>> GetTopRatedBooks()
+        {
+            return _context.Reviews.Include(r => r.User)
+                .Where(r => !r.IsDeleted)
+                .OrderByDescending(r => r.Rating).ToList(); 
+        }
     }
 }
