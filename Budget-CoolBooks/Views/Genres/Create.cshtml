@@ -5,7 +5,6 @@
     ViewData["Title"] = "Genres | New Genre";
 }
 
-<h1>Create new genre</h1>
 <!-- Breadcrumb -->
 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -13,9 +12,10 @@
         <li class="breadcrumb-item active" aria-current="page">Create new genre</li>
     </ol>
 </nav>
+<h1>Create new genre</h1>
 <hr />
 <div class="row">
-    <div>
+    <div class="col-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">

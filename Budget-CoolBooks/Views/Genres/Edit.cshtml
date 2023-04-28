@@ -5,12 +5,17 @@
     ViewData["Title"] = "Genres | Edit Genre";
 }
 
-<h1>Edit</h1>
-
-<h4>Genre</h4>
+<!-- Breadcrumb -->
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="Genres" asp-action="Index">Genres</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit genre</li>
+    </ol>
+</nav>
+<h1>Edit Genre</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -24,19 +29,18 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Created" class="control-label"></label>
                 <input asp-for="Created" class="form-control" />
                 <span asp-validation-for="Created" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
+                <a asp-action="Index" class="btn btn-danger me-3">Cansel</a>
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

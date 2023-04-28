@@ -28,9 +28,6 @@ namespace Budget_CoolBooks.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<QuoteCategory>()
-        .HasKey(ba => new { ba.QuoteId, ba.CategoryId });
-
 
             #region Fluent API
 
@@ -42,6 +39,10 @@ namespace Budget_CoolBooks.Data
             //Add key to Tbl BookGenres
             builder.Entity<BookGenre>()
                 .HasKey(b => new { b.GenreId, b.BookId });
+
+            //Add key to Tbl QuotesCategories
+            builder.Entity<QuoteCategory>()
+                .HasKey(ba => new { ba.QuoteId, ba.CategoryId });
 
             #endregion
         }
