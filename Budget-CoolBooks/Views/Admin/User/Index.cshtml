@@ -20,7 +20,7 @@
             </th>
             <th>
                 <form method="Get" asp-controller="AdminUser" asp-action="SortByRoles">
-                        <select class="dropdown-toggle" id="dropdown-roles" onchange="this.form.submit()" name="roleChoice">
+                    <select class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdown-roles" onchange="this.form.submit()" name="roleChoice">
                         <option selected>Role</option>
                                 <option value="1">All</option>
                                 <option value="2">Admin</option>
@@ -35,10 +35,10 @@
                 </a>
             </th>
             <th>
-                Audit
+                Promote
             </th>
             <th>
-                Modify role
+                Demote
             </th>
             <th>
                 Setting
@@ -50,58 +50,50 @@
         {
             <tr>
                 <td>
-                    @user.UserName
+                    <a asp-asp-controller="AdminUser" asp-action="AuditUser" asp-route-id="@user.Id">
+                        @user.UserName
+                    </a>
                 </td>
                 <td>
-                    @{
+                   @{
                         var roles = await UserManager.GetRolesAsync(user);
-                        <p><em>
-                            @string.Join(", ", roles)
-                        </em></p>
-                        if (roles.Count < 1)
-                        {
-                            <p><em>Member</em></p>
-                        }
+                        <em> @string.Join(", ", roles) </em>
                     }
                 </td>
                 <td>
                     @user.TotalFlags
                 </td>
                 <td>
-                    Audit
-                </td>
-                <td>
                     <div class="admin-settings">
-                        @if (!await UserManager.IsInRoleAsync(user, "Admin"))
+                        @if (!await UserManager.IsInRoleAsync(user, "Admin") && await UserManager.IsInRoleAsync(user, "Moderator"))
                         {
                             <form method="post" asp-controller="AdminUser" asp-action="PromoteToAdmin">
                                 <input type="hidden" name="id" value="@user.Id">
                                 <button type="submit" class="btn btn-sm btn-outline-primary">Promote to Admin</button>
                             </form>
                         }
-                        @if (roles.Count < 1)
+                        @if (roles.Count < 1 && !await UserManager.IsInRoleAsync(user, "Admin"))
                         {
                             <form method="post" asp-controller="AdminUser" asp-action="PromoteToModerator">
                                 <input type="hidden" name="id" value="@user.Id">
                                 <button type="submit" class="btn btn-sm btn-outline-primary">Promote to Moderator</button>
                             </form>
                         }
-
+                    </div>
+                </td>
+                <td>
                         @if (await UserManager.IsInRoleAsync(user, "Moderator"))
                         {
                             <form method="post" asp-controller="AdminUser" asp-action="Demote">
                                 <input type="hidden" name="id" value="@user.Id">
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Demote to member</button>
                             </form>
-                        }
-
-                    </div>
+                        }   
                 </td>
                 <td>
-                    <form method="post" asp-controller="AdminUser" asp-action="Delete">
-                            <input type="hidden" name="id" value="@user.Id">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
+                    <a asp-asp-controller="AdminUser" asp-action="Delete" asp-route-id="@user.Id">
+                        <img src="~/images/delete.svg" alt="A thrashbin">
+                    </a>
                 </td>
             </tr>
         }

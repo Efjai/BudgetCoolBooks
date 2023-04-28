@@ -1,0 +1,100 @@
+﻿@{
+    Layout = "/Views/Shared/Admin/_AdminLayout.cshtml";
+    ViewData["Title"] = "Audit user";
+}
+<link rel="stylesheet" href="~/css/moderatorview.css" asp-append-version="true" />
+
+@model Budget_CoolBooks.ViewModels.AdminUserViewModel
+
+
+<div class="audit-display">
+    <div class="card">
+      <div class="card-header">
+            <div class="audit-buttons">
+                <a class="btn btn-sm btn-outline-primary me-2">
+                    Contact user
+                </a>
+            </div>
+      </div>
+      <div class="card-body">
+            <h5 class="card-title">@Model.User.UserName - <strong>Total flags: @Model.User.TotalFlags</strong></h5>
+           @* Card Body && Accordion*@
+
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            View all reviews
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            @foreach (var review in Model.Reviews)
+                            {
+                                <p>
+                                    <strong>Review:</strong>
+                                    @review.Text
+                                </p>
+                                <p>
+                                    <strong>Created:</strong>
+                                    @review.Created
+                                </p>
+                                <hr /> <br />
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            View all comments
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            @foreach (var comment in Model.Comments)
+                            {
+                                    <p>
+                                        <strong>Comment:</strong>
+                                    @comment.Text
+                                    </p>
+                                    <p>
+                                        <strong>Created:</strong>
+                                    @comment.Created
+                                    </p>
+                                    <hr /> <br />
+                            }
+                         </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                            View all replies to comments
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                         @foreach (var reply in Model.Replies)
+                            {
+                                    <p>
+                                        <strong>Replies:</strong>
+                                    @reply.Text
+                                    </p>
+                                    <p>
+                                        <strong>Created:</strong>
+                                    @reply.Created
+                                    </p>
+                                    <hr /> <br />
+                            }
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+           @*Card footer && end of accordion*@
+      </div>
+    </div>
+</div>
+

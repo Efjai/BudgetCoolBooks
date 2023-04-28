@@ -1,7 +1,9 @@
 ﻿using Budget_CoolBooks.Models;
 using Budget_CoolBooks.Services.Authors;
 using Budget_CoolBooks.Services.Books;
+using Budget_CoolBooks.Services.Comments;
 using Budget_CoolBooks.Services.Genres;
+using Budget_CoolBooks.Services.Reviews;
 using Budget_CoolBooks.Services.UserServices;
 using Budget_CoolBooks.ViewModels;
 using Humanizer.Localisation;
@@ -17,11 +19,16 @@ namespace Budget_CoolBooks.Controllers.Admin
     {
         private readonly UserServices _userServices;
         private readonly Microsoft.AspNetCore.Identity.UserManager<User> _userManager;
+        private readonly ReviewServices _reviewServices;
+        private readonly CommentServices _commentServices;
 
-        public AdminUserController(UserServices userServices, UserManager<User> userManager)
+        public AdminUserController(UserServices userServices, UserManager<User> userManager, 
+            ReviewServices reviewServices, CommentServices commentServices)
         {
             _userServices = userServices;
             _userManager = userManager;
+            _reviewServices = reviewServices;
+            _commentServices = commentServices;
         }
         public async Task<IActionResult> Index()
         {
@@ -107,7 +114,7 @@ namespace Budget_CoolBooks.Controllers.Admin
             return RedirectToAction("Index", adminUserViewModel);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
             var result = await _userServices.GetUserById(id);
@@ -128,8 +135,47 @@ namespace Budget_CoolBooks.Controllers.Admin
             return RedirectToAction("Index", adminUserViewModel);
         }
 
-        // SORTING / FILTERING
+        [HttpGet]
+        public async Task<IActionResult> AuditUser(string id)
+        {
+            // Get user
+            var user = await _userServices.GetUserById(id);
+            if(user == null)
+            {
+                return BadRequest();
+            }
+            //  Get all users reviews
+            var reviewsByUser = await _reviewServices.GetReviewByUserId(id);
+            if (reviewsByUser == null)
+            {
+                return BadRequest();
+            }
+            // Get all users comments
+            var commentsByUser = await _commentServices.GetCommentByUserId(id);
+            if (commentsByUser == null)
+            {
+                return BadRequest();
+            }
+            // Get all users replies to comments
+            var repliesByUser = await _commentServices.GetRepliesByUserId(id);
+            if (repliesByUser == null)
+            {
+                return BadRequest();
+            }
 
+            // Send all to viewmodel for audit user-page
+            AdminUserViewModel adminUserViewModel = new AdminUserViewModel()
+            {
+               User = user,
+               Reviews = reviewsByUser,
+               Comments = commentsByUser,
+               Replies = repliesByUser,
+            };
+
+            return View("~/views/admin/user/audit.cshtml", adminUserViewModel);
+        }
+
+        // SORTING / FILTERING
         [HttpGet]
         public async Task<IActionResult> SortByFlags(IFormCollection form)
         {
