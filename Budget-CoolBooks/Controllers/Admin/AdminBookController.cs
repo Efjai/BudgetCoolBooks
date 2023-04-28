@@ -35,6 +35,9 @@ namespace Budget_CoolBooks.Controllers.Admin
             var adminBookViewModel = new AdminBooksViewModel()
             {
                 Books = bookList.ToList(),
+                // This step creates a identical list from the booklist and populate each item with its related
+                // authors in an inner list
+                AuthorsList = bookList.Select(b => b.BookAuthor.Select(ba => ba.Author).ToList()).ToList(),
             };
 
             return View("~/views/admin/book/index.cshtml", adminBookViewModel);

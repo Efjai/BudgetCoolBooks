@@ -35,7 +35,8 @@
                         @book.Title
                     </td>
                     <td>
-                        @*@book.Author.Firstname @book.Author.Lastname*@
+                        @string.Join(", ", Model.AuthorsList[Model.Books.IndexOf(book)].Select(a => a.Firstname + " " + a.Lastname))
+                    
                 </td>
                     <td>
                     @if(@book.user != null)

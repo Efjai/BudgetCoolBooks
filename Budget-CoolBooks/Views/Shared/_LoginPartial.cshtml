@@ -7,6 +7,33 @@
     {
         <!-- User Menu-->
         <div class="d-flex align-items-center">
+            @*Shows moderator panel if role = mod or admin*@
+            @if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
+            {
+                <ul class="navbar-nav">
+                    <div class="d-flex align-items-center ms-auto">
+                        <div class="flex-shrink-0 dropdown me-4">
+                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="moderator-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                Moderator
+                            </a>
+                            <ul class="dropdown-menu text-small">
+                                <li>
+                                    <a class="nav-link" asp-controller="Moderator" asp-action="IndexComments">Comments</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" asp-controller="Moderator" asp-action="IndexReplies">Replies</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" asp-controller="Moderator" asp-action="IndexQuotes">Quotes</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" asp-controller="Moderator" asp-action="IndexReviews">Reviews</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </ul>
+            }
             <div class="flex-shrink-0 dropdown me-4">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="~/images/user.png" alt="mdo" width="32" height="32" class="rounded-circle" />

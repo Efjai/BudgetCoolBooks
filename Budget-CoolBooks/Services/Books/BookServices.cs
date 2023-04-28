@@ -31,10 +31,18 @@ namespace Budget_CoolBooks.Services.Books
         public async Task<ICollection<Book>> GetAllBooksSorted()
         {
             return _context.Books
-                .Include(b => b.user)
-                .Where(b => !b.IsDeleted)
-                .OrderBy(b => b.Title)
-                .ToList();
+                    .Include(b => b.BookAuthor)
+                        .ThenInclude(ba => ba.Author)
+                    .Include(b => b.user)
+                    .Where(b => !b.IsDeleted)
+                    .OrderBy(b => b.Title)
+                    .ToList();
+
+            //return _context.Books
+            //        .Include(b => b.user)
+            //        .Where(b => !b.IsDeleted)
+            //        .OrderBy(b => b.Title)
+            //        .ToList();
         }
         
         public async Task<bool> AddBookGenre(BookGenre bookGenre)

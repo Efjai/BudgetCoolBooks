@@ -68,3 +68,8 @@ h3{
     text-decoration: none;
     cursor: pointer;
 }
+
+#moderator-link {
+    justify-content: right;
+    align-text: right;
+}
