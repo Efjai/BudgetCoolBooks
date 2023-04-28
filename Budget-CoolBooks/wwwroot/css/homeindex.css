@@ -15,12 +15,13 @@
 
 .overlay-image {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
     background-position: center;
-    background-size: contain;
+    background-size: auto;
     background-repeat: no-repeat;
     opacity 0.5;
+}
+
+.carousel-inner > .item > img {
+    position:center;
+    
 }

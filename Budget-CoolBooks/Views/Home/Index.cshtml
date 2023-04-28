@@ -7,18 +7,18 @@
     int i = 0;
 }
 <div id="featureBooks" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
+    @*<ol class="carousel-indicators">
         <li data-target="#featureBooks" data-slide-to="0" class="active"></li>
         <li data-target="#featureBooks" data-slide-to="1"></li>
         <li data-target="#featureBooks" data-slide-to="2"></li>
-    </ol>
+    </ol>*@
     <div class="carousel-inner">
         @foreach (var item in Model.Books)
         {
             i++;
             var active = i == 1 ? "active" : "";
             <div class="carousel-item @active">
-                <img class="d-block w-100" src="@item.Imagepath" alt="@item.Title">
+                <img src="@item.Imagepath" alt="@item.Title">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>@item.Title</h5>
                     <p>@item.Description</p>
@@ -39,6 +39,13 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
+@if (Model.TopRatedBooks != null)
+{
+    @foreach (var review in Model.TopRatedBooks)
+    {
+        <div>@review.Title</div>
+    }
+}    
 
 
 

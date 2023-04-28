@@ -43,12 +43,19 @@ namespace Budget_CoolBooks.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var result = await _bookServices.GetAllBooksSorted();            
+            var books = await _bookServices.GetAllBooksSorted();
+
+            //var topRatedBooks = await _reviewServices.GetTopRatedBooks(5);
+
             var homeViewModel = new HomeViewModel
+            
             {
-                Books = result.ToList(),
+                Books = books,
+                //TopRatedBooks = topRatedBooks
             };
+
             return View(homeViewModel);
+
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -276,6 +283,7 @@ namespace Budget_CoolBooks.Controllers
             };
 
             return View("~/views/Home/AuthorDetails.cshtml", authorDetailsViewModel);
+<<<<<<< Updated upstream
         }
 
         private double CalculateAverageRating(ICollection<double> ratings)
@@ -289,5 +297,8 @@ namespace Budget_CoolBooks.Controllers
             averageRating = Math.Round(averageRating, 1);
             return averageRating;
         }
+=======
+        }        
+>>>>>>> Stashed changes
     }
 }

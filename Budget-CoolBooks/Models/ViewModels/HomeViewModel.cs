@@ -9,7 +9,7 @@ namespace Budget_CoolBooks.ViewModels
     {
         private readonly AuthorServices _authorServices;
 
-        public List<Book> Books { get; set; }        
-
+        public ICollection<Book> Books { get; set; }
+        public List<Book> TopRatedBooks { get; set; }
     }
 }
