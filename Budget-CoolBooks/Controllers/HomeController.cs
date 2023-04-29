@@ -41,17 +41,25 @@ namespace Budget_CoolBooks.Controllers
             return View();
         }
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int bookId)
         {
-            var books = await _bookServices.GetAllBooksSorted();
+            var books = await _bookServices.GetAllBooksSortedAsync();
+            var topRatedBooks = await _bookServices.GetAllBooksSortedByRating();
 
-            //var topRatedBooks = await _reviewServices.GetTopRatedBooks(5);
+            var averageRatings = new Dictionary<int, double>();
+
+            foreach (var book in books)
+            {
+                var averageRating = _reviewServices.GetAverageRating(book.Id);
+                averageRatings.Add(book.Id, averageRating);
+            }
 
             var homeViewModel = new HomeViewModel
             
             {
                 Books = books,
-                //TopRatedBooks = topRatedBooks
+                TopRatedBooks = topRatedBooks,
+                AverageRatings = averageRatings
             };
 
             return View(homeViewModel);

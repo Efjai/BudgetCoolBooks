@@ -69,5 +69,28 @@ namespace Budget_CoolBooks.Services.Books
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public async Task<List<Book>> GetAllBooksSortedByRating()
+        {
+            var books = await _context.Reviews
+        .Where(r => !r.Book.IsDeleted)
+        .GroupBy(r => r.Book)
+        .Select(g => new { Book = g.Key, AverageRating = g.Average(r => r.Rating) })
+        .OrderByDescending(br => br.AverageRating)
+        .Take(3)
+        .Select(br => br.Book)
+        .ToListAsync();
+
+            return books;
+        }
+        public async Task<ICollection<Book>> GetAllBooksSortedAsync()
+        {
+            return await _context.Books
+                .Include(b => b.BookAuthor).ThenInclude(ba => ba.Author)
+                .Include(b => b.user)
+                .Where(b => !b.IsDeleted)
+                .OrderBy(b => b.Title)
+                .ToListAsync();
+        }      
     }
 }

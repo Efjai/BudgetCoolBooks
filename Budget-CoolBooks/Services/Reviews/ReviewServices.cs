@@ -81,7 +81,7 @@ namespace Budget_CoolBooks.Services.Reviews
         public int GetAverageRating(int bookId)
         {
             // Gives average rating, math.round is not working tho.
-            return (int)_context.Reviews.Where(r => r.Book.Id == bookId).Select(r => r.Rating).DefaultIfEmpty().Average(r => Math.Round(r, 1));
+            return (int)_context.Reviews.Where(r => r.Book.Id == bookId).Select(r => r.Rating).DefaultIfEmpty().Average(r => Math.Round((double)r, 1));
         }
         public async Task<ICollection<double>> GetAllRatingsOfBook(int id)
         {
