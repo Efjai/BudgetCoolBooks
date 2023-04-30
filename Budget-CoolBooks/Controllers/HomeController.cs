@@ -45,21 +45,31 @@ namespace Budget_CoolBooks.Controllers
         {
             var books = await _bookServices.GetAllBooksSortedAsync();
             var topRatedBooks = await _bookServices.GetAllBooksSortedByRating();
-
+            
             var averageRatings = new Dictionary<int, double>();
+            var reviewCounts = new Dictionary<int, int>();
 
             foreach (var book in books)
             {
                 var averageRating = _reviewServices.GetAverageRating(book.Id);
                 averageRatings.Add(book.Id, averageRating);
+
+                var reviewCount = _reviewServices.GetReviewCount(book);
+                reviewCounts.Add(book.Id, reviewCount);
             }
+
+            var topReviewedBooks = reviewCounts.OrderByDescending(x => x.Value).Take(3)
+                                      .Select(x => books.FirstOrDefault(y => y.Id == x.Key))
+                                      .ToList();
 
             var homeViewModel = new HomeViewModel
             
             {
                 Books = books,
                 TopRatedBooks = topRatedBooks,
-                AverageRatings = averageRatings
+                AverageRatings = averageRatings,
+                TopReviewedBooks = topReviewedBooks
+
             };
 
             return View(homeViewModel);

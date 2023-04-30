@@ -109,5 +109,9 @@ namespace Budget_CoolBooks.Services.Reviews
         {
             return _context.Reviews.Include(r => r.User).Where(r => !r.IsDeleted).OrderByDescending(r => r.Rating).ToList(); 
         }
+        public int GetReviewCount(Book book)
+        {
+            return _context.Reviews.Count(r => r.Book.Id == book.Id && !r.IsDeleted);
+        }
     }
 }

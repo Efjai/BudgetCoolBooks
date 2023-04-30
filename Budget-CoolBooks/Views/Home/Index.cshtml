@@ -5,11 +5,12 @@
 @model Budget_CoolBooks.ViewModels.HomeViewModel
 
 <div class="row">
-    @*First Carousel Starts*@
+    @*First Carousel Starts*@    
     <div class="col-md-4">
+        <h1>All Books</h1>
         <div id="carousel1" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                @foreach (var book in Model.Books.Take(3))
+                @foreach (var book in Model.Books)
                 {
                     var active = book == Model.Books.First() ? "active" : "";
                     <div class="carousel-item @active">
@@ -32,18 +33,19 @@
         </div>
     </div>
     @*First Carousel Ends*@
-    @*Secound Carousel Starts*@
+    @*Secound Carousel Starts*@    
     <div class="col-md-4">
+        <h1>Most Reviewed Books</h1>
         <div id="carousel2" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                @foreach (var book in Model.Books.Take(3))
-                {                    
-                    var active = book == Model.Books.First() ? "active" : "";
+                @foreach (var book in Model.TopReviewedBooks)
+                {
+                    var active = book == Model.TopReviewedBooks.First() ? "active" : "";
                     <div class="carousel-item @active">
                         <img src="@book.Imagepath" alt="@book.Title" style="width:100%; height:100%;">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>@book.Title</h5>
-                            <p>@book.Description</p>
+                            <p>@book.Description</p>                            
                         </div>
                     </div>
                 }
@@ -59,8 +61,9 @@
         </div>
     </div>
     @*Secound Carousel Ends*@
-    @*Third Carousel Starts*@
+    @*Third Carousel Starts*@    
     <div class="col-md-4">
+        <h1>Highest Rated Books</h1>
         <div id="carousel3" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach (var book in Model.TopRatedBooks.Take(3))

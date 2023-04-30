@@ -12,5 +12,6 @@ namespace Budget_CoolBooks.ViewModels
         public ICollection<Book> Books { get; set; }
         public Dictionary<int, double> AverageRatings { get; set; }
         public ICollection<Book> TopRatedBooks { get; set; }
+        public ICollection<Book> TopReviewedBooks { get; set; }
     }
 }

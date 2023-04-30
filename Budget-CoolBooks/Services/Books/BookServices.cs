@@ -75,8 +75,9 @@ namespace Budget_CoolBooks.Services.Books
             var books = await _context.Reviews
         .Where(r => !r.Book.IsDeleted)
         .GroupBy(r => r.Book)
-        .Select(g => new { Book = g.Key, AverageRating = g.Average(r => r.Rating) })
+        .Select(g => new { Book = g.Key, AverageRating = g.Average(r => r.Rating), ReviewCount = g.Count() })
         .OrderByDescending(br => br.AverageRating)
+        .ThenByDescending(br => br.ReviewCount)
         .Take(3)
         .Select(br => br.Book)
         .ToListAsync();
