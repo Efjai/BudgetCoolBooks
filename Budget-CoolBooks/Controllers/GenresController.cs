@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Budget_CoolBooks.Data;
 using Budget_CoolBooks.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Budget_CoolBooks.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class GenresController : Controller
     {
         private readonly ApplicationDbContext _context;

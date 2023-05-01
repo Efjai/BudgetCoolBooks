@@ -7,9 +7,12 @@ using System.Globalization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Globalization;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Budget_CoolBooks.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ChartController : Controller
     {
         private readonly ApplicationDbContext _context;
