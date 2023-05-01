@@ -128,23 +128,25 @@ namespace Budget_CoolBooks.Controllers
         [HttpPost]
         public async Task<IActionResult> SortSearch(int SortInput, string search)
         {
-            // EJ FIXAD, SKA LÖSA AVERAGE RATING FÖR SORTERING!
-
+            // INITIATING VARIABLES
             string cleanedSearchString = "";
             var result = new List<Book>();
 
+            // GETS ALL BOOKS IF SEARCHFIELD IS EMPTY
             if (string.IsNullOrEmpty(search))
             {
                 result = (List<Book>)await _bookServices.GetAllBooksSorted();
             }
 
+            // GETS ALL BOOK THAT AUTHOR, TITLE OR GENRE CONTAINS SEARCHWORD
             if (search != null)
             {
                 cleanedSearchString = search.ToLower();
                 result = (List<Book>)await _searchServices.SearchAll(cleanedSearchString);
             }
 
-            // TEST RATING -- WORKING, NOT PRETTY BUT WORKING.
+            // GETS RATING
+            // USES A DICTIONARY TO HOLD THE BOOK TITLE AND AVERAGE RATING SINCE BOOK DOES NOT HAVE THAT PROPERTY.
             Dictionary<string, int> ratingPerBook = new Dictionary<string, int>();
             List<Book> test = new List<Book>();
 
@@ -154,9 +156,12 @@ namespace Budget_CoolBooks.Controllers
                 ratingPerBook.Add(book.Title, rating);
             }
 
+            // SORTS BY HIGHEST RATED
             ratingPerBook = ratingPerBook.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-            //
 
+
+
+            // SWITCH FOR SORTING BY DIFFERENT METHODS
             switch (SortInput)
             {
                 case 0:                                                   // NAME DESC
@@ -166,8 +171,13 @@ namespace Budget_CoolBooks.Controllers
                 case 1:                                                   // NAME ASC
                     result.Sort((x, y) => x.Title.CompareTo(y.Title));
                     break;
-                case 2:                                               // HIGHEST RATED
-                    
+                case 2:                                                  // HIGHEST RATED
+
+                    // Uses the dictionary to cross reference and get booklist in average rating order
+                    for (int i = 0; i < ratingPerBook.Count(); i++)
+                    {
+                        result[i] = await _bookServices.GetBookByTitle(ratingPerBook.ElementAt(i).Key);
+                    }
                     break;
                 case 3:
                     result.Sort((x, y) => x.Created.CompareTo(y.Created));  // DATE
@@ -175,7 +185,7 @@ namespace Budget_CoolBooks.Controllers
                     break;
             }
 
-
+            // POPULATE VIEWMODEL
             var searchViewModel = new SearchViewModel
             {
                 Books = result.ToList(),
