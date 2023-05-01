@@ -1,22 +1,12 @@
 ﻿@model Budget_CoolBooks.Models.Genre
 
 @{
-    Layout = "/Views/Shared/Admin/_AdminLayout.cshtml";
-    ViewData["Title"] = "Genres | Edit Genre";
+    Layout = null;
 }
 
-<!-- Breadcrumb -->
-<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-area="" asp-controller="Genres" asp-action="Index">Genres</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Edit genre</li>
-    </ol>
-</nav>
-<h1>Edit Genre</h1>
-<hr />
 <div class="row">
-    <div class="col-6">
-        <form asp-action="Edit">
+    <div class="col-12">
+        <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -35,9 +25,8 @@
                 <input asp-for="Created" class="form-control" />
                 <span asp-validation-for="Created" class="text-danger"></span>
             </div>
-            <div class="form-group mt-3">
-                <a asp-action="Index" class="btn btn-danger me-3">Cansel</a>
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group mt-3 col-12">
+                <input type="submit" value="Save" class="btn btn-primary w-100" />
             </div>
         </form>
     </div>

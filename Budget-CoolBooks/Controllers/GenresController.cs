@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Budget_CoolBooks.Data;
 using Budget_CoolBooks.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using System.Composition;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -25,122 +27,97 @@ namespace Budget_CoolBooks.Controllers
         // GET: Genres
         public async Task<IActionResult> Index()
         {
-              return _context.Genres != null ? 
-                          View(await _context.Genres.Where(b=> b.IsDeleted == false).ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Genres'  is null.");
+            return _context.Genres != null ?
+                        View(await _context.Genres.Where(b => b.IsDeleted == false).ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Genres'  is null.");
         }
 
-        // GET: Genres/Create
-        public IActionResult Create()
+        // GET: AddOrEdit
+        public async Task<IActionResult> AddOrEdit(int? id)
         {
-            return View();
-        }
-
-        // POST: Genres/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Created")] Genre genre)
-        {
-            if (ModelState.IsValid)
+            if (id == null) return View(new Genre());
+            else
             {
-                _context.Add(genre);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(genre);
-        }
-
-        // GET: Genres/Edit
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Genres == null)
-            {
-                return NotFound();
-            }
-
-            var genre = await _context.Genres.FindAsync(id);
-            if (genre == null)
-            {
-                return NotFound();
-            }
-            return View(genre);
-        }
-
-        // POST: Genres/Edit
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Created")] Genre genre)
-        {
-            if (id != genre.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                var genre = await _context.Genres.FindAsync(id);
+                if (genre == null)
                 {
-                    _context.Update(genre);
+                    return NotFound();
+                }
+                return View(genre);
+            }
+        }
+
+        // POST: AddOrEdit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddOrEdit(int id, [Bind("Id,Name,Description,Created")] Genre genre)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == null)
+                {
+                    _context.Add(genre);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!GenreExists(genre.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(genre);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!GenreExists(genre.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Json(new { isValid = true, html = RenderRazorViewToString(this, "_ViewAll", _context.Genres.Where(b => b.IsDeleted == false).ToList()) });
             }
-            return View(genre);
+            return Json(new { isValid = false, html = RenderRazorViewToString(this, "AddOrEdit", genre) });
         }
 
-        // GET: Genres/Delete
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Genres == null)
-            {
-                return NotFound();
-            }
-
-            var genre = await _context.Genres
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (genre == null)
-            {
-                return NotFound();
-            }
-
-            return View(genre);
-        }
-
-        // POST: Genres/Delete
+        // POST: Delete
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Genres == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Genres'  is null.");
-            }
             var genre = await _context.Genres.FindAsync(id);
-            if (genre != null)
-            {
-                genre.IsDeleted = true;
-                _context.Genres.Update(genre);
-                //_context.Genres.Remove(genre);
-            }
-            
+            genre.IsDeleted = true;
+            _context.Genres.Update(genre);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Json(new { html = RenderRazorViewToString(this, "_ViewAll", _context.Genres.Where(b => b.IsDeleted == false).ToList()) });
         }
 
         private bool GenreExists(int id)
         {
-          return (_context.Genres?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Genres?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private static string RenderRazorViewToString(Controller controller, string viewName, object model = null)
+        {
+            controller.ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+                ViewEngineResult viewResult = viewEngine.FindView(controller.ControllerContext, viewName, false);
+
+                ViewContext viewContext = new ViewContext(
+                    controller.ControllerContext,
+                    viewResult.View,
+                    controller.ViewData,
+                    controller.TempData,
+                    sw,
+                    new HtmlHelperOptions()
+                );
+                viewResult.View.RenderAsync(viewContext);
+                return sw.GetStringBuilder().ToString();
+            }
         }
     }
 }
