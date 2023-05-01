@@ -23,7 +23,11 @@ namespace Budget_CoolBooks.Data
         public DbSet<Reply> Replys { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Quote> Quotes { get; set; }
-        public DbSet<QuoteCategory> QuotesCategories { get; set; } 
+        public DbSet<QuoteCategory> QuotesCategories { get; set; }
+
+        // Set Views in DB
+        public DbSet<CommentsGenresFromView> CommentsGenresFromViews { get; set; }
+        public DbSet<CommentsAuthorsFromView> CommentsAuthorsFromViews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +47,12 @@ namespace Budget_CoolBooks.Data
             //Add key to Tbl QuotesCategories
             builder.Entity<QuoteCategory>()
                 .HasKey(ba => new { ba.QuoteId, ba.CategoryId });
+
+            //CommentsGenresFromView is View and Has Not Key
+            builder.Entity<CommentsGenresFromView>().HasNoKey().ToView("View_Comments_Genres");
+
+            //CommentsAuthorsFromView is View and Has Not Key
+            builder.Entity<CommentsAuthorsFromView>().HasNoKey().ToView("View_Comments_Authors");
 
             #endregion
         }
