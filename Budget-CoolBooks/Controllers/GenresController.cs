@@ -24,26 +24,8 @@ namespace Budget_CoolBooks.Controllers
         public async Task<IActionResult> Index()
         {
               return _context.Genres != null ? 
-                          View(await _context.Genres.ToListAsync()) :
+                          View(await _context.Genres.Where(b=> b.IsDeleted == false).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Genres'  is null.");
-        }
-
-        // GET: Genres/Details
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Genres == null)
-            {
-                return NotFound();
-            }
-
-            var genre = await _context.Genres
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (genre == null)
-            {
-                return NotFound();
-            }
-
-            return View(genre);
         }
 
         // GET: Genres/Create
@@ -145,7 +127,9 @@ namespace Budget_CoolBooks.Controllers
             var genre = await _context.Genres.FindAsync(id);
             if (genre != null)
             {
-                _context.Genres.Remove(genre);
+                genre.IsDeleted = true;
+                _context.Genres.Update(genre);
+                //_context.Genres.Remove(genre);
             }
             
             await _context.SaveChangesAsync();
