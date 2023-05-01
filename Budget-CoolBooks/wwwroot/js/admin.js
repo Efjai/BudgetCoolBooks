@@ -29,6 +29,7 @@ jQueryAjaxPost = form => {
                     $('#form-modal .modal-body').html('');
                     $('#form-modal .modal-title').html('');
                     $('#form-modal').modal('hide');
+                    $.notify("Saved Successfully", { className: 'success', globalPosition: 'top left', style: 'bootstrap', });
                 }
                 else
                     $('#form-modal .modal-body').html(res.html);
@@ -56,6 +57,7 @@ jQueryAjaxDelete = form => {
                 processData: false,
                 success: function (res) {
                     $('#view-all').html(res.html);
+                    $.notify("Deleted Successfully", { className: 'success', globalPosition: 'top left', style: 'bootstrap', });
                 },
                 error: function (err) {
                     console.log(err)
