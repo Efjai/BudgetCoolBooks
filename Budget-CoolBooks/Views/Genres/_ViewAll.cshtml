@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Budget_CoolBooks.Models.Genre>
+
+<table class="table table-striped caption-top">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th> Setting</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @*Edit*@
+                    <a onclick="showInPopup('@Url.Action("AddOrEdit","Genres",new{id=item.Id},Context.Request.Scheme)','Edit Genre')" class="btn btn-sm btn-outline-primary me-23">
+                        <i class="fas fa-pencil-alt"></i> Edit
+                    </a>
+
+                    @*Delete*@
+                    <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                        <input type="hidden" asp-for="@item.Id" />
+                        <input type="submit" value="Delete" class="btn btn-sm btn-outline-danger" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
