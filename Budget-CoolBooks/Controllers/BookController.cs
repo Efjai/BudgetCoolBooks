@@ -11,6 +11,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using Budget_CoolBooks.Services.UserServices;
 using System.Security.Claims;
+using Budget_CoolBooks.Services.Genres;
+using Budget_CoolBooks.Services.Search;
 
 namespace Budget_CoolBooks.Controllers
 {
@@ -21,25 +23,53 @@ namespace Budget_CoolBooks.Controllers
         private readonly ReviewServices _reviewServices;
         private readonly CommentServices _commentServices;
         private readonly UserServices _userServices;
+        private readonly GenreServices _genreServices;
 
-        public BookController(BookServices bookServices, AuthorServices authorServices, ReviewServices reviewServices, CommentServices commentServices)
+        public BookController(BookServices bookServices, AuthorServices authorServices, ReviewServices reviewServices, CommentServices commentServices, GenreServices genreServices)
         {
             _bookServices = bookServices;
             _authorServices = authorServices;
             _reviewServices = reviewServices;
             _commentServices = commentServices;
+            _genreServices = genreServices;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var result = await _bookServices.GetAllBooksSorted();
-            if (result == null)
+            //var result = await _bookServices.GetAllBooksSorted();
+            //if (result == null)
+            //{
+            //    return NotFound();
+            //}
+            //ViewBag.bookListSorted = result;
+            //return View(ViewBag.bookListSorted);
+            
+            var result = (List<Book>)await _bookServices.GetAllBooksSorted();
+
+            
+            // TEST RATING -- WORKING, NOT PRETTY BUT WORKING.
+            Dictionary<string, int> ratingPerBook = new Dictionary<string, int>();
+
+
+            foreach (var book in result)
             {
-                return NotFound();
+                int rating = _reviewServices.GetAverageRating(book.Id);
+                ratingPerBook.Add(book.Title, rating);
             }
-            ViewBag.bookListSorted = result;
-            return View(ViewBag.bookListSorted);
+            //
+
+            var searchViewModel = new SearchViewModel()
+            {
+                Books = result.ToList(),
+                SearchActive = true,
+                SearchAuthors = (List<Author>)await _authorServices.GetAuthors(),
+                SearchGenres = (List<Genre>)await _genreServices.GetGenres(),
+                RatingPerBook = ratingPerBook,
+
+            };
+
+            return View("/views/home/search.cshtml", searchViewModel);
         }
         [HttpPost]
         [AcceptVerbs("GET", "POST")]
