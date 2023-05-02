@@ -14,7 +14,9 @@
                 {
                     var active = book == Model.Books.First() ? "active" : "";
                     <div class="carousel-item @active">
+                        <a href="@Url.Action("BookDetails", "Book", new { id = book.Id })">
                         <img src="@book.Imagepath" alt="@book.Title" style="width:100%; height:100%;">
+                        </a>
                         <div class="carousel-caption d-none d-md-block" >
                             <h5>@book.Title</h5>
                             <p>@book.Description</p>
@@ -42,7 +44,9 @@
                 {
                     var active = book == Model.TopReviewedBooks.First() ? "active" : "";
                     <div class="carousel-item @active">
+                        <a href="@Url.Action("BookDetails", "Book", new { id = book.Id })">
                         <img src="@book.Imagepath" alt="@book.Title" style="width:100%; height:100%;">
+                        </a>
                         <div class="carousel-caption d-none d-md-block">
                             <h5>@book.Title</h5>
                             <p>@book.Description</p>                            
@@ -70,7 +74,9 @@
                 {
                     var active = book == Model.TopRatedBooks.First() ? "active" : "";
                     <div class="carousel-item @active">
+                        <a href="@Url.Action("BookDetails", "Book", new { id = book.Id })">
                         <img src="@book.Imagepath" alt="@book.Title" style="width:100%; height:100%;">
+                        </a>
                         <div class="carousel-caption d-none d-md-block">
                             <h5>@book.Title</h5>
                             <p>@book.Description</p>
@@ -89,4 +95,5 @@
         </div>
     </div>
     @*Third Carousel Ends*@
+</div>
   
