@@ -31,7 +31,6 @@ namespace Budget_CoolBooks.Services.Search
             {
                 result.Add(book);
             }
-
             return result;
         }
     }
