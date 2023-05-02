@@ -22,3 +22,9 @@
     display: flex;
     justify-content: center;
 }
+
+.sorting-holder {
+    display: flex;
+    justify-content: space-evenly;
+    
+}

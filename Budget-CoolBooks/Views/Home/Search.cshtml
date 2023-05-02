@@ -1,21 +1,30 @@
-﻿@{
+﻿@if (Model.OriginalSearchString != null)
+{
     ViewData["Title"] = "Search result";
 }
+else { ViewData["Title"] = "All Books"; }
+
 @model Budget_CoolBooks.ViewModels.SearchViewModel
 <link rel="stylesheet" href="~/css/bookview.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+@*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />*@
 @*<link rel="stylesheet" href="~/css/rating.css" asp-append-version="true" />*@
 
 <!-- FILTERS AND SORTING -->
 @if (Model.SearchActive)
 {
     <div class="sorting-holder">
-    <h2 class="title-search">Search Results</h2>
+        @if (Model.OriginalSearchString != null)
+        {
+            <h2 class="title-search">Search Results</h2>
+        }
+        else {<h2 class="title-search">All Books</h2>}
     </div>
     <hr />
-
     <div class="sorting-holder">
-        <h6 class="title-search">Filters</h6>
+    <h6 class="title-search">Filters</h6>
+    </div>
+    <div class="sorting-holder">
+        
         <!------------------------- FILTER BY AUTHOR -------------------------->
         <form method="post" asp-controller="Home" asp-action="FilterSearch">
             <select class="form-select" onchange="this.form.submit()" aria-label="Filter"
@@ -33,8 +42,6 @@
             <input type="hidden" name="searchString" value="@Model.OriginalSearchString">
         </form>
         <!--------------------------------------------------------------------->
-        
-        <br />
 
         <!------------------------- FILTER BY GENRE --------------------------->
         <form method="post" asp-controller="Home" asp-action="FilterSearch">
