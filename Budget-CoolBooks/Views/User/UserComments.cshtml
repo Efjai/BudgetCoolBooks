@@ -39,14 +39,13 @@
             @foreach (var reply in Model.ReviewReplies)
             {
                 <tr>
-                    <th scope="row">@reply.Id</th>
                     @*<td>@comment.Review.Id</td>*@
                     <td>@reply.Text</td>
                     <td>@reply.Created</td>
                     <td>
                     </td>
                     <td>
-                        <form method="post" asp-controller="Comment" asp-action="DeleteReply">
+                        <form method="post" asp-controller="Comment" asp-action="DeleteReplys">
                             <button type="submit" class="btn btn-primary" name="replyId" value="@reply.Id">Delete</button>
                         </form>
                     </td>

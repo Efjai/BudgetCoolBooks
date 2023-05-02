@@ -129,6 +129,21 @@ namespace Budget_CoolBooks.Controllers
             return RedirectToAction("BookDetails", "Book", new { id = bookId });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int commentId)
+        {
+            var comment = await _commentServices.GetCommentById(commentId);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            if (!await _commentServices.DeleteComment(comment))
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("UserComments", "User");
+        }
 
 
 
@@ -229,7 +244,7 @@ namespace Budget_CoolBooks.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteReply(int replyId)
+        public async Task<IActionResult> DeleteReplys(int replyId)
         {
             Reply reply = await _commentServices.GetReplyById(replyId);
             if (reply == null)

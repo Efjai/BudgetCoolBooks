@@ -34,7 +34,7 @@ namespace Budget_CoolBooks.Services.Comments
         // REPLIES
         public async Task<List<Reply>> GetRepliesByUserId(string id)
         { 
-            return _context.Replys.Where(c => c.User.Id == id).ToList();
+            return _context.Replys.Where(c => c.User.Id == id && !c.IsDeleted).ToList();
         }
         public async Task<Reply> GetReplyById(int id)
         {
@@ -84,7 +84,7 @@ namespace Budget_CoolBooks.Services.Comments
         }
         public async Task<List<Comment>> GetCommentByUserId(string id)
         {
-            return _context.Comments.Where(c => c.User.Id == id).ToList();
+            return _context.Comments.Where(c => c.User.Id == id && !c.IsDeleted).ToList();
         }
     }
 }

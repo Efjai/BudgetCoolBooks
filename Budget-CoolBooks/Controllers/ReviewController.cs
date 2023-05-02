@@ -32,8 +32,50 @@ namespace Budget_CoolBooks.Controllers
        
         public async Task<IActionResult> Index(int id)
         {
+            List<Book> books = (List<Book>)await _bookServices.GetAllBooksSorted();
+            List<Review> allReviews = new List<Review>();
+            List<Comment> allComments = new List<Comment>();
+            List<Reply> allReplys = new List<Reply>();
 
-            return View();
+            foreach (var book in books)
+            {
+                allReviews.Add(await _reviewServices.GetReviewByBookID(book.Id));
+            }
+
+            foreach (var review in allReviews)
+            {
+                if (review != null)
+                {
+                    allComments = await _commentServices.GetAllCommentsOfReview(review.Id);
+                }
+            }
+
+            foreach(var comment in allComments)
+            {
+                allReplys = await _commentServices.GetAllReplysOfComments(comment.Id);
+            }
+
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserID = "";
+            try
+            {
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            catch
+            {
+                currentUserID = "NoUserLoggedIn";
+            }
+
+            BookcardViewModel viewModel = new BookcardViewModel
+            {
+                Books = books,
+                AllFullReviews = allReviews,
+                CommentsList = allComments,
+                RepliesList = allReplys,
+                CurrentUserId = currentUserID,
+            };
+
+            return View(viewModel);
         }
 
         //ADD BOOK - GET
