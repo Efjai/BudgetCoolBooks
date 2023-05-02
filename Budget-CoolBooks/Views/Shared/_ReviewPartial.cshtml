@@ -35,7 +35,7 @@
             <p class="cardtext" style="word-wrap: break-word;">@Model.AllFullReviews[j].Text</p>
         </div>
         <!-- Like Dislike -->
-        <div class="LikeDislike">
+        <div class="LikeDislike" style="display: inline-flex; width: 80%; text-align: center; justify-content: center; align-items: center; align-content: center;">
             <!-- Comment -->
             <form method="post" asp-controller="Comment" asp-action="index" style="margin-top: auto; margin-bottom: auto; margin-right: 1%;">
                 <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
@@ -116,7 +116,7 @@
                             <h5>Commenting on @Model.AllFullReviews[j].User.UserName</h5>
                             <!-- Comment text -->
                             <p style="word-wrap: break-word;">@Model.CommentsList[c].Text</p>
-                            <div style="display: inline-flex; width: 80%;">
+                            <div style="display: inline-flex; width: 80%; text-align: center; justify-content: center; align-items: center; align-content: center;">
                                 <!-- Reply -->
                                 <form method="post" asp-controller="Comment" asp-action="ReplyIndex">
                                     <input type="hidden" name="commentId" value="@Model.CommentsList[c].Id">
@@ -166,7 +166,7 @@
                                         <p style="word-wrap: break-word;">@Model.RepliesList[r].Text</p>
                                     </div>
                                     
-                                    <div style="display: inline-flex; width: 80%;">
+                                    <div style="display: inline-flex; width: 80%; text-align: center; justify-content: center; align-items: center; align-content: center;">
                                         <!-- Date created -->
                                         <small style="margin: auto;">@Model.RepliesList[r].Created</small>
                                         <!-- Flag comment -->
