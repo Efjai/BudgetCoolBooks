@@ -21,7 +21,7 @@
             @foreach (var comment in Model.ReviewComment)
             {
                 <tr>
-                    <td>@comment.Text</td>
+                    <td style="word-wrap: break-word">@comment.Text</td>
                     <td>@comment.Created</td>
                     <td>
                     </td>
@@ -63,4 +63,3 @@
 
     </tbody>
 </table>
-}

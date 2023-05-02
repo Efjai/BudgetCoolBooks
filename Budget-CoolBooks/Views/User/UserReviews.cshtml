@@ -22,8 +22,8 @@
             @foreach (var review in Model.Review)
             {
                 <tr>
-                    <td>@review.Book.Title</td>
-                    <td>@review.Title</td>
+                <td style="word-wrap:break-word">@review.Book.Title</td>
+                <td style="word-wrap:break-word">@review.Title</td>
                     <td>@review.Rating</td>
                     <td>@review.Created</td>
                     <td>
@@ -41,4 +41,3 @@
 
         </tbody>
     </table>
-}
