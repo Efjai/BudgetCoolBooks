@@ -76,3 +76,7 @@ h3{
 td {
     word-wrap: break-word;
 }
+
+tr {
+    word-wrap: break-word
+}
