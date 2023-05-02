@@ -30,9 +30,9 @@
             </div>
         </div>
         <!-- Review text -->
-        <h3 style="text-decoration: underline; margin-top: 2%;">@Model.AllFullReviews[j].Title</h3>
+        <h3 style="text-decoration: underline; margin-top: 2%; word-wrap: break-word;">@Model.AllFullReviews[j].Title</h3>
         <div>
-            <p class="cardtext">@Model.AllFullReviews[j].Text</p>
+            <p class="cardtext" style="word-wrap: break-word;">@Model.AllFullReviews[j].Text</p>
         </div>
         <!-- Like Dislike -->
         <div class="LikeDislike">
@@ -115,7 +115,7 @@
                             </div>
                             <h5>Commenting on @Model.AllFullReviews[j].User.UserName</h5>
                             <!-- Comment text -->
-                            <p>@Model.CommentsList[c].Text</p>
+                            <p style="word-wrap: break-word;">@Model.CommentsList[c].Text</p>
                             <div style="display: inline-flex; width: 80%;">
                                 <!-- Reply -->
                                 <form method="post" asp-controller="Comment" asp-action="ReplyIndex">
@@ -162,7 +162,10 @@
                                     </div>
                                     <h5>Responding to @Model.RepliesList[r].User.UserName</h5>
                                     <!-- Comment text -->
-                                    <p>@Model.RepliesList[r].Text</p>
+                                    <div>
+                                        <p style="word-wrap: break-word;">@Model.RepliesList[r].Text</p>
+                                    </div>
+                                    
                                     <div style="display: inline-flex; width: 80%;">
                                         <!-- Date created -->
                                         <small style="margin: auto;">@Model.RepliesList[r].Created</small>
@@ -172,7 +175,7 @@
                                             <input type="hidden" name="id" value="@Model.Books[0].Id">
                                             <button input="submit"><img src="~/images/flag.png" style="width: 25px; height: 25px;"></button>
                                         </form>
-                                        @if (@Model.CurrentUserId == @Model.RepliesList[j].User.Id)
+                                        @if (@Model.CurrentUserId == @Model.RepliesList[r].User.Id)
                                         {
                                             <form method="get" asp-controller="Comment" asp-action="EditReply">
                                                 <input type="hidden" name="replyId" value="@Model.RepliesList[r].Id">
