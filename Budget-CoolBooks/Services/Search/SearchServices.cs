@@ -25,12 +25,12 @@ namespace Budget_CoolBooks.Services.Search
                                          b.ISBN.Contains(search))
                         .ToList();
 
-            var result2 = _context.Books.Include(b => b.BookGenre).ThenInclude(ba => ba.Genre).Where(b => b.BookGenre.Any(ba => ba.Genre.Name.Contains(search))).ToList();
+            //var result2 = _context.Books.Include(b => b.BookGenre).ThenInclude(ba => ba.Genre).Where(b => b.BookGenre.Any(ba => ba.Genre.Name.Contains(search))).ToList();
 
-            foreach (var book in result2)
-            {
-                result.Add(book);
-            }
+            //foreach (var book in result2)
+            //{
+            //    result.Add(book);
+            //}
             return result;
         }
     }
