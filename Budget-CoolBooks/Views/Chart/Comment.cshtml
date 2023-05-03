@@ -15,9 +15,10 @@
     </nav>
 
     <div class="col-12 d-flex justify-content-between">
+        <!-- Header -->
         <h2 class="text-primary">Comments</h2>
 
-        <!-- dropdown-->
+        <!-- Filter -->
         <div class="mt-2 mb-2 d-flex">
             <!-- dropdown  Filter-->
             <div class="dropdown ms-2 me-5">
@@ -54,6 +55,27 @@
         </div>
     </div>
 
+    <!-- FromDate and EndDate -->
+    <div class="my-2">
+        <form method="post" asp-controller="Chart" asp-action="Comment" class="d-flex col-10">
+            <div class="row col-4">
+                <label for="" class="col-form-label-sm col-2">From</label>
+                <div class="col-9">
+                    <input type="datetime-local" name="fromDate" id="fromDate" class="form-control form-control-sm">
+                </div>
+            </div>
+
+            <div class="row col-4">
+                <label for="" class="col-form-label-sm col-1">To</label>
+                <div class="col-9">
+                    <input type="datetime-local" name="endDate" id="endDate" class="form-control form-control-sm">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button input="submit" class="btn btn-success btn-sm">Search</button>
+            </div>
+        </form>
+    </div>
 
     <!-- Chart HTML-->
     <div class="col-12" style="height: 400px;">
@@ -68,7 +90,7 @@
 
 <!-- Chart -->
 <script type="text/javascript">
-    const ctx = document.getElementById('myChart');  
+    const ctx = document.getElementById('myChart');
     var labels = @Html.Raw(JsonSerializer.Serialize(ViewBag.chartLabels));
     var data = @Html.Raw(JsonSerializer.Serialize(ViewBag.chartData));
 
