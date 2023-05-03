@@ -85,10 +85,14 @@
             {
                 <form method="get" asp-controller="Review" asp-action="Edit">
                     <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
+                    <input type="hidden" name="test" value="yada">
                     <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
                 </form>
                 <form method="post" asp-controller="Review" asp-action="Delete">
                     <input type="hidden" name="reviewId" value="@Model.AllFullReviews[j].Id">
+                    <input type="hidden" name="test" value="yada">
+                    <input type="hidden" name="id" value="@Model.Books[0].Id">
+
                     <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                 </form>
             }

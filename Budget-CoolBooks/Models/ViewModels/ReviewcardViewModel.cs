@@ -13,7 +13,7 @@ namespace Budget_CoolBooks.ViewModels
         public List<Comment> ReviewComment { get; set; }
         public List<Reply> ReviewReplies { get; set; }
 
-
+        public string Test {get; set;}
 
     }
 }

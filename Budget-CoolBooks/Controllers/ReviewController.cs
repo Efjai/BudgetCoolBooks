@@ -39,20 +39,33 @@ namespace Budget_CoolBooks.Controllers
 
             foreach (var book in books)
             {
-                allReviews.Add(await _reviewServices.GetReviewByBookID(book.Id));
+                var temp = await _reviewServices.GetReviewByBookID(book.Id);
+
+                if (temp != null)
+                {
+                    allReviews.Add(temp);
+                }
             }
 
             foreach (var review in allReviews)
             {
                 if (review != null)
                 {
-                    allComments = await _commentServices.GetAllCommentsOfReview(review.Id);
+                    var temp = await _commentServices.GetAllCommentsOfReview(review.Id);
+                    foreach (var comment in temp)
+                    {
+                        allComments.Add(comment);
+                    }
                 }
             }
 
             foreach(var comment in allComments)
             {
-                allReplys = await _commentServices.GetAllReplysOfComments(comment.Id);
+                var temp = await _commentServices.GetAllReplysOfComments(comment.Id);
+                foreach (var reply in temp)
+                {
+                    allReplys.Add(reply);
+                }
             }
 
             ClaimsPrincipal currentUser = this.User;
@@ -144,7 +157,7 @@ namespace Budget_CoolBooks.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int reviewId)
+        public async Task<IActionResult> Delete(int reviewId, string test, int id)
         {
             var reviewToDelete = await _reviewServices.GetReviewByID(reviewId);
             if (reviewToDelete == null)
@@ -189,12 +202,16 @@ namespace Budget_CoolBooks.Controllers
             {
                 return NotFound();
             }
-            
+
+            if (test != null)
+            {
+                return RedirectToAction("BookDetails", "Book", new { id = id });
+            }
             return RedirectToAction("UserReviews", "User");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int reviewId)
+        public async Task<IActionResult> Edit(int reviewId, string test)
         {
             var reviewresult = (List<Review>)await _reviewServices.GetReviewListByID(reviewId);
 
@@ -204,15 +221,16 @@ namespace Budget_CoolBooks.Controllers
             {
                 Review = reviewresult,
                 ReviewBook = bookResult,
+                Test = test,
             };
 
             return View("~/views/review/Create.cshtml", viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string title, string text, double rating, int id)
+        public async Task<IActionResult> Edit(string title, string text, double rating, int id, string test, int bookid)
         {
-            var test = id; 
+            
 
             Review updated = await _reviewServices.GetReviewByID(id);
 
@@ -220,6 +238,7 @@ namespace Budget_CoolBooks.Controllers
             updated.Title = title;
             updated.Text = text;
             updated.Rating = rating;
+            updated.Book = await _bookServices.GetBookById(bookid);
 
 
             ClaimsPrincipal currentUser = this.User;
@@ -236,7 +255,11 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
-            return RedirectToAction("UserReviews","User");
+            if (test != null)
+            {
+                return RedirectToAction("BookDetails", "Book", new { id = updated.Book.Id });
+            }
+            else { return RedirectToAction("UserReviews", "User"); }
         }
     }
 }
