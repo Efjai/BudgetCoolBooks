@@ -203,11 +203,15 @@ namespace Budget_CoolBooks.Controllers
                 return NotFound();
             }
 
-            if (test != null)
+            if (test == "yada")
             {
                 return RedirectToAction("BookDetails", "Book", new { id = id });
             }
-            return RedirectToAction("UserReviews", "User");
+            if (test == "daya")
+            {
+                return RedirectToAction("Index", "Review");
+            }
+            else { return RedirectToAction("UserReviews", "User"); }
         }
 
         [HttpGet]
@@ -255,9 +259,13 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
-            if (test != null)
+            if (test == "yada")
             {
-                return RedirectToAction("BookDetails", "Book", new { id = updated.Book.Id });
+                return RedirectToAction("BookDetails", "Book", new { id = id });
+            }
+            if (test == "daya")
+            {
+                return RedirectToAction("Index", "Review");
             }
             else { return RedirectToAction("UserReviews", "User"); }
         }

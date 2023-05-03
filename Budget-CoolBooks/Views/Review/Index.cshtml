@@ -103,11 +103,13 @@
             @if (Model.CurrentUserId == rating.User.Id)
             {
                 <form method="get" asp-controller="Review" asp-action="Edit">
-                    <input type="hidden" name="reviewId" value="@rating.Id">
+                        <input type="hidden" name="reviewId" value="@rating.Id">
+                        <input type="hidden" name="test" value="daya">
                     <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
                 </form>
                 <form method="post" asp-controller="Review" asp-action="Delete">
-                    <input type="hidden" name="reviewId" value="@rating.Id">
+                        <input type="hidden" name="reviewId" value="@rating.Id">
+                        <input type="hidden" name="test" value="daya">
                     <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                 </form>
             }
