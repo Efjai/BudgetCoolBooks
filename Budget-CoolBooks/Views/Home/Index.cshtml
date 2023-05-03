@@ -4,10 +4,15 @@
 <link rel="stylesheet" href="~/css/homeindex.css" asp-append-version="true" />
 @model Budget_CoolBooks.ViewModels.HomeViewModel
 
+
 <div class="row">
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; text-align: center;">
+        <h1>All Books</h1>
+        <h1>Most Reviewed Books</h1>
+        <h1>Highest Rated Books</h1>
+    </div>
     @*First Carousel Starts*@    
     <div class="col-md-4">
-        <h1>All Books</h1>
         <div id="carousel1" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach (var book in Model.Books)
@@ -37,7 +42,6 @@
     @*First Carousel Ends*@
     @*Secound Carousel Starts*@    
     <div class="col-md-4">
-        <h1>Most Reviewed Books</h1>
         <div id="carousel2" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach (var book in Model.TopReviewedBooks)
@@ -67,7 +71,6 @@
     @*Secound Carousel Ends*@
     @*Third Carousel Starts*@    
     <div class="col-md-4">
-        <h1>Highest Rated Books</h1>
         <div id="carousel3" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach (var book in Model.TopRatedBooks.Take(3))
