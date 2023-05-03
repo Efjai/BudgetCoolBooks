@@ -29,7 +29,14 @@ html {
         cursor: default;
         position: absolute;
         bottom: -100px;
-        width: 100%;
+    }
+    .Headlines1 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        text-align: center;
+    }
+    .Headlines2 {
+        display: none;
     }
 }
 @media only screen and (max-width: 769px) {
@@ -45,6 +52,13 @@ html {
         cursor: default;
         position: absolute;
         bottom: -500px;
+    }
+    .Headlines1 {
+        display: none;
+    }
+    .Headlines2 {
+        text-align: center;
+        padding: 5%;
     }
 }
 h3{
