@@ -55,7 +55,7 @@
                             Edit
                         </a>
 
-                        <form method="post" asp-controller="AdminAuthor" asp-action="Delete">
+                        <form method="post" asp-controller="AdminAuthor" asp-action="Delete" class="delete-form">
                             <input type="hidden" name="id" value="@author.Id">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
@@ -67,4 +67,11 @@
     </tbody>
 </table>
 
+<div id="message">
 
+</div>
+
+
+@section scripts {
+    <script src="~/js/delete.js"></script>
+}

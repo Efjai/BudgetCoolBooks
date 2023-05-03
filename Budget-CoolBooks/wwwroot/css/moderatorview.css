@@ -21,6 +21,10 @@
 }
 
 .moderator-titles {
-    text-align: center;
+    text-align: left;
     margin-top: 3em;
+}
+
+.table {
+    border: 1px solid black;
 }

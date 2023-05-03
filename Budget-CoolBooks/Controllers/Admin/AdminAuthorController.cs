@@ -129,9 +129,7 @@ namespace Budget_CoolBooks.Controllers.Admin
             {
                 return BadRequest();
             }
-
-            TempData["message"] = "The author and all related books was removed successfully";
-            return RedirectToAction("index");
+            return Json(new { success = true });
         }
     }
 }
