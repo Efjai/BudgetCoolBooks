@@ -9,7 +9,11 @@
     int j = 0;
 }
 @inject UserManager<User> UserManager
-
+<hr />
+<div class="title" style="text-align:center; margin-top:2rem; margin-bottom:2rem;">
+    <h2>All Reviews</h2>
+</div>
+<hr />
 @foreach (var rating in Model.AllFullReviews)
 {
     if (rating != null)
@@ -26,6 +30,9 @@
                 <img src="~/images/member.png" style="width: 50px; height: 50px; margin-left: 1%;">
             </div>
             <h5>Reviewing @rating.Book.Title</h5>
+                    <a href="@Url.Action("BookDetails", "Book", new { id = rating.Book.Id })" style="color:black; text-decoration: none;">
+                        <img src="@rating.Book.Imagepath" width="200rem;">
+                    </a>
             <!-- Rating in stars -->
             <div>
                 @for (int i = 0; i < 5; i++)
