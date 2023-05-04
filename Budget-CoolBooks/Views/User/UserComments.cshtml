@@ -31,8 +31,9 @@
                         </form>
                     </td>
                     <td>
-                        <form method="post" asp-controller="" asp-action="">
+                        <form method="get" asp-controller="Comment" asp-action="EditComment">
                             <button type="submit" class="btn btn-primary" name="CommentId" value="@comment.Id">Edit</button>
+                            <input type="hidden" name="redirect" value="user">
                         </form>
                     </td>
                 </tr>
@@ -53,8 +54,9 @@
                         </form>
                     </td>
                     <td>
-                        <form method="post" asp-controller="" asp-action="">
+                        <form method="get" asp-controller="Comment" asp-action="EditReply">
                             <button type="submit" class="btn btn-primary" name="replyId" value="@reply.Id">Edit</button>
+                            <input type="hidden" name="redirect" value="user">
                         </form>
                     </td>
                 </tr>
