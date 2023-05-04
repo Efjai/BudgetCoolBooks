@@ -1,4 +1,7 @@
-﻿namespace Budget_CoolBooks.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Budget_CoolBooks.Models
 {
     public class Review
     {
