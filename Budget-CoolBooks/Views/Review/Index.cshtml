@@ -58,7 +58,8 @@
             <!-- Comment -->
             <form method="post" asp-controller="Comment" asp-action="index" style="margin-top: auto; margin-bottom: auto; margin-right: 1%;">
                 <input type="hidden" name="reviewId" value="@rating.Id">
-                <input type="hidden" name="bookId" value="@rating.Book.Id">
+                    <input type="hidden" name="bookId" value="@rating.Book.Id">
+                    <input type="hidden" name="redirect" value="review">
                 <button input="submit"><img src="~/images/comment.png" style="width: 25px; height: 25px;"></button>
             </form>
             <!-- Like -->
@@ -142,6 +143,7 @@
                                 <form method="post" asp-controller="Comment" asp-action="ReplyIndex">
                                     <input type="hidden" name="commentId" value="@comments.Id">
                                     <input type="hidden" name="bookId" value="@rating.Book.Id">
+                                    <input type="hidden" name="redirect" value="review">
                                     <button input="submit"><img src="~/images/comment.png" style="width: 15px; height: 15px;"></button>
                                 </form>
                                 <!-- Date created -->
@@ -158,13 +160,13 @@
                                     <form method="get" asp-controller="Comment" asp-action="EditComment">
                                         <input type="hidden" name="commentId" value="@comments.Id">
                                         <input type="hidden" name="bookId" value="@rating.Book.Id">
-                                        <input type="hidden" name="redirect" value="reviews">
+                                        <input type="hidden" name="redirect" value="review">
                                         <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
                                     </form>
                                     <form method="post" asp-controller="Comment" asp-action="DeleteComment">
                                         <input type="hidden" name="commentId" value="@comments.Id">
                                         <input type="hidden" name="bookId" value="@rating.Book.Id">
-                                        <input type="hidden" name="redirect" value="reviews">
+                                        <input type="hidden" name="redirect" value="review">
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                                     </form>
                                 }
@@ -200,13 +202,13 @@
                                             <form method="get" asp-controller="Comment" asp-action="EditReply">
                                                 <input type="hidden" name="replyId" value="@replys.Id">
                                                 <input type="hidden" name="bookId" value="@rating.Book.Id">
-                                                <input type="hidden" name="redirect" value="reviews">
+                                                <input type="hidden" name="redirect" value="review">
                                                 <button type="submit" class="btn btn-sm btn-outline-warning">Edit</button>
                                             </form>
                                             <form method="post" asp-controller="Comment" asp-action="DeleteReply">
                                                 <input type="hidden" name="replyId" value="@replys.Id">
                                                 <input type="hidden" name="bookId" value="@rating.Book.Id">
-                                                <input type="hidden" name="redirect" value="reviews">
+                                                <input type="hidden" name="redirect" value="review">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                                             </form>
                                         }

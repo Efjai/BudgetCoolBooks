@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Net;
 using System.Security.Claims;
@@ -33,7 +34,7 @@ namespace Budget_CoolBooks.Controllers
         }
 
         // COMMENTS
-        public async Task<IActionResult> Index(int reviewId, int bookId)
+        public async Task<IActionResult> Index(int reviewId, int bookId, string redirect)
         {
             var review = await _ReviewServices.GetReviewByID(reviewId);
             if (review == null)
@@ -44,11 +45,14 @@ namespace Budget_CoolBooks.Controllers
             CommentViewModel commentViewModel = new CommentViewModel();
             commentViewModel.Review = review;
             commentViewModel.BookId = bookId;
+            commentViewModel.redirect = redirect;
+
+
             return View(commentViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment(string commentText, int reviewId, int bookId)
+        public async Task<IActionResult> AddComment(string commentText, int reviewId, int bookId, string redirect)
         {
             Comment comment = new Comment();
             comment.Text = commentText;
@@ -78,7 +82,11 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
-            return RedirectToAction("BookDetails", "Book", new { id = bookId });
+            if (redirect == "review")
+            {
+                return RedirectToAction("Index", "Review");
+            }
+            else { return RedirectToAction("BookDetails", "Book", new { id = bookId }); }
         }
 
         [HttpGet]
@@ -94,6 +102,7 @@ namespace Budget_CoolBooks.Controllers
             commentViewModel.Comment = comment;
             commentViewModel.BookId = bookId;
             commentViewModel.redirect = redirect;
+
             return View("~/views/comment/edit.cshtml", commentViewModel);
         }
 
@@ -115,22 +124,31 @@ namespace Budget_CoolBooks.Controllers
             {
                 return RedirectToAction("UserComments", "User");
             }
+            if (redirect == "review")
+            {
+                return RedirectToAction("Index", "Review");
+            }
             else { return RedirectToAction("BookDetails", "Book", new { id = bookId }); }
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteComment(int commentId, int bookId)
+        public async Task<IActionResult> DeleteComment(int commentId, int bookId, string redirect)
         {
             var comment = await _commentServices.GetCommentById(commentId);
             if (comment == null)
             {
                 return NotFound();
             }
+
             if (!await _commentServices.DeleteComment(comment))
             {
                 return BadRequest();
             }
-            
+
+            if (redirect == "review")
+            {
+                return RedirectToAction("Index", "Review");
+            }
             else { return RedirectToAction("BookDetails", "Book", new { id = bookId }); }
         }
 
@@ -153,7 +171,7 @@ namespace Budget_CoolBooks.Controllers
 
 
         // REPLIES
-        public async Task<IActionResult> ReplyIndex(int commentId, int bookId)
+        public async Task<IActionResult> ReplyIndex(int commentId, int bookId, string redirect)
         {
             var comment = await _commentServices.GetCommentById(commentId);
             if (comment == null)
@@ -164,10 +182,12 @@ namespace Budget_CoolBooks.Controllers
             CommentViewModel commentViewModel = new CommentViewModel();
             commentViewModel.Comment = comment;
             commentViewModel.BookId = bookId;
+            commentViewModel.redirect = redirect;
+
             return View("~/views/comment/replies/index.cshtml", commentViewModel);
         }
        
-        public async Task<IActionResult> AddReply(string replyText, int commentId, int bookId)
+        public async Task<IActionResult> AddReply(string replyText, int commentId, int bookId, string redirect)
         {
             Reply reply = new Reply();
             reply.Text = replyText;
@@ -197,7 +217,11 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
-            return RedirectToAction("BookDetails", "Book", new { id = bookId });
+            if (redirect == "review")
+            {
+                return RedirectToAction("Index", "Review");
+            }
+            else { return RedirectToAction("BookDetails", "Book", new { id = bookId }); }
         }
 
         [HttpGet]
@@ -231,6 +255,10 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
+            if (redirect == "review")
+            {
+                return RedirectToAction("Index", "Review");
+            }
             if (redirect == "user")
             {
                 return RedirectToAction("UserComments", "User");
@@ -239,7 +267,7 @@ namespace Budget_CoolBooks.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteReply(int replyId, int bookId)
+        public async Task<IActionResult> DeleteReply(int replyId, int bookId, string redirect)
         {
             var reply = await _commentServices.GetReplyById(replyId);
             if (reply == null)
@@ -251,6 +279,10 @@ namespace Budget_CoolBooks.Controllers
                 return BadRequest();
             }
 
+            if (redirect == "review")
+            {
+                return RedirectToAction("Index","Review");
+            }
             return RedirectToAction("BookDetails", "Book", new { id = bookId });
         }
 
